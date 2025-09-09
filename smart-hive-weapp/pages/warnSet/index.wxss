@@ -1,0 +1,128 @@
+page {
+    background: #f3f3f3;
+}
+
+.warnSet {
+    padding: 16rpx 0 24rpx;
+}
+
+.warnSet-con {
+    background: #fff;
+    border-radius: 24rpx;
+    padding: 0 16rpx 16rpx;
+}
+
+.warnSet-list-title {
+    align-items: center;
+    display: flex;
+    padding: 18rpx 20rpx;
+}
+
+.warnSet-list-title image {
+    height: 32rpx;
+    margin-right: 16rpx;
+    width: 32rpx;
+}
+
+.warnSet-list-title text {
+    color: #666;
+    font-size: 28rpx;
+}
+
+.warnSet-list-con {
+    background: #f2f2f2;
+    border-radius: 24rpx;
+    padding: 32rpx 24rpx;
+}
+
+.warnSet-list-con,.warnSet-list-con-list {
+    align-items: center;
+    display: flex;
+}
+
+.warnSet-list-con-list {
+    width: 50%;
+}
+
+.warnSet-list-con-list:first-child {
+    padding-right: 12rpx;
+}
+
+.warnSet-list-con-list:last-child {
+    padding-left: 12rpx;
+}
+
+.warnSet-list-con-list>text {
+    color: #666;
+    font-size: 24rpx;
+    font-weight: 600;
+    margin-right: 16rpx;
+}
+
+.warnSet-list-con-list-operation {
+    align-items: center;
+    background: #fff;
+    border-radius: 12rpx;
+    display: flex;
+    flex: 1 1;
+    height: 56rpx;
+    padding: 0 16rpx;
+}
+
+.warnSet-list-con-list-operation image {
+    height: 32rpx;
+    width: 32rpx;
+}
+
+.warnSet-reduce {
+    margin-right: 12rpx;
+}
+
+.warnSet-plus {
+    margin-left: 12rpx;
+}
+
+.warnSet-list-con-list-operation input {
+    flex: 1 1;
+    text-align: center;
+}
+
+.warnSet-btn {
+    align-items: center;
+    display: flex;
+    padding: 40rpx 16rpx 24rpx;
+}
+
+.warnSet-btn-list {
+    width: 50%;
+}
+
+.warnSet-btn-list:first-child {
+    padding-right: 12rpx;
+}
+
+.warnSet-btn-list:last-child {
+    padding-left: 12rpx;
+}
+
+.warnSet-btn-sub {
+    background: #f8d541;
+    border-radius: 12rpx;
+    color: #333;
+    height: 64rpx;
+    line-height: 64rpx;
+}
+
+.warnSet-btn-reset,.warnSet-btn-sub {
+    font-size: 28rpx;
+    font-weight: 600;
+    text-align: center;
+}
+
+.warnSet-btn-reset {
+    border: 2rpx solid #999;
+    border-radius: 12rpx;
+    color: #999;
+    height: 60rpx;
+    line-height: 60rpx;
+}

@@ -1,0 +1,84 @@
+<view class="warnSet">
+    <view class="warnSet-con">
+        <view class="warnSet-list">
+            <view class="warnSet-list-title">
+                <image src="https://dtm123.com:7803/targets/image/images/temperature.png"></image>
+                <text>温度（℃）</text>
+            </view>
+            <view class="warnSet-list-con">
+                <view class="warnSet-list-con-list">
+                    <text>最小</text>
+                    <view class="warnSet-list-con-list-operation">
+                        <image bindtap="handleReduceMinTemp" class="warnSet-reduce" src="https://dtm123.com:7803/targets/image/images/reduce.png"></image>
+                        <input bindinput="handleChangeMinTemp" value="{{minTemp}}"></input>
+                        <image bindtap="handlePlusMinTemp" class="warnSet-plus" src="https://dtm123.com:7803/targets/image/images/plus.png"></image>
+                    </view>
+                </view>
+                <view class="warnSet-list-con-list">
+                    <text>最大</text>
+                    <view class="warnSet-list-con-list-operation">
+                        <image bindtap="handleReduceMaxTemp" class="warnSet-reduce" src="https://dtm123.com:7803/targets/image/images/reduce.png"></image>
+                        <input bindinput="handleChangeMaxTemp" value="{{maxTemp}}"></input>
+                        <image bindtap="handlePlusMaxTemp" class="warnSet-plus" src="https://dtm123.com:7803/targets/image/images/plus.png"></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="warnSet-list">
+            <view class="warnSet-list-title">
+                <image src="https://dtm123.com:7803/targets/image/images/humidity.png"></image>
+                <text>湿度（%RH）</text>
+            </view>
+            <view class="warnSet-list-con">
+                <view class="warnSet-list-con-list">
+                    <text>最小</text>
+                    <view class="warnSet-list-con-list-operation">
+                        <image bindtap="handleReduceMinHum" class="warnSet-reduce" src="https://dtm123.com:7803/targets/image/images/reduce.png"></image>
+                        <input bindinput="handleChangeMinHum" value="{{minHum}}"></input>
+                        <image bindtap="handlePlusMinHum" class="warnSet-plus" src="https://dtm123.com:7803/targets/image/images/plus.png"></image>
+                    </view>
+                </view>
+                <view class="warnSet-list-con-list">
+                    <text>最大</text>
+                    <view class="warnSet-list-con-list-operation">
+                        <image bindtap="handleReduceMaxHum" class="warnSet-reduce" src="https://dtm123.com:7803/targets/image/images/reduce.png"></image>
+                        <input bindinput="handleChangeMaxHum" value="{{maxHum}}"></input>
+                        <image bindtap="handlePlusMaxHum" class="warnSet-plus" src="https://dtm123.com:7803/targets/image/images/plus.png"></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="warnSet-list">
+            <view class="warnSet-list-title">
+                <image src="https://dtm123.com:7803/targets/image/images/temperature.png"></image>
+                <text>电子蒸发皿温度（℃）</text>
+            </view>
+            <view class="warnSet-list-con">
+                <view class="warnSet-list-con-list">
+                    <text>最小</text>
+                    <view class="warnSet-list-con-list-operation">
+                        <image bindtap="handleReduceMinTempDish" class="warnSet-reduce" src="https://dtm123.com:7803/targets/image/images/reduce.png"></image>
+                        <input bindinput="handleChangeMinTempDish" value="{{minTempDish}}"></input>
+                        <image bindtap="handlePlusMinTempDish" class="warnSet-plus" src="https://dtm123.com:7803/targets/image/images/plus.png"></image>
+                    </view>
+                </view>
+                <view class="warnSet-list-con-list">
+                    <text>最大</text>
+                    <view class="warnSet-list-con-list-operation">
+                        <image bindtap="handleReduceMaxTempDish" class="warnSet-reduce" src="https://dtm123.com:7803/targets/image/images/reduce.png"></image>
+                        <input bindinput="handleChangeMaxTempDish" value="{{maxTempDish}}"></input>
+                        <image bindtap="handlePlusMaxTempDish" class="warnSet-plus" src="https://dtm123.com:7803/targets/image/images/plus.png"></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="warnSet-btn">
+        <view class="warnSet-btn-list">
+            <view bindtap="handleSubmit" class="warnSet-btn-sub">提交</view>
+        </view>
+        <view class="warnSet-btn-list">
+            <view bindtap="handleReset" class="warnSet-btn-reset">重置</view>
+        </view>
+    </view>
+</view>

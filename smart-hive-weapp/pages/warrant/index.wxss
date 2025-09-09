@@ -1,0 +1,28 @@
+page {
+    background-color: #f3f3f3;
+}
+
+.warrant {
+    padding: 16rpx;
+}
+
+.warrant-list {
+    align-items: center;
+    background: #fff;
+    border-radius: 12rpx;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16rpx;
+    padding: 24rpx;
+}
+
+.warrant-list-name {
+    color: #666;
+    font-size: 32rpx;
+}
+
+.warrant-list-btn {
+    font-size: 28rpx;
+    margin: 0;
+    width: 180rpx;
+}

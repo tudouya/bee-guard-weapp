@@ -1,0 +1,78 @@
+<view class="my">
+    <image class="my-bj" src="https://dtm123.com:7803/targets/image/images/mybj.png"></image>
+    <view class="my-con">
+        <view class="my-con-header">
+            <view bindtap="handleInfo" class="my-con-header-left">
+                <image class="my-con-header-avatar" src="{{userInfo.user_avatar}}" wx:if="{{userInfo.user_avatar}}"></image>
+                <image class="my-con-header-avatar" src="https://dtm123.com:7803/targets/image/images/avatar.png" wx:else></image>
+                <view class="my-con-header-con">
+                    <view class="my-con-header-con-top">
+                        <view class="my-header-con-nick">{{userInfo.user_nick}}</view>
+                        <image src="https://dtm123.com:7803/targets/image/images/right.png"></image>
+                    </view>
+                    <view class="my-header-con-phone" wx:if="{{userInfo.user_phone}}">{{userInfo.user_phone}}</view>
+                    <view class="my-header-con-phone" wx:else>--</view>
+                </view>
+            </view>
+            <image bindtap="handleInfo" class="my-header-con-top-set" src="https://dtm123.com:7803/targets/image/images/set.png"></image>
+        </view>
+        <view class="my-brief">
+            <view class="my-brief-con">
+                <view class="my-brief-title">数据看板</view>
+                <view class="my-title my-board">
+                    <view class="my-title-list">
+                        <text>{{projectNum?projectNum:0}}</text>
+                        <text>项目</text>
+                    </view>
+                    <view class="my-title-line"></view>
+                    <view class="my-title-list">
+                        <text>{{hiveNum?hiveNum:0}}</text>
+                        <text>智能蜂箱</text>
+                    </view>
+                    <view class="my-title-line"></view>
+                    <view class="my-title-list">
+                        <text>{{deviceNum?deviceNum:0}}</text>
+                        <text>设备总数</text>
+                    </view>
+                    <view class="my-title-line"></view>
+                    <view class="my-title-list">
+                        <text>{{postNum?postNum:0}}</text>
+                        <text>发帖量</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="my-brief">
+            <view class="my-list">
+                <view bindtap="handleWarnRecord" class="my-list-item">
+                    <view class="my-list-item-left">
+                        <image src="https://dtm123.com:7803/targets/image/images/warn.png"></image>
+                        <text>预警记录</text>
+                    </view>
+                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                </view>
+                <view bindtap="handleBrowseRecord" class="my-list-item">
+                    <view class="my-list-item-left">
+                        <image src="https://dtm123.com:7803/targets/image/images/information.png"></image>
+                        <text>资讯浏览记录</text>
+                    </view>
+                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                </view>
+                <view bindtap="handleTopicRecord" class="my-list-item">
+                    <view class="my-list-item-left">
+                        <image src="https://dtm123.com:7803/targets/image/images/topic.png"></image>
+                        <text>话题发布/回复</text>
+                    </view>
+                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                </view>
+                <view bindtap="handleWarrant" class="my-list-item">
+                    <view class="my-list-item-left">
+                        <image src="https://dtm123.com:7803/targets/image/images/0020.png"></image>
+                        <text>消息授权</text>
+                    </view>
+                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

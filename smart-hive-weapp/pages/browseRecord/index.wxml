@@ -1,0 +1,34 @@
+<view class="browseRecord">
+    <view class="browseRecord-header">
+        <view bindtap="handleChangeType" class="{{item.checked?'browseRecord-header-list browseRecord-header-list-active':'browseRecord-header-list'}}" data-item="{{item}}" wx:for="{{typeData}}" wx:key="index">{{item.name}}</view>
+    </view>
+    <view class="browseRecord-con">
+        <block wx:if="{{id===1}}">
+            <view bindtap="handleInfo" class="browseRecord-con-list" data-id="{{item.consult_id}}" wx:for="{{infoRecord}}" wx:key="index">
+                <view class="browseRecord-con-left">
+                    <view class="browseRecord-con-left-desc">{{item.consult_title}}</view>
+                    <view class="browseRecord-con-left-time">
+                        <text>{{item.type_name}}</text>
+                        <text>· {{item.time}}</text>
+                    </view>
+                </view>
+                <image src="{{IP+item.image_url}}" wx:if="{{item.image_url}}"></image>
+                <image src="https://dtm123.com:7803/targets/image/images/010.png" wx:else></image>
+            </view>
+            <view style="padding:24rpx 0rpx;text-align:center;font-size:24rpx;color:#999;" wx:if="{{!infoRecord||infoRecord.length===0}}">--暂无数据--</view>
+        </block>
+        <block wx:else>
+            <view bindtap="handleKnow" class="browseRecord-con-list" data-id="{{item.knowledge_id}}" wx:for="{{knowRecord}}" wx:key="index">
+                <view class="browseRecord-con-left">
+                    <view class="browseRecord-con-left-desc">{{item.knowledge_title}}</view>
+                    <view class="browseRecord-con-left-time">
+                        <text>{{item.type_name}}</text>
+                        <text>· {{item.time}}</text>
+                    </view>
+                </view>
+                <image src="https://dtm123.com:7803/targets/image/images/010.png"></image>
+            </view>
+            <view style="padding:24rpx 0rpx;text-align:center;font-size:24rpx;color:#999;" wx:if="{{!knowRecord||knowRecord.length===0}}">--暂无数据--</view>
+        </block>
+    </view>
+</view>

@@ -1,0 +1,13 @@
+<view class="warnRecord">
+    <view bindtap="handleDetails" class="warnRecord-con-list" data-id="{{item.record_id}}" wx:for="{{record}}" wx:key="index">
+        <view class="warnRecord-con-list-header">
+            <view class="warnRecord-list-header-left">
+                <view class="warnRecord-list-header-left-title">{{item.type_name}}</view>
+                <view class="warnRecord-list-header-left-state" wx:if="{{item.dispose_state===1}}"></view>
+            </view>
+            <view class="warnRecord-list-header-time">{{item.time}}</view>
+        </view>
+        <view class="warnRecord-con-list-desc">{{item.hive_name}} {{item.record_desc}}</view>
+    </view>
+    <view style="padding:24rpx 0rpx;text-align:center;font-size:24rpx;color:#999;" wx:if="{{!record||record.length===0}}">--暂无数据--</view>
+</view>

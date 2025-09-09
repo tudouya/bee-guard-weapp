@@ -1,0 +1,24 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">{{appName}}</text>
+    <text class="version">v{{version}}</text>
+  </view>
+
+  <view class="content">
+    <view class="welcome">
+      <text class="welcome-text">欢迎使用蜜蜂疫病监控平台</text>
+      <text class="welcome-desc">专业的蜂群健康检测与疫情监控服务</text>
+    </view>
+
+    <view class="actions">
+      <button class="btn-primary action-btn" bindtap="goToDetection">
+        开始检测
+      </button>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">守护蜂群健康 · 助力养蜂事业</text>
+  </view>
+</view>

@@ -1,0 +1,11 @@
+<view class="warnRecord">
+    <view class="warnRecord-con-list">
+        <view class="warnRecord-con-list-header">
+            <view class="warnRecord-list-header-left">
+                <view class="warnRecord-list-header-left-title">{{data.type_name}}</view>
+            </view>
+            <view class="warnRecord-list-header-time">{{data.time}}</view>
+        </view>
+        <view class="warnRecord-con-list-desc">{{data.hive_name}} {{data.type_name}}</view>
+    </view>
+</view>

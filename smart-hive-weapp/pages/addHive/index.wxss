@@ -1,0 +1,116 @@
+.add_hive {
+    background: #fff;
+    min-height: 100vh;
+}
+
+.add_hive_icon {
+    display: flex;
+    justify-content: center;
+    padding: 56rpx 0rpx;
+}
+
+.add_hive_icon image {
+    height: 87rpx;
+    width: 375rpx;
+}
+
+.add_hive_item {
+    margin-bottom: 40rpx;
+    padding: 0rpx 40rpx;
+}
+
+.add_hive_item>view:first-child {
+    color: #333;
+    font-size: 28rpx;
+    margin-bottom: 24rpx;
+}
+
+.add_hive_item>view:nth-child(2) {
+    align-items: center;
+    background: #f7f7f7;
+    border-radius: 96rpx;
+    display: flex;
+    height: 96rpx;
+    padding: 0rpx 32rpx;
+    position: relative;
+}
+
+.add_hive_item>view:nth-child(2) image {
+    height: 46rpx;
+    width: 46rpx;
+}
+
+.input_position {
+    background: #fff;
+    border-radius: 8rpx;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    left: 0;
+    max-height: 480rpx;
+    min-height: 120rpx;
+    overflow-y: scroll;
+    padding: 10rpx 0;
+    position: absolute;
+    top: 96rpx;
+    width: 100%;
+    z-index: 9999;
+}
+
+.input_position_list {
+    color: rgba(0,0,0,.65);
+    font-size: 28rpx;
+    padding: 6rpx 24rpx;
+}
+
+.add_hive_item_input {
+    color: #333;
+    flex: 1 1;
+    font-size: 32rpx;
+}
+
+.add_hive_item_input_placeholder {
+    color: #999;
+    font-size: 32rpx;
+}
+
+.add_hive_tips {
+    color: #999;
+    font-size: 24rpx;
+    padding: 24rpx 0rpx 0rpx;
+}
+
+.add_hive_item_picker {
+    width: 100%;
+}
+
+.add_hive_item_picker_place {
+    color: #999;
+    display: flex;
+    font-size: 32rpx;
+    justify-content: space-between;
+}
+
+.add_hive_item_picker_place view:last-child {
+    padding-right: 24rpx;
+}
+
+.add_hive_item_picker_title {
+    color: #333;
+    font-size: 32rpx;
+}
+
+.add_hive_sub_width {
+    margin-top: 80rpx;
+}
+
+.add_hive_sub {
+    background: #f8d541;
+    border-radius: 80rpx;
+    color: #333;
+    font-size: 32rpx;
+    font-weight: 600;
+    height: 80rpx;
+    line-height: 80rpx;
+    margin: 12rpx 24rpx;
+    text-align: center;
+    text-decoration: underline;
+}

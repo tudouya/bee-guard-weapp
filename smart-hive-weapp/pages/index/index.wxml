@@ -1,0 +1,83 @@
+<view class="home">
+    <image class="home-img" src="https://dtm123.com:7803/targets/image/images/homebj.png"></image>
+    <view class="home-content">
+        <view class="home-detail">
+            <view class="home-header">
+                <view class="home-search">
+                    <image class="home-search-bgd" src="https://dtm123.com:7803/targets/image/images/003.png"></image>
+                    <image class="home-search-icon" src="https://dtm123.com:7803/targets/image/images/search.png"></image>
+                    <input disabled bindtap="handleChange" placeholder="搜索热门新闻"></input>
+                </view>
+                <view bindtap="handleWarn" class="home-warn">
+                    <image src="https://dtm123.com:7803/targets/image/images/bell.png"></image>
+                    <view class="home-warn-num" wx:if="{{recordNum}}">{{recordNum}}</view>
+                </view>
+            </view>
+            <view class="home-rotation-chart">
+                <image bindtap="preview" data-url="https://dtm123.com:7803/targets/image/images/008.png" src="https://dtm123.com:7803/targets/image/images/008.png"></image>
+            </view>
+            <view class="home-list">
+                <view bindtap="handleSmartHive" class="home-list-item">
+                    <image src="https://dtm123.com:7803/targets/image/images/004.png"></image>
+                    <text>智慧蜂箱</text>
+                </view>
+                <view bindtap="handleProject" class="home-list-item">
+                    <image src="https://dtm123.com:7803/targets/image/images/013.png"></image>
+                    <text>项目管理</text>
+                </view>
+                <view bindtap="handleDataStat" class="home-list-item">
+                    <image src="https://dtm123.com:7803/targets/image/images/009.png"></image>
+                    <text>数据统计</text>
+                </view>
+                <view bindtap="handleKnow" class="home-list-item">
+                    <image src="https://dtm123.com:7803/targets/image/images/015.png"></image>
+                    <text>养蜂知识</text>
+                </view>
+            </view>
+            <view class="home-fire">
+                <view class="home-fire-hader">
+                    <image src="https://dtm123.com:7803/targets/image/images/005.png"></image>
+                    <view class="home-fire-hader-detail">
+                        <view class="home-fire-hader-con">
+                            <text>热榜话题</text>
+                            <text>{{num}}人正在参与</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="home-fire-con">
+                    <view bindtap="handleTopicFireInfo" class="home-fire-con-list" data-id="{{item.problem_id}}" wx:for="{{topicHost}}" wx:key="index">
+                        <image class="home-fire-con-list-num" src="https://dtm123.com:7803/targets/image/images/1.png" wx:if="{{index===0}}"></image>
+                        <image class="home-fire-con-list-num" src="https://dtm123.com:7803/targets/image/images/2.png" wx:if="{{index===1}}"></image>
+                        <image class="home-fire-con-list-num" src="https://dtm123.com:7803/targets/image/images/3.png" wx:if="{{index===2}}"></image>
+                        <image class="home-fire-con-list-num" src="https://dtm123.com:7803/targets/image/images/4.png" wx:if="{{index===3}}"></image>
+                        <view class="home-fire-con-list-title">{{item.problem_content}}</view>
+                        <image class="home-fire-con-list-fire" src="https://dtm123.com:7803/targets/image/images/fire.png"></image>
+                        <view class="home-fire-con-list-com">{{item.num}} · 评论</view>
+                    </view>
+                </view>
+            </view>
+            <view class="home-info">
+                <div class="home-info-left">
+                    <view class="home-info-labe"></view>
+                    <view class="home-info-con">
+                        <view class="home-info-title">行业资讯</view>
+                        <view class="home-info-desc">助力万源 乡村振兴</view>
+                    </view>
+                </div>
+                <view bindtap="handleInfo" class="home-info-btn">查看全部</view>
+            </view>
+            <view class="home-industry">
+                <view class="home-industry-content">
+                    <view bindtap="handleIndustryInfo" class="home-industry-list" data-id="{{item.consult_id}}" wx:for="{{infoData}}" wx:key="index">
+                        <view class="home-industry-left">
+                            <view class="home-industry-left-desc">{{item.consult_title}}</view>
+                            <view class="home-industry-left-type">{{item.type_name}}</view>
+                        </view>
+                        <image src="{{IP+item.image_url}}" wx:if="{{item.image_url}}"></image>
+                        <image src="https://dtm123.com:7803/targets/image/images/010.png" wx:else></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

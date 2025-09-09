@@ -1,0 +1,27 @@
+{
+  "name": "bee-guard-weapp",
+  "version": "1.0.0",
+  "description": "蜜蜂疫病监控平台微信小程序",
+  "main": "app.js",
+  "scripts": {
+    "dev": "echo '请在微信开发者工具中打开项目'",
+    "build": "echo '请使用微信开发者工具进行构建'"
+  },
+  "keywords": [
+    "miniprogram",
+    "wechat",
+    "bee",
+    "disease",
+    "monitoring"
+  ],
+  "author": "bee-guard team",
+  "license": "MIT",
+  "dependencies": {
+    "@vant/weapp": "^1.10.4"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/bee-guard-weapp.git"
+  }
+}

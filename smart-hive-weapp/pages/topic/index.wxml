@@ -1,0 +1,45 @@
+<view class="topic">
+    <view class="topic-title">
+        <view class="topic-header">
+            <view class="topic-search">
+                <image class="topic-search-icon" src="https://dtm123.com:7803/targets/image/images/search.png"></image>
+                <input disabled bindtap="handleChange" placeholder="搜索热门话题"></input>
+            </view>
+            <view bindtap="handleReply" class="topic-warn">
+                <image src="https://dtm123.com:7803/targets/image/images/0018.png"></image>
+                <view class="topic-warn-num" wx:if="{{num}}">{{num}}</view>
+            </view>
+        </view>
+        <view class="topic-type">
+            <view bindtap="hanldeChangeType" class="{{item.checked?'topic-type-list topic-type-list-active':'topic-type-list'}}" data-id="{{item.type_id}}" wx:for="{{topicType}}" wx:key="index">{{item.type_name}}</view>
+        </view>
+    </view>
+    <view class="topic-con">
+        <view bindtap="handleTopicDetails" class="topic-con-list" data-id="{{item.problem_id}}" wx:for="{{data}}" wx:key="index">
+            <view class="topic-con-list-header">
+                <image class="topic-con-list-img" src="{{item.problem_user_avatar}}" wx:if="{{item.problem_user_avatar}}"></image>
+                <image class="topic-con-list-img" src="https://dtm123.com:7803/targets/image/images/avatar.png" wx:else></image>
+                <view class="topic-con-list-con">
+                    <view class="topic-con-list-con-header">
+                        <view class="topic-con-list-con-header-nick">{{item.problem_user_nick}}</view>
+                        <view class="topic-con-list-con-header-type">{{item.type_name}}</view>
+                    </view>
+                    <view class="topic-con-list-con-footer">
+                        <view class="topic-con-list-con-footer-time">{{item.time}}</view>
+                        <view class="topic-con-list-con-footer-num">
+                            <image src="https://dtm123.com:7803/targets/image/images/0017.png"></image>
+                            <text>{{item.num}}人已参与话题</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="topic-con-list-footer">
+                <view class="topic-con-list-footer-desc">{{item.problem_content}}</view>
+                <view class="topic-con-list-footer-img" wx:if="{{item.images.length}}">
+                    <image src="{{item}}" wx:for="{{item.images}}" wx:key="index"></image>
+                </view>
+            </view>
+        </view>
+        <view style="padding:24rpx 0rpx;text-align:center;font-size:24rpx;color:#999;" wx:if="{{data.length===0}}">--暂无数据--</view>
+    </view>
+</view>

@@ -1,0 +1,6 @@
+<view class="warrant">
+    <view class="warrant-list" wx:for="{{data}}" wx:key="index">
+        <view class="warrant-list-name">{{item.name}}</view>
+        <button bindtap="handleWarrant" class="warrant-list-btn" data-index="{{index}}" type="primary">消息授权</button>
+    </view>
+</view>

@@ -1,0 +1,142 @@
+<view class="hive">
+    <view class="hive_head_fixed">
+        <view class="hive_head">
+            <view>
+                <van-search bind:change="onNameChange" class="hive_search" placeholder="搜索蜂箱编号" shape="round" vModel="hiveName"></van-search>
+            </view>
+        </view>
+    </view>
+    <view class="hive_list">
+        <view class="hive_list_item" wx:for="{{data}}" wx:key="key">
+            <view class="hive_item_head">
+                <view class="hive_item_title">
+                    <view>{{item.hive_name}}</view>
+                </view>
+            </view>
+            <view class="hive_item_cont">
+                <view>{{item.project_name?item.project_name:''}}</view>
+            </view>
+            <view class="hive_item_foot">
+                <view class="hive_foot_item">
+                    <view class="hive_foot_cont">
+                        <view class="hive_foot_head">
+                            <view>
+                                <image src="https://dtm123.com:7803/targets/image/images/012.png"></image>
+                            </view>
+                            <view class="hive_red" wx:if="{{item.temp_state===2}}">温度</view>
+                            <view wx:else>温度</view>
+                        </view>
+                        <view class="hive_foot_foot hive_red" wx:if="{{item.temp_state===2}}">
+                            <view>{{item.hive_temp?item.hive_temp:'0.0'}}</view>
+                            <view>℃</view>
+                        </view>
+                        <view class="hive_foot_foot" wx:else>
+                            <view>{{item.hive_temp?item.hive_temp:'0.0'}}</view>
+                            <view>℃</view>
+                        </view>
+                    </view>
+                    <view class="hive_slider"></view>
+                </view>
+                <view class="hive_foot_item">
+                    <view class="hive_foot_cont">
+                        <view class="hive_foot_head">
+                            <view>
+                                <image src="https://dtm123.com:7803/targets/image/images/007.png"></image>
+                            </view>
+                            <view class="hive_red" wx:if="{{item.humi_state===2}}">湿度</view>
+                            <view wx:else>湿度</view>
+                        </view>
+                        <view class="hive_foot_foot hive_red" wx:if="{{item.humi_state===2}}">
+                            <view>{{item.hive_humidity?item.hive_humidity:'0.0'}}</view>
+                            <view>%RH</view>
+                        </view>
+                        <view class="hive_foot_foot" wx:else>
+                            <view>{{item.hive_humidity?item.hive_humidity:'0.0'}}</view>
+                            <view>%RH</view>
+                        </view>
+                    </view>
+                    <view class="hive_slider"></view>
+                </view>
+                <view class="hive_foot_item">
+                    <view class="hive_foot_cont">
+                        <view class="hive_foot_head">
+                            <view>
+                                <image src="https://dtm123.com:7803/targets/image/images/016.png"></image>
+                            </view>
+                            <view class="hive_red" wx:if="{{item.hive_weight&&item.hive_weight>200}}">重量</view>
+                            <view wx:else>重量</view>
+                        </view>
+                        <view class="hive_foot_foot hive_red" wx:if="{{item.hive_weight&&item.hive_weight>200}}">
+                            <view>{{item.hive_weight?item.hive_weight:'0.0'}}</view>
+                            <view>kg</view>
+                        </view>
+                        <view class="hive_foot_foot" wx:else>
+                            <view class="hive_foot_foot">
+                                <view>{{item.hive_weight?item.hive_weight:'0.0'}}</view>
+                                <view>kg</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="hive_slider"></view>
+                </view>
+                <view class="hive_foot_item">
+                    <view class="hive_foot_cont">
+                        <view class="hive_foot_head">
+                            <view>
+                                <image src="https://dtm123.com:7803/targets/image/images/012.png"></image>
+                            </view>
+                            <view class="hive_red" wx:if="{{item.thermostat_state===2}}">蒸发皿</view>
+                            <view wx:else>蒸发皿</view>
+                        </view>
+                        <view class="hive_foot_foot hive_red" wx:if="{{item.thermostat_state===2}}">
+                            <view>{{item.thermostat?item.thermostat:'0.0'}}</view>
+                            <view>℃</view>
+                        </view>
+                        <view class="hive_foot_foot" wx:else>
+                            <view>{{item.thermostat?item.thermostat:'0.0'}}</view>
+                            <view>℃</view>
+                        </view>
+                    </view>
+                    <view class="hive_slider"></view>
+                </view>
+                <view class="hive_foot_item">
+                    <view class="hive_foot_cont">
+                        <view class="hive_foot_head">
+                            <view>
+                                <image src="https://dtm123.com:7803/targets/image/images/001.png"></image>
+                            </view>
+                            <view>进出巢</view>
+                        </view>
+                        <view class="hive_foot_foot">
+                            <view>{{item.enter_num?item.enter_num:0}}</view>
+                            <view>次</view>
+                        </view>
+                    </view>
+                    <view class="hive_slider"></view>
+                </view>
+                <view class="hive_foot_item">
+                    <view class="hive_foot_cont">
+                        <view class="hive_foot_head">
+                            <view>
+                                <image src="https://dtm123.com:7803/targets/image/images/019.jpg"></image>
+                            </view>
+                            <view wx:if="{{item.net_state}}">蜂王状态</view>
+                            <view class="hive_red" wx:else>蜂王状态</view>
+                        </view>
+                        <view class="hive_foot_foot" wx:if="{{item.net_state}}">
+                            <view>{{item.net_state?'在巢':'不在巢'}}</view>
+                            <view></view>
+                        </view>
+                        <view class="hive_foot_foot hive_red" wx:else>
+                            <view>{{item.net_state?'在巢':'不在巢'}}</view>
+                            <view></view>
+                        </view>
+                    </view>
+                    <view class="hive_slider"></view>
+                </view>
+            </view>
+        </view>
+        <view style="padding:24rpx 0rpx;text-align:center;font-size:24rpx;color:#999;" wx:if="{{!data||data.length===0}}">--暂无数据--</view>
+    </view>
+</view>
+<wxs module="filter" src="../../utils/filter.wxs" />

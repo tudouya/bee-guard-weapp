@@ -1,0 +1,163 @@
+page {
+    background: #f3f3f3;
+}
+
+.my {
+    position: relative;
+}
+
+.my-bj {
+    height: 240rpx;
+    z-index: 2;
+}
+
+.my-bj,.my-con {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.my-con {
+    z-index: 9;
+}
+
+.my-con-header {
+    display: flex;
+    height: 188rpx;
+    justify-content: space-between;
+    padding: 0 24rpx;
+}
+
+.my-con-header-left {
+    align-items: center;
+    display: flex;
+}
+
+.my-con-header-avatar {
+    border-radius: 104rpx;
+    height: 104rpx;
+    margin-right: 24rpx;
+    width: 104rpx;
+}
+
+.my-con-header-con-top {
+    align-items: center;
+    display: flex;
+    margin-bottom: 16rpx;
+}
+
+.my-header-con-nick {
+    color: #333;
+    font-size: 34rpx;
+    font-weight: 600;
+    max-width: 280rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.my-con-header-con-top image {
+    height: 26rpx;
+    margin-left: 12rpx;
+    width: 26rpx;
+}
+
+.my-header-con-phone {
+    color: #333;
+    font-size: 24rpx;
+    font-weight: 600;
+}
+
+.my-header-con-top-set {
+    height: 38rpx;
+    margin-top: 54rpx;
+    width: 38rpx;
+}
+
+.my-brief {
+    margin-bottom: 16rpx;
+    padding: 0 24rpx;
+}
+
+.my-brief-con {
+    background: #fff;
+    border-radius: 24rpx;
+}
+
+.my-brief-title {
+    color: #333;
+    font-size: 28rpx;
+    font-weight: 600;
+    padding: 18rpx 32rpx 0;
+}
+
+.my-title {
+    align-items: center;
+    background: #fff;
+    border-radius: 24rpx;
+    display: flex;
+    justify-content: space-around;
+    padding: 34rpx 0 36rpx;
+}
+
+.my-title.my-board {
+    border-radius: none;
+    padding-top: 30rpx;
+}
+
+.my-title-list {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.my-title-list>text:first-child {
+    color: #333;
+    font-size: 34rpx;
+    font-weight: 600;
+    margin-bottom: 16rpx;
+}
+
+.my-title-list>text:last-child {
+    color: #666;
+    font-size: 24rpx;
+}
+
+.my-title-line {
+    background: #f0f0f0;
+    height: 32rpx;
+    width: 1rpx;
+}
+
+.my-list {
+    background: #fff;
+    border-radius: 24rpx;
+}
+
+.my-list-item {
+    height: 96rpx;
+    justify-content: space-between;
+    padding: 0 32rpx;
+}
+
+.my-list-item,.my-list-item-left {
+    align-items: center;
+    display: flex;
+}
+
+.my-list-item-left image {
+    height: 32rpx;
+    margin-right: 16rpx;
+    width: 32rpx;
+}
+
+.my-list-item-left text {
+    color: #333;
+    font-size: 28rpx;
+}
+
+.my-list-item-right {
+    height: 20rpx;
+    width: 20rpx;
+}

@@ -1,0 +1,63 @@
+<view bindtap="bindMoreClone" class="add_pro">
+    <view class="add_pro_content" wx:if="{{!visible}}">
+        <view class="add_pro_cont">
+            <view class="add_pro_item">
+                <view class="add_pro_item_title">项目名称</view>
+                <view>
+                    <input bindinput="handleInputChange" class="add_pro_item_input" placeholder="请输入" value="{{project_name}}"></input>
+                </view>
+            </view>
+            <view class="add_pro_item">
+                <view class="add_pro_item_title">环境设备序列号</view>
+                <view>
+                    <input bindinput="handleInputDeviceChange" class="add_pro_item_input" placeholder="请输入" value="{{hj_device_id}}"></input>
+                </view>
+            </view>
+            <view class="add_pro_item">
+                <view class="add_pro_item_title">定位设备序列号</view>
+                <view>
+                    <input bindinput="handleInputAddressChange" class="add_pro_item_input" placeholder="请输入" value="{{address_device_id}}"></input>
+                </view>
+            </view>
+            <view class="add_pro_item">
+                <view class="add_pro_item_title">项目地址</view>
+                <view>
+                    <input bindtap="handleMapChange" class="add_pro_item_input" disabled="true" placeholder="请选择项目地址" value="{{project_address}}"></input>
+                </view>
+            </view>
+        </view>
+        <view class="add_pro_cont">
+            <view class="add_pro_title">所属蜂箱</view>
+            <view class="add_pro_tag">
+                <view class="add_pro_tag_item" wx:for="{{hiveTempData}}" wx:key="key">{{item.hive_name}}</view>
+            </view>
+            <view class="add_pro_but">
+                <view bindtap="addHive">编辑</view>
+            </view>
+        </view>
+        <view class="add_pro_sub_width">
+            <view bindtap="onSubmit" class="add_pro_sub">保存</view>
+        </view>
+    </view>
+    <view class="add_pro_modal" wx:if="{{visible}}">
+        <view class="add_pro_modal_title">已选择{{huiveAddIds.length}}个蜂箱</view>
+        <view class="add_pro_modal_input_con">
+            <view class="add_pro_modal_input">
+                <input bindinput="handleImeiChange" catchfocus="handleImeiFocus" class="add_hive_item_input" placeholder="请输入蜂箱标识或编号" placeholderClass="add_hive_item_input_placeholder"></input>
+                <view class="input_position" wx:if="{{tipShow}}">
+                    <view catchtap="pickerChangeName" class="input_position_list" data-item="{{item}}" wx:for="{{hiveQuery}}" wx:key="index">{{item.hive_imei}}({{item.hive_name}})</view>
+                </view>
+            </view>
+        </view>
+        <view class="add_pro_modal_cont">
+            <view bindtap="onHiveChange" class="{{item.selected?'add_pro_modal_item_click add_pro_modal_item':'add_pro_modal_item'}}" id="{{item.hive_id}}" wx:for="{{hiveData}}" wx:key="key">
+                <view>{{item.hive_name}}</view>
+                <view>{{item.selected?'已置入项目':'未置入项目'}}</view>
+            </view>
+        </view>
+        <view style="padding:24rpx 0rpx;text-align:center;font-size:24rpx;color:#999;" wx:if="{{!hiveData||hiveData.length===0}}">--暂无数据--</view>
+        <view class="add_pro_sub_width">
+            <view bindtap="subHive" class="add_pro_sub">添加蜂箱</view>
+        </view>
+    </view>
+</view>

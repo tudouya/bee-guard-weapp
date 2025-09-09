@@ -1,0 +1,257 @@
+page {
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+.publish-content {
+    padding-bottom: 188rpx;
+}
+
+.publish-type {
+    align-items: center;
+    display: flex;
+    overflow: auto;
+    padding: 24rpx;
+}
+
+.publish-type::-webkit-scrollbar {
+    height: 0!important;
+}
+
+.publish-type-list {
+    align-items: center;
+    background: #f0f2f2;
+    border-radius: 52rpx;
+    display: flex;
+    font-size: 28rpx;
+    height: 52rpx;
+    justify-content: center;
+    margin-right: 12rpx;
+    padding: 0 16rpx;
+    white-space: nowrap;
+}
+
+.publish-type-list:last-child {
+    margin: 0;
+}
+
+.publish-type-list.publish-type-list-active {
+    background: #f8d541;
+    font-weight: 600;
+}
+
+.publish-con {
+    padding: 0 24rpx;
+}
+
+.publish-con-textarea {
+    background: #f5f5f5;
+    border-radius: 24rpx;
+    padding: 24rpx;
+}
+
+.publish-con-textarea textarea {
+    width: 100%;
+}
+
+.publish-audio {
+    padding: 24rpx 24rpx 0;
+}
+
+.publish-audio,.publish-play {
+    display: flex;
+}
+
+.publish-play {
+    align-items: center;
+    background: #f8d541;
+    border-radius: 8rpx;
+    height: 64rpx;
+    padding: 0 16rpx;
+}
+
+.publish-play image {
+    height: 32rpx;
+    margin-right: 12rpx;
+    width: 32rpx;
+}
+
+.publish-play-time {
+    color: #fff;
+    font-size: 26rpx;
+}
+
+.publish-media {
+    padding: 24rpx;
+}
+
+.publish-footer {
+    background: #fff;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
+
+.publish-footer-con {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 0 24rpx 12rpx;
+}
+
+.publish-footer-voice {
+    height: 64rpx;
+    margin-bottom: 24rpx;
+    width: 64rpx;
+}
+
+.publish-footer-btn {
+    align-items: center;
+    background: #f8d541;
+    border-radius: 80rpx;
+    color: #333;
+    display: flex;
+    font-size: 32rpx;
+    height: 80rpx;
+    justify-content: center;
+    width: 100%;
+}
+
+.publish-footer-btn text {
+    text-decoration: underline;
+}
+
+.voice-bowen,.voice_modal {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+}
+
+.voice_modal {
+    -webkit-touch-callout: none;
+    background-color: rgba(0,0,0,.65);
+    left: 0;
+    -khtml-user-select: none;
+    user-select: none;
+    z-index: 9998;
+}
+
+@-webkit-keyframes aaa {
+    0% {
+        box-shadow: 0 0 7px 4px rgba(26,193,241,.5);
+    }
+
+    50% {
+        box-shadow: 0 0 10px 4px #1ac1f1;
+    }
+
+    100% {
+        box-shadow: 0 0 7px 4px rgba(26,193,241,.5);
+    }
+}
+
+@keyframes aaa {
+    0% {
+        box-shadow: 0 0 7px 4px rgba(26,193,241,.5);
+    }
+
+    50% {
+        box-shadow: 0 0 10px 4px #1ac1f1;
+    }
+
+    100% {
+        box-shadow: 0 0 7px 4px rgba(26,193,241,.5);
+    }
+}
+
+.voice {
+    -webkit-touch-callout: none;
+    align-items: center;
+    animation: aaa 2.5s linear infinite;
+    background-color: #1ac1f1;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    border-radius: 50%;
+    display: flex;
+    height: 4rem;
+    justify-content: center;
+    left: 50%;
+    position: fixed;
+    top: 40%;
+    transform: translate(-50%,-50%);
+    -khtml-user-select: none;
+    user-select: none;
+    width: 4rem;
+    z-index: 9999;
+}
+
+.voice>image {
+    height: 100%;
+    width: 100%;
+}
+
+@-webkit-keyframes bowena {
+    0% {
+        height: 16vw;
+        opacity: 0;
+        width: 16vw;
+    }
+
+    25% {
+        height: 16vw;
+        opacity: 1;
+        width: 16vw;
+    }
+
+    100% {
+        height: 34vw;
+        opacity: 0;
+        width: 34vw;
+    }
+}
+
+@keyframes bowena {
+    0% {
+        height: 16vw;
+        opacity: 0;
+        width: 16vw;
+    }
+
+    25% {
+        height: 16vw;
+        opacity: 1;
+        width: 16vw;
+    }
+
+    100% {
+        height: 34vw;
+        opacity: 0;
+        width: 34vw;
+    }
+}
+
+.bowen {
+    animation: bowena 1.5s linear infinite;
+    background-color: rgba(10,153,241,.75);
+    border-radius: 50%;
+    height: 26vw;
+    left: 50%;
+    position: absolute;
+    top: 40%;
+    transform: translate(-50%,-50%);
+    width: 26vw;
+    z-index: 1499;
+}
+
+.voice_modal text {
+    bottom: 42%;
+    color: #fff;
+    font-size: 15px;
+    left: 50%;
+    letter-spacing: 1px;
+    position: fixed;
+    transform: translateX(-50%);
+}

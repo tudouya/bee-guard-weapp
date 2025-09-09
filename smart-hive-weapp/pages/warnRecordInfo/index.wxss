@@ -1,0 +1,49 @@
+page {
+    background: #f3f3f3;
+}
+
+.warnRecord {
+    padding: 16rpx;
+}
+
+.warnRecord-con-list {
+    background: #fff;
+    border-radius: 24rpx;
+    margin-bottom: 16rpx;
+    padding: 26rpx 24rpx 28rpx;
+}
+
+.warnRecord-con-list:last-child {
+    margin: 0;
+}
+
+.warnRecord-con-list-header {
+    justify-content: space-between;
+    margin-bottom: 12rpx;
+}
+
+.warnRecord-con-list-header,.warnRecord-list-header-left {
+    align-items: center;
+    display: flex;
+}
+
+.warnRecord-list-header-left-title {
+    color: #333;
+    font-size: 32rpx;
+    font-weight: 600;
+    margin-right: 12rpx;
+    max-width: 448rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.warnRecord-list-header-time {
+    color: #999;
+    font-size: 24rpx;
+}
+
+.warnRecord-con-list-desc {
+    color: #666;
+    font-size: 28rpx;
+}

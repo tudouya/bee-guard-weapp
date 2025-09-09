@@ -1,0 +1,67 @@
+page {
+    background: #f3f3f3;
+}
+
+.userInfo-list {
+    background: #fff;
+    margin-bottom: 16rpx;
+}
+
+.userInfo-list:last-child {
+    margin: 0;
+}
+
+.userInfo-title {
+    align-items: center;
+    border-bottom: 1rpx solid #e5e5e5;
+    display: flex;
+    height: 96rpx;
+    justify-content: space-between;
+    padding: 0 32rpx;
+}
+
+.userInfo-title.userInfo-avatar {
+    height: 220rpx;
+}
+
+.userInfo-title:last-child {
+    border: none;
+}
+
+.userInfo-title text {
+    color: #333;
+    font-size: 28rpx;
+}
+
+.userInfo-title input {
+    font-size: 28rpx;
+    text-align: right;
+}
+
+.userInfo-avatar image {
+    border-right: 128rpx;
+    height: 128rpx;
+    margin-left: 32rpx;
+    width: 128rpx;
+}
+
+.userInfo-btn {
+    margin-top: 150rpx;
+    padding: 24rpx;
+}
+
+.userInfo-btn-list {
+    align-items: center;
+    background: #f8d541;
+    border-radius: 80rpx;
+    color: #333;
+    display: flex;
+    font-size: 32rpx;
+    height: 80rpx;
+    justify-content: center;
+    width: 100%;
+}
+
+.userInfo-btn-list text {
+    text-decoration: underline;
+}

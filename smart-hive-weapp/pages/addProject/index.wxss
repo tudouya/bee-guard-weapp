@@ -1,0 +1,235 @@
+.add_pro {
+    background: #f3f3f3;
+    min-height: 100vh;
+}
+
+.add_pro_content {
+    padding-top: 24rpx;
+}
+
+.add_pro_cont {
+    background: #fff;
+    border-radius: 24rpx;
+    margin: 0rpx 24rpx 24rpx;
+    padding: 0 24rpx;
+}
+
+.add_pro_item {
+    align-items: center;
+    border-bottom: 1rpx solid #d1d1d1;
+    display: flex;
+    height: 88rpx;
+    line-height: 88rpx;
+}
+
+.add_pro_item:last-child {
+    border-bottom: none;
+}
+
+.add_pro_item_title {
+    color: #333;
+    font-size: 28rpx;
+    width: 32%;
+}
+
+.add_pro_item_input {
+    color: #999;
+    font-size: 28rpx;
+}
+
+.add_pro_picker_line {
+    flex: 1 1;
+}
+
+.add_pro_item_picker {
+    color: #999;
+    font-size: 28rpx;
+}
+
+.add_pro_item view:last-child {
+    flex: 1 1;
+}
+
+.add_pro_title {
+    color: #333;
+    font-size: 28rpx;
+    height: 88rpx;
+    line-height: 88rpx;
+}
+
+.add_pro_tag {
+    align-content: flex-start;
+    background: #f7f7f7;
+    border-radius: 12rpx;
+    display: flex;
+    flex-wrap: wrap;
+    height: 220rpx;
+    padding: 24rpx;
+}
+
+.add_pro_tag_item {
+    background: #fff;
+    border: 1rpx solid #9b9b9b;
+    border-radius: 56rpx;
+    color: #666;
+    font-size: 24rpx;
+    height: 56rpx;
+    line-height: 56rpx;
+    margin-bottom: 12rpx;
+    margin-right: 12rpx;
+    padding: 0rpx 16rpx;
+    text-align: center;
+}
+
+.add_pro_but {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16rpx 0rpx 24rpx;
+}
+
+.add_pro_but view {
+    border-radius: 56rpx;
+    font-size: 24rpx;
+    font-weight: 600;
+    height: 52rpx;
+    line-height: 52rpx;
+    text-align: center;
+    width: 120rpx;
+}
+
+.add_pro_but view:first-child {
+    background: #f2f2f2;
+    color: #999;
+    margin-right: 12rpx;
+    text-decoration: underline;
+}
+
+.add_pro_but view:last-child {
+    background: #f8d541;
+    color: #333;
+    text-decoration: underline;
+}
+
+.add_pro_sub_width {
+    background: #fff;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    width: 100%;
+}
+
+.add_pro_sub {
+    background: #f8d541;
+    border-radius: 80rpx;
+    color: #333;
+    font-size: 32rpx;
+    font-weight: 600;
+    height: 80rpx;
+    line-height: 80rpx;
+    margin: 12rpx 24rpx;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.add_pro_modal {
+    background: #fff;
+    height: 100vh;
+}
+
+.add_pro_modal_title {
+    color: #666;
+    font-size: 28rpx;
+    padding: 40rpx 24rpx 32rpx;
+}
+
+.add_pro_modal_cont {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0rpx 24rpx;
+}
+
+.add_pro_modal_item {
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 12rpx;
+    display: flex;
+    flex-flow: column;
+    height: 126rpx;
+    justify-content: center;
+    margin-bottom: 2%;
+    margin-right: 2%;
+    text-align: center;
+    width: 32%;
+}
+
+.add_pro_modal_item:nth-child(3n) {
+    margin-right: 0!important;
+}
+
+.add_pro_modal_item view:first-child {
+    color: #666;
+    font-size: 32rpx;
+    font-weight: 600;
+}
+
+.add_pro_modal_item view:last-child {
+    color: #999;
+    font-size: 24rpx;
+}
+
+.add_pro_modal_item_click {
+    background: #fff!important;
+    border: 2rpx solid #f8d541;
+    box-sizing: border-box;
+}
+
+.add_pro_modal_input_con {
+    align-items: center;
+    display: flex;
+    height: 96rpx;
+    padding: 0 24rpx 32rpx;
+}
+
+.add_pro_modal_input {
+    position: relative;
+    width: 100%;
+}
+
+.add_pro_modal_input input {
+    background: #f7f7f7;
+    border-radius: 12rpx;
+    height: 96rpx;
+    padding: 0 16rpx;
+}
+
+.input_position {
+    background: #fff;
+    border-radius: 8rpx;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    left: 0;
+    max-height: 480rpx;
+    min-height: 120rpx;
+    overflow-y: scroll;
+    padding: 10rpx 0;
+    position: absolute;
+    top: 96rpx;
+    width: 100%;
+    z-index: 9999;
+}
+
+.input_position_list {
+    color: rgba(0,0,0,.65);
+    font-size: 30rpx;
+    padding: 6rpx 24rpx;
+}
+
+.add_hive_item_input {
+    color: #333;
+    flex: 1 1;
+    font-size: 32rpx;
+}
+
+.add_hive_item_input_placeholder {
+    color: #999;
+    font-size: 32rpx;
+}
