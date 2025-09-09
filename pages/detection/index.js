@@ -101,9 +101,14 @@ Page({
     // 模拟API验证
     setTimeout(() => {
       wx.hideLoading();
-      wx.showToast({ title: '验证成功，开始检测流程', icon: 'success' });
-      // TODO: 跳转到调查问卷页面
-    }, 1500);
+      wx.showToast({ title: '验证成功，开始检测流程', icon: 'success', duration: 600 });
+      const detectId = detectionNumber || '';
+      setTimeout(() => {
+        wx.navigateTo({
+          url: `/pages/detection/survey/index?detectId=${encodeURIComponent(detectId)}`
+        });
+      }, 600);
+    }, 1000);
   },
 
   // 选择自费检测套餐

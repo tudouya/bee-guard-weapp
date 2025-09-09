@@ -1,0 +1,69 @@
+.container { 
+  /* 覆盖全局 .container，去除固定内边距与高度，避免顶部空白 */
+  display: block;
+  padding: 0;
+  height: auto;
+  box-sizing: border-box;
+  background: #f3f3f3; 
+}
+.content { padding: 0 16rpx; }
+
+.survey-card {
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.08);
+  padding: 24rpx 16rpx;
+}
+
+.header { margin-bottom: 16rpx; }
+.title { font-size: 34rpx; font-weight: 600; color: #333; }
+.subtitle { display: block; margin-top: 6rpx; font-size: 24rpx; color: #999; }
+
+.form { display: flex; flex-direction: column; gap: 20rpx; }
+.section-title { font-size: 30rpx; color: #333; font-weight: 600; margin: 6rpx 0 8rpx; }
+.divider { height: 1rpx; background: #f0f0f0; margin: 8rpx 0 12rpx; }
+.form-item {}
+.form-label { font-size: 28rpx; color: #333; margin-bottom: 10rpx; }
+
+.input-wrap { background: #f7f7f7; border-radius: 36rpx; height: 72rpx; padding: 0 16rpx; display: flex; align-items: center; }
+.input-wrap input { flex: 1; font-size: 30rpx; color: #333; }
+
+.radio-group, .checkbox-group { display: flex; flex-wrap: wrap; gap: 12rpx 12rpx; }
+.radio-item, .checkbox-item { 
+  display: inline-flex; 
+  align-items: center; 
+  padding: 10rpx 18rpx; 
+  background: #f7f7f7; 
+  border: 1rpx solid #ececec; 
+  border-radius: 9999rpx; 
+  font-size: 28rpx; 
+  color: #333; 
+}
+
+/* 自定义单选/多选：圆形指示器 + 胶囊容器，保持统一大小 */
+.check-chip, .radio-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 10rpx 16rpx;
+  background: #fff;
+  border: 1rpx solid #e6e6e6;
+  border-radius: 9999rpx;
+}
+.check-chip .circle, .radio-chip .circle {
+  width: 28rpx;
+  height: 28rpx;
+  border: 2rpx solid #c8c8c8;
+  border-radius: 50%;
+  margin-right: 10rpx;
+  background: #fff;
+  box-sizing: border-box;
+}
+.check-chip.checked, .radio-chip.checked { border-color: rgba(7,193,96,0.6); background: rgba(7,193,96,0.06); }
+.check-chip.checked .circle, .radio-chip.checked .circle { border-color: #07c160; background: #07c160; }
+.chip-text { font-size: 28rpx; color: #333; }
+.radio-item radio, .checkbox-item checkbox { 
+  transform: scale(0.9); 
+  margin-right: 10rpx; 
+}
+
+.textarea { width: 100%; min-height: 160rpx; background: #f7f7f7; border-radius: 12rpx; padding: 12rpx; font-size: 28rpx; color: #333; box-sizing: border-box; }

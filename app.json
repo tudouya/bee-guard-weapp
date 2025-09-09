@@ -2,6 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/detection/index",
+    "pages/detection/survey/index",
+    "pages/detection/guide/index",
     "pages/epidemic/index",
     "pages/profile/index"
   ],

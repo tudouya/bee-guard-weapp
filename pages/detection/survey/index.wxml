@@ -1,0 +1,85 @@
+<view class="container">
+  <view class="content">
+    <view class="survey-card">
+      <view class="header">
+        <text class="title">蜂场调查问卷</text>
+        <text class="subtitle">检测号：{{detectionId || '—'}}</text>
+      </view>
+
+      <view class="form">
+        <view class="section-title">基础信息</view>
+        <!-- 蜂群数量 -->
+        <view class="form-item">
+          <view class="form-label">蜂群数量（群）</view>
+          <view class="input-wrap">
+            <input type="number" placeholder="请输入蜂群数量" bindinput="onBeeCountInput" value="{{form.beeCount}}" />
+          </view>
+        </view>
+
+        <!-- 蜂种类型 -->
+        <view class="form-item">
+          <view class="form-label">蜂种类型</view>
+          <view class="radio-group">
+            <view wx:for="{{beeTypeOptions}}" wx:key="*this" class="radio-chip {{form.beeType===item?'checked':''}}" data-value="{{item}}" bindtap="selectBeeType">
+              <view class="circle"></view>
+              <text class="chip-text">{{item}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 蜂场规模 -->
+        <view class="form-item">
+          <view class="form-label">蜂场规模</view>
+          <view class="radio-group">
+            <view wx:for="{{scaleOptions}}" wx:key="*this" class="radio-chip {{form.scale===item?'checked':''}}" data-value="{{item}}" bindtap="selectScale">
+              <view class="circle"></view>
+              <text class="chip-text">{{item}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 基础信息结束，分隔线 -->
+        <view class="divider"></view>
+
+        <!-- 管理方式（多选） -->
+        <view class="section-title">管理方式（多选）</view>
+        <view class="form-item">
+          <view class="checkbox-group">
+            <view 
+              wx:for="{{managementOptions}}" 
+              wx:key="*this"
+              class="check-chip {{form.management.indexOf(item)>-1 ? 'checked' : ''}}"
+              data-value="{{item}}"
+              bindtap="toggleMgmt">
+              <view class="circle"></view>
+              <text class="chip-text">{{item}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 管理方式结束，分隔线 -->
+        <view class="divider"></view>
+
+        <view class="section-title">异常描述</view>
+        <!-- 养蜂经验 -->
+        <view class="form-item">
+          <view class="form-label">养蜂经验</view>
+          <view class="radio-group">
+            <view wx:for="{{experienceOptions}}" wx:key="*this" class="radio-chip {{form.experience===item?'checked':''}}" data-value="{{item}}" bindtap="selectExperience">
+              <view class="circle"></view>
+              <text class="chip-text">{{item}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 最近异常情况描述 -->
+        <view class="form-item">
+          <view class="form-label">最近异常情况描述</view>
+          <textarea class="textarea" placeholder="如：蜜蜂死亡、幼虫异常、产蜜量下降等" maxlength="300" bindinput="onDescInput" value="{{form.abnormalDesc}}"></textarea>
+        </view>
+
+        <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submitSurvey">提交问卷</button>
+      </view>
+    </view>
+  </view>
+</view>
