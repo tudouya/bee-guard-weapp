@@ -1,0 +1,60 @@
+<view class="container">
+  <view class="header">
+    <view class="user-info">
+      <image class="avatar" src="https://dtm123.com:7803/targets/image/images/avatar-default.png" mode="aspectFill"></image>
+      <view class="user-details">
+        <text class="username">请登录</text>
+        <text class="user-desc">登录后享受更多服务</text>
+      </view>
+      <view class="login-btn" bindtap="handleLogin">
+        <text>登录</text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="content">
+    <view class="menu-section">
+      <view class="menu-item" bindtap="goToDetectionHistory">
+        <view class="menu-item-left">
+          <text class="menu-icon">📋</text>
+          <text class="menu-text">检测记录</text>
+        </view>
+        <text class="menu-arrow">></text>
+      </view>
+      
+      <view class="menu-item" bindtap="goToMyReports">
+        <view class="menu-item-left">
+          <text class="menu-icon">📄</text>
+          <text class="menu-text">我的报告</text>
+        </view>
+        <text class="menu-arrow">></text>
+      </view>
+      
+      <view class="menu-item" bindtap="goToSettings">
+        <view class="menu-item-left">
+          <text class="menu-icon">⚙️</text>
+          <text class="menu-text">设置</text>
+        </view>
+        <text class="menu-arrow">></text>
+      </view>
+    </view>
+    
+    <view class="menu-section">
+      <view class="menu-item" bindtap="goToHelp">
+        <view class="menu-item-left">
+          <text class="menu-icon">❓</text>
+          <text class="menu-text">帮助与反馈</text>
+        </view>
+        <text class="menu-arrow">></text>
+      </view>
+      
+      <view class="menu-item" bindtap="goToAbout">
+        <view class="menu-item-left">
+          <text class="menu-icon">ℹ️</text>
+          <text class="menu-text">关于我们</text>
+        </view>
+        <text class="menu-arrow">></text>
+      </view>
+    </view>
+  </view>
+</view>

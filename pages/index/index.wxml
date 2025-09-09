@@ -36,7 +36,7 @@
                     <view class="home-fire-hader-detail">
                         <view class="home-fire-hader-con">
                             <text>防控知识热门</text>
-                            <text>{{num}}人正在学习</text>
+                            <text class="color-primary">{{num}}人正在学习</text>
                         </view>
                     </view>
                 </view>
@@ -60,7 +60,7 @@
                         <view class="home-info-desc">疫情动态 实时发布</view>
                     </view>
                 </div>
-                <view bindtap="handleInfo" class="home-info-btn">查看全部</view>
+                <view bindtap="handleInfo" class="home-info-btn u-btn u-btn-primary u-btn--xs">查看全部</view>
             </view>
             <view class="home-industry">
                 <view class="home-industry-content">

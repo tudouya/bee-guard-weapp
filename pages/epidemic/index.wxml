@@ -1,0 +1,45 @@
+<view class="container">
+  <view class="header">
+    <text class="title">疫情数据</text>
+    <text class="desc">全国蜂群疫情状况一览</text>
+  </view>
+  
+  <view class="content">
+    <view class="stats-overview">
+      <view class="stat-item">
+        <text class="stat-number">1,256</text>
+        <text class="stat-label">检测点</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">89</text>
+        <text class="stat-label">疫情地区</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">23</text>
+        <text class="stat-label">高风险区</text>
+      </view>
+    </view>
+    
+    <view class="map-container">
+      <view class="map-placeholder">
+        <text class="map-text">疫情地图</text>
+        <text class="map-desc">点击查看详细数据</text>
+      </view>
+      <button class="map-btn u-btn u-btn-primary u-btn--lg" bindtap="viewMap">查看地图</button>
+    </view>
+    
+    <view class="data-list">
+      <view class="list-header">
+        <text class="list-title">最新疫情通报</text>
+        <text class="list-more" bindtap="viewMoreNews">更多</text>
+      </view>
+      <view class="news-item" wx:for="{{newsList}}" wx:key="id" bindtap="viewNewsDetail" data-id="{{item.id}}">
+        <view class="news-content">
+          <text class="news-title">{{item.title}}</text>
+          <text class="news-date">{{item.date}}</text>
+        </view>
+        <view class="news-level level-{{item.level}}">{{item.levelText}}</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,49 +1,91 @@
 <view class="container">
-  <view class="header">
-    <text class="title">疫病检测</text>
-    <text class="desc">专业的蜂群疫病检测服务</text>
-  </view>
-  
-  <view class="tabs">
-    <view class="tab-item {{activeTab === 'detection' ? 'active' : ''}}" bindtap="switchTab" data-tab="detection">
-      <text>检测申请</text>
-    </view>
-    <view class="tab-item {{activeTab === 'results' ? 'active' : ''}}" bindtap="switchTab" data-tab="results">
-      <text>结果查询</text>
-    </view>
-  </view>
-  
   <view class="content">
+    <view class="tabs">
+      <view class="tab-item {{activeTab === 'detection' ? 'active' : ''}}" bindtap="switchTab" data-tab="detection">
+        <text>检测申请</text>
+      </view>
+      <view class="tab-item {{activeTab === 'results' ? 'active' : ''}}" bindtap="switchTab" data-tab="results">
+        <text>结果查询</text>
+      </view>
+    </view>
+
     <!-- 检测申请 -->
     <view class="tab-content" wx:if="{{activeTab === 'detection'}}">
+      <!-- 🔬 检测号验证 -->
       <view class="detection-card">
         <view class="card-header">
-          <text class="card-title">免费检测</text>
-          <text class="card-subtitle">政府补贴项目</text>
+          <text class="card-icon">🔬</text>
+          <text class="card-title">检测号验证</text>
         </view>
         <view class="card-content">
-          <text class="card-desc">提供免费的蜂群疫病基础检测服务</text>
-          <button class="btn-primary" bindtap="startFreeDetection">申请检测</button>
+          <view class="form-item">
+            <view class="form-label">检测号:</view>
+            <view class="form-input-wrapper">
+              <input 
+                class="form-input" 
+                placeholder="请输入检测号" 
+                value="{{detectionForm.detectionNumber}}"
+                bindinput="onDetectionNumberInput"
+              />
+            </view>
+          </view>
+          <view class="form-item">
+            <view class="form-label">手机号:</view>
+            <view class="form-input-wrapper">
+              <input 
+                class="form-input" 
+                placeholder="请输入手机号" 
+                type="number"
+                maxlength="11"
+                value="{{detectionForm.phoneNumber}}"
+                bindinput="onPhoneNumberInput"
+              />
+            </view>
+          </view>
+          <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="verifyAndStartDetection">验证并开始检测</button>
         </view>
       </view>
       
-      <view class="detection-card">
+      <!-- 💰 没有检测号？ -->
+      <view class="detection-card detection-card--spaced">
         <view class="card-header">
-          <text class="card-title">自费检测</text>
-          <text class="card-subtitle">高级检测服务</text>
+          <text class="card-icon">💰</text>
+          <text class="card-title">没有检测号？</text>
         </view>
         <view class="card-content">
-          <text class="card-desc">全面深入的疫病检测与分析报告</text>
-          <button class="btn-primary" bindtap="startPaidDetection">立即检测</button>
+          <text class="card-subtitle">选择自费检测服务</text>
+          
+          <view class="package-list">
+            <view 
+              class="package-item {{item.selected ? 'selected' : ''}}"
+              wx:for="{{paidPackages}}" 
+              wx:key="id"
+              bindtap="selectPaidPackage"
+              data-id="{{item.id}}"
+            >
+              <view class="package-header">
+                <view class="package-name">{{item.name}}</view>
+                <view class="package-price">¥{{item.price}}</view>
+              </view>
+              <view class="package-desc">{{item.desc}}</view>
+            </view>
+          </view>
+          
+          <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="payForDetection">扫码支付</button>
         </view>
       </view>
     </view>
     
     <!-- 结果查询 -->
     <view class="tab-content" wx:if="{{activeTab === 'results'}}">
+      <view class="login-tip">
+        <text class="tip-text">请先登录后查询检测结果</text>
+        <button class="btn-login u-btn u-btn-primary u-btn--sm" bindtap="handleLogin">手机号登录</button>
+      </view>
+      
       <view class="search-bar">
         <input placeholder="输入检测编号" class="search-input" bindinput="onSearchInput" value="{{searchValue}}"/>
-        <button class="search-btn" bindtap="searchResults">查询</button>
+        <button class="search-btn u-btn u-btn-primary u-btn--sm" bindtap="searchResults">查询</button>
       </view>
       
       <view class="empty-state" wx:if="{{results.length === 0}}">

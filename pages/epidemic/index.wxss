@@ -1,0 +1,156 @@
+.container {
+  padding: 40rpx;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.desc {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.stats-overview {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40rpx;
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-number {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.map-container {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 60rpx 40rpx;
+  margin-bottom: 40rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.1);
+}
+
+.map-placeholder {
+  margin-bottom: 40rpx;
+}
+
+.map-text {
+  display: block;
+  font-size: 36rpx;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.map-desc {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.map-btn {
+  width: 200rpx;
+  height: 80rpx;
+  font-size: 28rpx;
+  line-height: 80rpx;
+  padding: 0;
+  margin: 0;
+  border-radius: 8rpx;
+}
+
+.data-list {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.1);
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.list-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.list-more {
+  font-size: 26rpx;
+  color: #07c160;
+}
+
+.news-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-content {
+  flex: 1;
+}
+
+.news-title {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+  line-height: 1.4;
+}
+
+.news-date {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.news-level {
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  margin-left: 20rpx;
+}
+
+.level-high {
+  background: #fff2f0;
+  color: #ff4d4f;
+}
+
+.level-medium {
+  background: #fff7e6;
+  color: #faad14;
+}
+
+.level-low {
+  background: #f6ffed;
+  color: #52c41a;
+}

@@ -1,6 +1,6 @@
 /**app.wxss**/
 page {
-  background-color: #f5f5f5;
+  background-color: #f3f3f3;
 }
 
 .container {
@@ -25,3 +25,42 @@ page {
 .btn-primary:hover {
   background-color: #06a552;
 }
+
+/* ===== 统一色板与工具类（全局） ===== */
+/* 主色与语义色 */
+.color-primary { color: #07c160; }
+.color-success { color: #52c41a; }
+.color-warning { color: #faad14; }
+.color-danger  { color: #ff4d4f; }
+.color-info    { color: #2db7f5; }
+
+.bg-primary { background-color: #07c160; }
+.bg-success { background-color: #52c41a; }
+.bg-warning { background-color: #faad14; }
+.bg-danger  { background-color: #ff4d4f; }
+.bg-info    { background-color: #2db7f5; }
+
+/* 按钮基类与变体（避免与各页命名冲突，使用 u- 前缀） */
+.u-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8rpx;
+  padding: 0 24rpx;
+  font-weight: 600;
+}
+
+.u-btn-primary {
+  background-color: #07c160;
+  color: #fff;
+  box-shadow: 0 2rpx 6rpx rgba(7, 193, 96, 0.35);
+}
+
+.u-btn-block { width: 100%; }
+.u-btn--pill { border-radius: 68rpx; }
+
+.u-btn--xs { height: 44rpx; font-size: 22rpx; line-height: 44rpx; }
+.u-btn--sm { height: 56rpx; font-size: 24rpx; line-height: 56rpx; }
+.u-btn--md { height: 68rpx; font-size: 28rpx; line-height: 68rpx; }
+.u-btn--lg { height: 80rpx; font-size: 32rpx; line-height: 80rpx; }
