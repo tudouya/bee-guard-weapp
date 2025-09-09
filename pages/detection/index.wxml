@@ -1,0 +1,68 @@
+<view class="container">
+  <view class="header">
+    <text class="title">疫病检测</text>
+    <text class="desc">专业的蜂群疫病检测服务</text>
+  </view>
+  
+  <view class="tabs">
+    <view class="tab-item {{activeTab === 'detection' ? 'active' : ''}}" bindtap="switchTab" data-tab="detection">
+      <text>检测申请</text>
+    </view>
+    <view class="tab-item {{activeTab === 'results' ? 'active' : ''}}" bindtap="switchTab" data-tab="results">
+      <text>结果查询</text>
+    </view>
+  </view>
+  
+  <view class="content">
+    <!-- 检测申请 -->
+    <view class="tab-content" wx:if="{{activeTab === 'detection'}}">
+      <view class="detection-card">
+        <view class="card-header">
+          <text class="card-title">免费检测</text>
+          <text class="card-subtitle">政府补贴项目</text>
+        </view>
+        <view class="card-content">
+          <text class="card-desc">提供免费的蜂群疫病基础检测服务</text>
+          <button class="btn-primary" bindtap="startFreeDetection">申请检测</button>
+        </view>
+      </view>
+      
+      <view class="detection-card">
+        <view class="card-header">
+          <text class="card-title">自费检测</text>
+          <text class="card-subtitle">高级检测服务</text>
+        </view>
+        <view class="card-content">
+          <text class="card-desc">全面深入的疫病检测与分析报告</text>
+          <button class="btn-primary" bindtap="startPaidDetection">立即检测</button>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 结果查询 -->
+    <view class="tab-content" wx:if="{{activeTab === 'results'}}">
+      <view class="search-bar">
+        <input placeholder="输入检测编号" class="search-input" bindinput="onSearchInput" value="{{searchValue}}"/>
+        <button class="search-btn" bindtap="searchResults">查询</button>
+      </view>
+      
+      <view class="empty-state" wx:if="{{results.length === 0}}">
+        <text class="empty-text">暂无检测记录</text>
+        <text class="empty-desc">请先进行疫病检测</text>
+      </view>
+      
+      <view class="results-list" wx:else>
+        <view class="result-item" wx:for="{{results}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
+          <view class="item-header">
+            <text class="item-title">检测编号：{{item.detectionId}}</text>
+            <text class="item-status status-{{item.status}}">{{item.statusText}}</text>
+          </view>
+          <view class="item-content">
+            <text class="item-date">检测时间：{{item.date}}</text>
+            <text class="item-type">检测类型：{{item.type}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
