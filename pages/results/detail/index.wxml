@@ -1,0 +1,50 @@
+<view class="container">
+  <view class="content">
+    <view class="card">
+      <view class="header">
+        <text class="title">检测结果详情</text>
+        <text class="subtitle">编号：{{item.detectionId || '—'}}</text>
+      </view>
+
+      <view class="section">
+        <view class="section-title">基础信息</view>
+        <view class="row"><text>类型：</text><text>{{item.type || '—'}}</text></view>
+        <view class="row"><text>日期：</text><text>{{item.date || '—'}}</text></view>
+        <view class="row"><text>状态：</text><text class="status status-{{item.status}}">{{item.statusText || '—'}}</text></view>
+      </view>
+
+      <view class="section">
+        <view class="section-title">检测结果</view>
+        <view wx:if="{{item.status==='completed'}}" class="result-block">
+          <view class="res-line">囊状幼虫病病毒(SBV)：<text class="ok">阴性</text></view>
+          <view class="res-line">美洲幼虫腐臭病(AFB)：<text class="warn">阳性</text> · 风险：中等</view>
+          <view class="res-line">欧洲幼虫腐臭病(EFB)：<text class="ok">阴性</text></view>
+        </view>
+        <view wx:else class="result-block">
+          <text class="muted">检测尚未完成，结果生成后将显示在此处。</text>
+        </view>
+      </view>
+
+      <view class="section" wx:if="{{prevent}}">
+        <view class="section-title">防治方法</view>
+        <view class="prevent-box">{{prevent}}</view>
+      </view>
+
+      <!-- 推荐产品放在防治方法下方，更突出关联性 -->
+      <view class="section" wx:if="{{recs && recs.length}}">
+        <view class="section-title">推荐产品</view>
+        <view class="promo-box" wx:for="{{recs}}" wx:key="index" bindtap="onTapRec" data-index="{{index}}">
+          <text class="rec-badge">{{item.source==='enterprise' ? '企业推荐' : '平台推荐'}}</text>
+          <text class="rec-name">{{item.productName}}</text>
+          <text class="rec-brief">{{item.brief}}</text>
+        </view>
+      </view>
+
+      <!-- 独立的进度/邮寄操作区（位于防治方法下方） -->
+      <view class="section action-section">
+        <button wx:if="{{item.status==='pending'}}" class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="goGuide">查看邮寄说明</button>
+        <button wx:else class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="goProgress">查看审核进度</button>
+      </view>
+    </view>
+  </view>
+</view>

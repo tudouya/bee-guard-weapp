@@ -1,0 +1,44 @@
+.container { display: block; padding: 0; height: auto; box-sizing: border-box; background: #f3f3f3; }
+.content { padding: 0 16rpx; }
+
+/* 工具栏样式 */
+.toolbar { background: #fff; border-radius: 12rpx; padding: 12rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.04); margin: 12rpx 0; }
+.search-row { display: flex; gap: 10rpx; margin-bottom: 8rpx; }
+.search-input { flex: 1; height: 64rpx; padding: 0 12rpx; background: #f7f7f7; border-radius: 8rpx; font-size: 26rpx; }
+/* 移除状态与日期筛选，仅保留搜索框 */
+
+/* 顶部工具栏保留位：后续放搜索/筛选 */
+.header { display: none; }
+
+.loading { text-align: center; color: #999; padding: 40rpx 0; }
+
+.empty-state { text-align: center; padding: 60rpx 0; }
+.empty-text { display: block; font-size: 30rpx; color: #999; margin-bottom: 16rpx; }
+
+.list { display: flex; flex-direction: column; gap: 20rpx; }
+.item { background: #fff; border-radius: 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.06); padding: 16rpx; }
+.item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8rpx; }
+/* 移除来源徽标增强，恢复简洁头部 */
+.ids { display: flex; gap: 16rpx; align-items: center; }
+.sid, .did { font-size: 28rpx; color: #333; font-weight: 600; line-height: 40rpx; }
+.status { font-size: 22rpx; padding: 4rpx 10rpx; border-radius: 20rpx; }
+.status-completed { background: #e8f5e8; color: #52c41a; }
+.status-processing { background: #fff7e6; color: #faad14; }
+.status-pending { background: #f0f0f0; color: #666; }
+.meta { color: #666; font-size: 26rpx; margin-bottom: 8rpx; }
+.meta-row { display: block; margin: 4rpx 0; line-height: 38rpx; }
+.block { margin: 8rpx 0; }
+.block-title { font-size: 26rpx; color: #333; font-weight: 600; margin-bottom: 6rpx; line-height: 36rpx; }
+/* 移除检测结果与展开更多显示，保留其他区块样式 */
+.brief-line { display: flex; justify-content: space-between; gap: 12rpx; align-items: center; }
+.brief { flex: 1; color: #666; font-size: 26rpx; line-height: 38rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.link { color: #07c160; font-size: 24rpx; }
+.recommend { display: flex; align-items: center; gap: 10rpx; }
+.tag { font-size: 20rpx; color: #fff; background: #07c160; border-radius: 6rpx; padding: 2rpx 6rpx; }
+.rec-content { flex: 1; display: flex; gap: 8rpx; align-items: baseline; overflow: hidden; }
+.rec-name { font-size: 26rpx; color: #333; font-weight: 600; line-height: 36rpx; max-width: 40%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rec-brief { font-size: 24rpx; color: #666; flex: 1; line-height: 36rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-actions { display: flex; gap: 10rpx; margin-top: 8rpx; }
+.item-actions { display: flex; gap: 10rpx; }
+.load-more { text-align: center; color: #07c160; padding: 16rpx 0; }
+/* 移除“没有更多了”提示样式 */

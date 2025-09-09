@@ -1,18 +1,19 @@
 <view class="container">
   <view class="content">
+    
+    
+    <!-- Tabs：有检测号 | 自费检测 -->
     <view class="tabs">
-      <view class="tab-item {{activeTab === 'detection' ? 'active' : ''}}" bindtap="switchTab" data-tab="detection">
-        <text>检测申请</text>
+      <view class="tab-item {{activeMode==='code' ? 'active' : ''}}" data-mode="code" bindtap="switchMode">
+        <text>有检测号</text>
       </view>
-      <view class="tab-item {{activeTab === 'results' ? 'active' : ''}}" bindtap="switchTab" data-tab="results">
-        <text>结果查询</text>
+      <view class="tab-item {{activeMode==='paid' ? 'active' : ''}}" data-mode="paid" bindtap="switchMode">
+        <text>自费检测</text>
       </view>
     </view>
 
-    <!-- 检测申请 -->
-    <view class="tab-content" wx:if="{{activeTab === 'detection'}}">
       <!-- 🔬 检测号验证 -->
-      <view class="detection-card">
+      <view class="detection-card" wx:if="{{activeMode==='code'}}">
         <view class="card-header">
           <text class="card-icon">🔬</text>
           <text class="card-title">检测号验证</text>
@@ -46,8 +47,8 @@
         </view>
       </view>
       
-      <!-- 💰 没有检测号？ -->
-      <view class="detection-card detection-card--spaced">
+      <!-- 💰 没有检测号？（自费检测） -->
+      <view class="detection-card detection-card--spaced" wx:if="{{activeMode==='paid'}}">
         <view class="card-header">
           <text class="card-icon">💰</text>
           <text class="card-title">没有检测号？</text>
@@ -74,35 +75,21 @@
           <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="payForDetection">扫码支付</button>
         </view>
       </view>
-    </view>
     
-    <!-- 结果查询 -->
-    <view class="tab-content" wx:if="{{activeTab === 'results'}}">
-      <view class="login-tip">
-        <text class="tip-text">请先登录后查询检测结果</text>
-        <button class="btn-login u-btn u-btn-primary u-btn--sm" bindtap="handleLogin">手机号登录</button>
+    <!-- 结果查询入口卡片（置底） -->
+    <view class="detection-card detection-card--spaced detection-card--results">
+      <view class="card-header">
+        <text class="card-icon">📄</text>
+        <text class="card-title">结果查询</text>
       </view>
-      
-      <view class="search-bar">
-        <input placeholder="输入检测编号" class="search-input" bindinput="onSearchInput" value="{{searchValue}}"/>
-        <button class="search-btn u-btn u-btn-primary u-btn--sm" bindtap="searchResults">查询</button>
-      </view>
-      
-      <view class="empty-state" wx:if="{{results.length === 0}}">
-        <text class="empty-text">暂无检测记录</text>
-        <text class="empty-desc">请先进行疫病检测</text>
-      </view>
-      
-      <view class="results-list" wx:else>
-        <view class="result-item" wx:for="{{results}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
-          <view class="item-header">
-            <text class="item-title">检测编号：{{item.detectionId}}</text>
-            <text class="item-status status-{{item.status}}">{{item.statusText}}</text>
-          </view>
-          <view class="item-content">
-            <text class="item-date">检测时间：{{item.date}}</text>
-            <text class="item-type">检测类型：{{item.type}}</text>
-          </view>
+      <view class="card-content">
+        <view wx:if="{{!loggedIn}}" class="login-tip">
+          <text class="tip-text">请先登录后查询检测结果</text>
+          <button class="btn-login u-btn u-btn-primary u-btn--sm" bindtap="handleLogin">微信一键登录</button>
+        </view>
+        <view wx:else class="login-tip">
+          <text class="tip-text">已登录，可查看您的检测记录</text>
+          <button class="btn-login u-btn u-btn-primary u-btn--sm" bindtap="goToResults">查看我的检测记录</button>
         </view>
       </view>
     </view>

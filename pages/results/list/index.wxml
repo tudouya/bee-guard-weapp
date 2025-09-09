@@ -1,0 +1,59 @@
+<view class="container">
+  <view class="content">
+    <!-- 搜索工具栏 -->
+    <view class="toolbar">
+      <view class="search-row">
+        <input class="search-input" placeholder="输入检测号/样品编号" bindinput="onKeywordInput" value="{{query.keyword}}"/>
+        <button class="u-btn u-btn-primary u-btn--sm" bindtap="applyFilters">查询</button>
+      </view>
+    </view>
+    <view wx:if="{{loading}}" class="loading">加载中...</view>
+
+    <view class="empty-state" wx:if="{{!loading && list.length === 0}}">
+      <text class="empty-text">暂无检测记录</text>
+      <button class="u-btn u-btn-primary u-btn--sm" bindtap="goDetection">去申请检测</button>
+    </view>
+
+    <view class="list" wx:else>
+      <view class="item" wx:for="{{list}}" wx:key="id">
+        <!-- 抬头：样品编号 | 检测号 + 状态 -->
+        <view class="item-head">
+          <view class="ids" bindtap="viewDetail" data-id="{{item.id}}">
+            <text class="sid">样品：{{item.sampleId}}</text>
+            <text class="did">检测：{{item.detectionId}}</text>
+          </view>
+          <text class="status status-{{item.status}}">{{item.statusText}}</text>
+        </view>
+
+        <!-- 基本信息 -->
+        <view class="meta">
+          <text class="meta-row">提交时间：{{item.submitTime}}</text>
+        </view>
+
+        
+
+        <!-- 防治方法（摘要） -->
+        <view class="block" wx:if="{{item.preventionBrief}}">
+          <text class="block-title">防治方法</text>
+          <view class="brief-line">
+            <text class="brief">{{item.preventionBrief}}</text>
+          </view>
+        </view>
+
+        <!-- 推荐产品（平台/企业） -->
+        <view class="block" wx:if="{{item.recommendation && item.recommendation.productName}}">
+          <view class="recommend">
+            <text class="tag">推荐</text>
+            <view class="rec-content">
+              <text class="rec-name">{{item.recommendation.productName}}</text>
+              <text class="rec-brief">{{item.recommendation.brief}}</text>
+            </view>
+          </view>
+        </view>
+
+        
+      </view>
+      <view class="load-more" wx:if="{{hasMore}}" bindtap="loadMore">加载更多</view>
+    </view>
+  </view>
+</view>

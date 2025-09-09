@@ -1,0 +1,44 @@
+.container { display: block; padding: 0; height: auto; box-sizing: border-box; background: #f3f3f3; }
+.content { padding: 0 16rpx; }
+
+.card { background: #fff; border-radius: 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.06); padding: 20rpx 16rpx; }
+.header { margin-bottom: 12rpx; }
+.title { font-size: 34rpx; font-weight: 700; color: #333; }
+.subtitle { display: block; margin-top: 6rpx; font-size: 24rpx; color: #999; }
+
+.section { margin: 12rpx 0 18rpx; }
+.section-title { font-size: 30rpx; color: #333; font-weight: 600; margin-bottom: 10rpx; }
+.row { font-size: 26rpx; color: #666; margin: 6rpx 0; display: flex; justify-content: space-between; }
+
+.status { font-size: 22rpx; padding: 2rpx 10rpx; border-radius: 20rpx; }
+.status-completed { background: #e8f5e8; color: #52c41a; }
+.status-processing { background: #fff7e6; color: #faad14; }
+.status-pending { background: #f0f0f0; color: #666; }
+
+.result-block { background: #f7f7f7; border-radius: 12rpx; padding: 12rpx; }
+.res-line { font-size: 26rpx; color: #333; margin: 6rpx 0; }
+.ok { color: #52c41a; }
+.warn { color: #faad14; }
+.muted { color: #999; font-size: 24rpx; }
+
+.diseases { display: flex; flex-direction: column; gap: 6rpx; }
+.disease { display: flex; justify-content: space-between; align-items: center; font-size: 26rpx; color: #333; }
+.d-name { max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.d-res.pos { color: #ff4d4f; }
+.d-res.neg { color: #52c41a; }
+
+.promo-box { 
+  background: rgba(7,193,96,0.06);
+  border: 1rpx solid rgba(7,193,96,0.35);
+  border-radius: 12rpx;
+  padding: 14rpx;
+  margin-bottom: 12rpx;
+}
+.promo-box:last-child { margin-bottom: 0; }
+.rec-badge { display: inline-block; font-size: 20rpx; color: #07c160; background: #eafff3; border: 1rpx solid rgba(7,193,96,0.35); border-radius: 6rpx; padding: 2rpx 6rpx; margin-bottom: 6rpx; }
+.rec-name { display: block; font-size: 28rpx; font-weight: 600; color: #333; margin-bottom: 6rpx; }
+.rec-brief { font-size: 24rpx; color: #666; }
+.learn-btn { margin-top: 10rpx; align-self: flex-start; }
+
+.prevent-box { background: #f7f7f7; border-radius: 12rpx; padding: 12rpx; color: #666; font-size: 26rpx; line-height: 1.5; }
+.action-section { margin-top: 16rpx; }

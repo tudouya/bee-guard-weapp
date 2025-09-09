@@ -1,7 +1,9 @@
+const authUtil = require('../../utils/auth.js');
+
 Page({
   data: {
-    activeTab: 'detection',
-    searchValue: '',
+    // 界面模式：code 有检测号 | paid 自费检测
+    activeMode: 'code',
     // 检测号验证表单数据
     detectionForm: {
       detectionNumber: '',
@@ -24,42 +26,10 @@ Page({
         selected: false
       }
     ],
-    // 检测结果数据
-    results: [
-      {
-        id: 1,
-        detectionId: 'BG202409001',
-        status: 'completed',
-        statusText: '检测完成',
-        date: '2024-09-08',
-        type: '免费检测'
-      },
-      {
-        id: 2,
-        detectionId: 'BG202409002',
-        status: 'processing',
-        statusText: '检测中',
-        date: '2024-09-09',
-        type: '自费检测'
-      }
-    ]
+    loggedIn: false
   },
 
-  onLoad: function (options) {
-    // 检查是否需要直接跳转到结果查询
-    if (options.tab === 'results') {
-      this.setData({
-        activeTab: 'results'
-      });
-    }
-  },
-
-  switchTab: function(e) {
-    const tab = e.currentTarget.dataset.tab;
-    this.setData({
-      activeTab: tab
-    });
-  },
+  onLoad: function () {},
 
   // 检测号输入事件
   onDetectionNumberInput: function(e) {
@@ -132,40 +102,39 @@ Page({
       wx.showToast({ title: '请选择检测套餐', icon: 'none' });
       return;
     }
-    
-    wx.showToast({
-      title: `选择${selectedPackage.name} ¥${selectedPackage.price}，支付功能开发中`,
-      icon: 'none',
-      duration: 2000
+    const { id, name, price } = selectedPackage;
+    wx.navigateTo({
+      url: `/pages/detection/payment/index?id=${encodeURIComponent(id)}&name=${encodeURIComponent(name)}&price=${price}`
     });
   },
 
-  onSearchInput: function(e) {
-    this.setData({
-      searchValue: e.detail.value
-    });
+  // 顶部分段切换
+  switchMode: function(e) {
+    const mode = e.currentTarget.dataset.mode;
+    if (!mode) return;
+    this.setData({ activeMode: mode });
   },
 
-  searchResults: function() {
-    wx.showToast({
-      title: '查询功能开发中',
-      icon: 'none'
-    });
+  // 底部主按钮
+  onPrimaryAction: function() {
+    if (this.data.activeMode === 'code') {
+      this.verifyAndStartDetection();
+    } else {
+      this.payForDetection();
+    }
   },
 
-  viewDetail: function(e) {
-    const id = e.currentTarget.dataset.id;
-    wx.showToast({
-      title: '结果详情功能开发中',
-      icon: 'none'
-    });
+  goToResults: function() {
+    wx.navigateTo({ url: '/pages/results/list/index' });
   },
 
   // 手机号登录
   handleLogin: function() {
-    wx.showToast({
-      title: '登录功能开发中',
-      icon: 'none'
-    });
+    wx.navigateTo({ url: '/pages/auth/login/index' });
+  },
+
+  onShow: function() {
+    const logged = authUtil.isLoggedIn && authUtil.isLoggedIn();
+    this.setData({ loggedIn: !!logged });
   }
 });

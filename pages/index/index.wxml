@@ -1,20 +1,76 @@
 <view class="home">
-    <image class="home-img" src="https://dtm123.com:7803/targets/image/images/homebj.png"></image>
+    <view class="home-img"></view>
     <view class="home-content">
         <view class="home-detail">
             <view class="home-header">
                 <view class="home-search">
-                    <image class="home-search-bgd" src="https://dtm123.com:7803/targets/image/images/003.png"></image>
                     <image class="home-search-icon" src="https://dtm123.com:7803/targets/image/images/search.png"></image>
                     <input disabled bindtap="handleChange" placeholder="搜索热门新闻"></input>
                 </view>
-                <view bindtap="handleWarn" class="home-warn">
-                    <image src="https://dtm123.com:7803/targets/image/images/bell.png"></image>
-                    <view class="home-warn-num" wx:if="{{recordNum}}">{{recordNum}}</view>
-                </view>
             </view>
             <view class="home-rotation-chart">
-                <image bindtap="preview" data-url="https://dtm123.com:7803/targets/image/images/008.png" src="https://dtm123.com:7803/targets/image/images/008.png"></image>
+                <view class="banner-green">
+                    <view class="banner-texts">
+                        <text class="banner-title">蜜蜂疫病监控平台</text>
+                        <text class="banner-sub">检测 · 疫情 · 防控 · 知识</text>
+                    </view>
+                    <view class="banner-badge">安心守护</view>
+                    <!-- 插画层：雷达 + 图表 + 盾牌 + 本地蜜蜂插画 -->
+                    <view class="banner-graphics">
+                        <!-- 雷达监控波纹（多处分布） -->
+                        <view class="radar radar-a">
+                            <view class="ring r1"></view>
+                            <view class="ring r2"></view>
+                            <view class="ring r3"></view>
+                            <view class="radar-dot"></view>
+                        </view>
+                        <view class="radar radar-b">
+                            <view class="ring r1"></view>
+                            <view class="ring r2"></view>
+                            <view class="ring r3"></view>
+                            <view class="radar-dot"></view>
+                        </view>
+                        <view class="radar radar-c">
+                            <view class="ring r1"></view>
+                            <view class="ring r2"></view>
+                            <view class="ring r3"></view>
+                            <view class="radar-dot"></view>
+                        </view>
+                        <!-- 简易柱状图趋势 -->
+                        <view class="chart">
+                            <view class="bar b1"></view>
+                            <view class="bar b2"></view>
+                            <view class="bar b3"></view>
+                            <view class="bar b4"></view>
+                        </view>
+                        <!-- 盾牌防控图标 -->
+                        <view class="shield">
+                            <view class="shield-mark"></view>
+                        </view>
+                        <!-- 额外雷达点位（底部随机分布） -->
+                        <view class="radar radar-d">
+                            <view class="ring r1"></view>
+                            <view class="ring r2"></view>
+                            <view class="ring r3"></view>
+                            <view class="radar-dot"></view>
+                        </view>
+                        <view class="radar radar-e">
+                            <view class="ring r1"></view>
+                            <view class="ring r2"></view>
+                            <view class="ring r3"></view>
+                            <view class="radar-dot"></view>
+                        </view>
+                        <!-- 底部居中雷达点位 -->
+                        <view class="radar radar-f">
+                            <view class="ring r1"></view>
+                            <view class="ring r2"></view>
+                            <view class="ring r3"></view>
+                            <view class="radar-dot"></view>
+                        </view>
+                        <!-- 本地蜜蜂插画图片（替代 CSS 蜜蜂） -->
+                        <image class="banner-bee" src="/images/banner_bee.png" mode="widthFix" aria-hidden="true"></image>
+                    </view>
+                </view>
             </view>
             <view class="home-list">
                 <view bindtap="handleDetection" class="home-list-item">
@@ -32,11 +88,14 @@
             </view>
             <view class="home-fire">
                 <view class="home-fire-hader">
-                    <image src="https://dtm123.com:7803/targets/image/images/005.png"></image>
+                    <view class="home-fire-bg"></view>
                     <view class="home-fire-hader-detail">
                         <view class="home-fire-hader-con">
-                            <text>防控知识热门</text>
-                            <text class="color-primary">{{num}}人正在学习</text>
+                            <view class="home-fire-left">
+                                <view class="home-fire-labe"></view>
+                                <text class="home-fire-title">防控知识热门</text>
+                            </view>
+                            <text class="home-fire-meta">{{num}}人正在学习</text>
                         </view>
                     </view>
                 </view>

@@ -16,13 +16,14 @@
   border-radius: 16rpx;
   overflow: hidden;
   box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.08);
+  border: 1rpx solid #e6e6e6; /* 提升边界清晰度 */
 }
 
 .tab-item {
   flex: 1;
   text-align: center;
-  padding: 28rpx 8rpx;
-  color: #666;
+  padding: 24rpx 8rpx; /* 收窄高度更紧凑 */
+  color: #7a7d80; /* 非激活态更收敛 */
   font-size: 28rpx;
   position: relative;
   transition: all 0.3s ease;
@@ -32,28 +33,36 @@
   text-overflow: ellipsis;
 }
 
+/* 标签间分隔线 */
+.tab-item + .tab-item { border-left: 1rpx solid #f0f0f0; }
+
 .tab-item.active {
   color: #07c160;
-  background: rgba(7, 193, 96, 0.1);
+  background: rgba(7, 193, 96, 0.24);
+  border: 1rpx solid rgba(7, 193, 96, 0.35);
   font-weight: 600;
 }
 
-.tab-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40rpx;
-  height: 3rpx;
-  background: #07c160;
-  border-radius: 2rpx;
-}
+/* 去掉标签页底部短横线 */
+.tab-item.active::after { content: none; display: none; }
 
 .content {
   /* 与首页左右边距保持 16rpx 一致 */
   padding: 0 16rpx;
 }
+
+.page-header {}
+.page-title {}
+.link-btn {}
+
+.segmented {}
+.seg-chip {}
+.seg-chip.active {}
+
+/* 清理未使用的悬浮按钮样式 */
+
+/* 已移除小标题，保留占位以防引用 */
+.section-title { display: none; }
 
 .tab-content {
   display: flex;
@@ -67,12 +76,17 @@
   /* 调整左右内边距以减小视觉边距，总体与首页观感一致 */
   padding: 24rpx 16rpx;
   box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.08);
+  margin-top: 12rpx; /* 统一卡片间距 */
 }
 
 /* 提高“没有检测号？”模块与上方表单之间的间距 */
-.detection-card--spaced {
-  margin-top: 16rpx;
-}
+.detection-card--spaced { margin-top: 12rpx; }
+
+/* 首个卡片与顶部的距离更紧凑 */
+.content .detection-card:first-of-type { margin-top: 8rpx; }
+
+/* 结果查询卡片与上方申请区域间距增大 */
+.detection-card--results { margin-top: 28rpx; }
 
 .card-header {
   margin-bottom: 24rpx;
@@ -85,7 +99,7 @@
 }
 
 .card-icon {
-  font-size: 40rpx;
+  font-size: 32rpx;
   margin-right: 16rpx;
 }
 
@@ -115,30 +129,26 @@
   margin-bottom: 0;
 }
 
-.form-label {
-  color: #333;
-  font-size: 28rpx;
-  margin-bottom: 16rpx;
-}
+.form-label { color: #333; font-size: 28rpx; margin-bottom: 8rpx; }
 
 .form-input-wrapper {
   background: #f7f7f7;
-  border-radius: 36rpx;
-  height: 72rpx;
-  padding: 0 16rpx;
+  border-radius: 32rpx;
+  height: 56rpx;
+  padding: 0 12rpx;
   display: flex;
   align-items: center;
 }
 
 .form-input {
   color: #333;
-  font-size: 32rpx;
+  font-size: 28rpx;
   flex: 1;
 }
 
 .form-input::placeholder {
   color: #999;
-  font-size: 32rpx;
+  font-size: 28rpx;
 }
 
 /* 套餐选择样式 */
@@ -192,7 +202,8 @@
 
 /* 登录提示样式 */
 .login-tip {
-  background: #fff3ef;
+  background: #f7f7f7;
+  border: 1rpx solid #eeeeee;
   border-radius: 12rpx;
   padding: 20rpx 16rpx;
   margin-bottom: 16rpx;

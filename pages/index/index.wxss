@@ -9,6 +9,8 @@ page {
 .home-img {
     height: 390rpx;
     z-index: 1;
+    /* 使用品牌绿渐变背景（上深下浅） */
+    background: linear-gradient(180deg, #07c160 0%, #1bd38c 55%, #eafff3 100%);
 }
 
 .home-content,.home-img {
@@ -88,6 +90,99 @@ page {
     width: 100%;
 }
 
+/* 品牌绿 Banner（替代旧图） */
+.banner-green {
+    position: relative;
+    height: 280rpx;
+    width: 100%;
+    border-radius: 16rpx;
+    overflow: hidden;
+    background: linear-gradient(135deg, #07c160 0%, #06a552 70%, #eafff3 100%);
+    box-shadow: 0 8rpx 24rpx rgba(7, 193, 96, 0.18);
+}
+
+.banner-texts {
+    position: absolute;
+    left: 24rpx;
+    top: 24rpx;
+    right: 24rpx;
+    color: #ffffff;
+    z-index: 5;
+}
+
+.banner-title {
+    display: block;
+    font-size: 40rpx;
+    font-weight: 800;
+    letter-spacing: 2rpx;
+}
+
+.banner-sub {
+    display: block;
+    margin-top: 8rpx;
+    font-size: 26rpx;
+    opacity: 0.95;
+}
+
+.banner-badge {
+    position: absolute;
+    right: 16rpx;
+    bottom: 16rpx;
+    background: #ffffff;
+    color: #07c160;
+    border-radius: 9999rpx;
+    padding: 8rpx 18rpx;
+    font-size: 20rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.08);
+    white-space: nowrap;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 6; /* 确保在图形层之上，避免笔画被覆盖 */
+    font-weight: 600;
+}
+
+/* 插画层容器 */
+.banner-graphics {
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    z-index: 1; /* 图形层在底部，避免遮挡文字 */
+}
+
+/* 本地蜜蜂插画图片（右上角） */
+.banner-bee { position: absolute; right: 36rpx; top: 28rpx; width: 140rpx; z-index: 2; opacity: 0.95; pointer-events: none; }
+
+/* 雷达波纹（多处分布） */
+.radar { position: absolute; width: 120rpx; height: 120rpx; }
+.radar-a { left: 24rpx; top: 34rpx; }
+.radar-b { left: 220rpx; top: 60rpx; width: 90rpx; height: 90rpx; }
+.radar-c { right: 140rpx; top: 90rpx; width: 70rpx; height: 70rpx; }
+.radar-d { left: 60rpx; bottom: 26rpx; width: 80rpx; height: 80rpx; }
+.radar-e { right: 48rpx; bottom: 20rpx; width: 100rpx; height: 100rpx; }
+.radar-f { left: 50%; bottom: 22rpx; width: 92rpx; height: 92rpx; transform: translateX(-50%); }
+.ring { position: absolute; left: 50%; top: 50%; border: 2rpx solid rgba(255,255,255,0.55); border-radius: 50%; transform: translate(-50%,-50%); }
+.ring.r1 { width: 36rpx; height: 36rpx; animation: pulse 2.4s ease-out infinite; }
+.ring.r2 { width: 72rpx; height: 72rpx; animation: pulse 2.4s ease-out 0.25s infinite; }
+.ring.r3 { width: 108rpx; height: 108rpx; animation: pulse 2.4s ease-out 0.5s infinite; }
+.radar-dot { position: absolute; left: 50%; top: 50%; width: 10rpx; height: 10rpx; background: #fff; border-radius: 50%; transform: translate(-50%,-50%); box-shadow: 0 0 12rpx rgba(255,255,255,0.8); }
+
+/* 趋势柱状图（右下） */
+.chart { position: absolute; right: 28rpx; bottom: 24rpx; display: flex; gap: 8rpx; align-items: flex-end; height: 80rpx; }
+.bar { width: 10rpx; background: #ffffff; opacity: 0.85; border-radius: 6rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.08); }
+.bar.b1 { height: 26rpx; }
+.bar.b2 { height: 46rpx; }
+.bar.b3 { height: 66rpx; }
+.bar.b4 { height: 36rpx; }
+
+/* 盾牌图标（左下） */
+.shield { position: absolute; left: 24rpx; bottom: 24rpx; width: 56rpx; height: 56rpx; background: #fff; border-radius: 14rpx; box-shadow: 0 4rpx 14rpx rgba(0,0,0,0.12); }
+.shield-mark { position: absolute; left: 50%; top: 50%; width: 28rpx; height: 28rpx; transform: translate(-50%,-50%); border-radius: 50%; box-shadow: inset 0 0 0 2rpx #07c160; }
+
+/* 动画 */
+@keyframes wing { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(22deg); } }
+@keyframes bee-fly { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6rpx); } }
+@keyframes pulse { 0% { opacity: 0.8; } 100% { opacity: 0; border-color: rgba(255,255,255,0); } }
+
 .home-list,.home-list-item {
     align-items: center;
     display: flex;
@@ -117,14 +212,12 @@ page {
 .home-fire-hader {
     height: 88rpx;
     position: relative;
+    border-radius: 16rpx 16rpx 0 0;
+    overflow: hidden;
 }
 
 .home-fire-hader>image {
-    height: 88rpx;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 2;
+    display: none;
 }
 
 .home-fire-hader-detail {
@@ -132,7 +225,19 @@ page {
     position: absolute;
     width: 100%;
     z-index: 10;
+    display: flex;
+    align-items: center;
 }
+
+/* 绿色主题背景替代原黄底图 */
+.home-fire-bg {
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    z-index: 2;
+    background: linear-gradient(90deg, #07c160 0%, #1bd38c 65%, #eafff3 120%);
+}
+
+/* 叠加图案临时移除，避免 WXSS 解析对布局的影响 */
 
 .home-fire-hader-con {
     align-items: flex-end;
@@ -141,15 +246,10 @@ page {
     padding: 24rpx;
 }
 
-.home-fire-hader-con text:first-child {
-    color: #323539;
-    font-size: 32rpx;
-    font-weight: 600;
-}
-
-.home-fire-hader-con text:last-child {
-    font-size: 24rpx;
-}
+.home-fire-left { display: flex; align-items: center; }
+.home-fire-labe { width: 8rpx; height: 32rpx; background: rgba(255,255,255,0.85); border-radius: 2rpx; }
+.home-fire-title { color: #ffffff; font-size: 32rpx; font-weight: 600; margin-left: 16rpx; }
+.home-fire-meta { font-size: 24rpx; color: rgba(255,255,255,0.9); margin-left: 16rpx; }
 
 .home-fire-con {
     padding: 16rpx 0;
@@ -189,8 +289,11 @@ page {
 }
 
 .home-info {
-    background: #f3f3f3;
-    padding: 34rpx 16rpx 28rpx;
+    background: linear-gradient(90deg, #07c160 0%, #1bd38c 65%, #eafff3 120%);
+    border-radius: 16rpx 16rpx 0 0; /* 顶部圆角，底部直角以与列表无缝衔接 */
+    padding: 16rpx;
+    margin-top: 24rpx;
+    margin-bottom: 0;
 }
 
 .home-info,.home-info-left {
@@ -200,7 +303,7 @@ page {
 }
 
 .home-info-labe {
-    background: #feda59;
+    background: rgba(255,255,255,0.85);
     border-radius: 2rpx;
     height: 32rpx;
     width: 8rpx;
@@ -212,14 +315,14 @@ page {
 }
 
 .home-info-title {
-    color: #323539;
+    color: #ffffff;
     font-size: 32rpx;
     font-weight: 600;
     margin: 0 16rpx;
 }
 
 .home-info-desc {
-    color: #8f9498;
+    color: rgba(255,255,255,0.85);
     font-size: 24rpx;
 }
 
@@ -231,12 +334,16 @@ page {
     height: 44rpx;
     justify-content: center;
     width: 120rpx;
+    background: #ffffff;
+    color: #07c160;
+    box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
 }
 
 .home-industry-content {
     background: #fff;
-    border-radius: 24rpx;
-    padding: 32rpx 24rpx;
+    border-radius: 0 0 16rpx 16rpx; /* 列表作为下半部分的圆角 */
+    padding: 20rpx 16rpx;
+    margin-top: 0;
 }
 
 .home-industry-list {

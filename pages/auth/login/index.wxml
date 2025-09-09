@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="content">
+    <view class="login-card">
+      <view class="header">
+        <text class="title">检测结果查询</text>
+        <text class="subtitle">使用微信手机号一键登录，查看您的检测记录</text>
+      </view>
+
+      <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber">微信一键登录并查询</button>
+
+      <view class="fallback">
+        <text class="fallback-text">无法授权？</text>
+        <text class="fallback-link" bindtap="useSmsLogin">使用手机号验证码登录</text>
+      </view>
+
+      <view class="agreement">
+        登录即同意
+        <text class="link" bindtap="openUserAgreement">《用户协议》</text>
+        和
+        <text class="link" bindtap="openPrivacy">《隐私政策》</text>
+      </view>
+    </view>
+  </view>
+</view>
+

@@ -1,0 +1,26 @@
+.container { 
+  display: block;
+  padding: 0;
+  height: auto;
+  box-sizing: border-box;
+  background: #f3f3f3; 
+}
+.content { padding: 0 16rpx; }
+
+.pay-card {
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.08);
+  padding: 24rpx 16rpx;
+}
+
+.header { margin-bottom: 16rpx; }
+.title { font-size: 34rpx; font-weight: 600; color: #333; }
+.subtitle { display: block; margin-top: 6rpx; font-size: 24rpx; color: #999; }
+
+.qrcode-wrap { display: flex; flex-direction: column; align-items: center; gap: 16rpx; padding: 24rpx 0; }
+.qr-tip { font-size: 26rpx; color: #666; }
+.order-tip { font-size: 24rpx; color: #999; }
+.qr-img { width: 200px; height: 200px; border-radius: 8rpx; background: #fff; }
+
+.btns { display: flex; flex-direction: column; gap: 12rpx; }

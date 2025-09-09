@@ -4,6 +4,12 @@
     "pages/detection/index",
     "pages/detection/survey/index",
     "pages/detection/guide/index",
+    "pages/detection/payment/index",
+    "pages/detection/proof/index",
+    "pages/auth/login/index",
+    "pages/results/list/index",
+    "pages/results/detail/index",
+    "pages/detection/status/index",
     "pages/epidemic/index",
     "pages/profile/index"
   ],

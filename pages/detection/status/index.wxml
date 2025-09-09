@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="content">
+    <view class="status-card">
+      <view class="header">
+        <text class="title">支付审核状态</text>
+        <text class="subtitle">申请编号：{{appId || '—'}}</text>
+      </view>
+
+      <view class="order-info">
+        <view class="row"><text>支付金额：</text><text class="strong">¥{{price || 0}}</text></view>
+        <view class="row"><text>提交时间：</text><text>{{submitTime}}</text></view>
+      </view>
+
+      <view class="section-title">审核进度</view>
+      <view class="steps">
+        <view class="step {{steps[0].status}}"><text class="icon">✅</text><text class="text">凭证已提交</text></view>
+        <view class="step {{steps[1].status}}"><text class="icon">🔄</text><text class="text">人工审核中</text></view>
+        <view class="step {{steps[2].status}}"><text class="icon">⏳</text><text class="text">生成检测号</text></view>
+        <view class="step {{steps[3].status}}"><text class="icon">⏳</text><text class="text">发送通知</text></view>
+      </view>
+
+      <view class="tip">预计审核时间：1-2个工作日</view>
+
+      <view class="btns">
+        <button class="u-btn u-btn-primary u-btn--sm" bindtap="goHome">返回首页</button>
+        <button class="u-btn u-btn-primary u-btn--sm" bindtap="contact">联系客服</button>
+      </view>
+    </view>
+  </view>
+</view>
+

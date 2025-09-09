@@ -1,0 +1,65 @@
+<view class="container">
+  <view class="content">
+    <view class="proof-card">
+      <view class="header">
+        <text class="title">上传支付凭证</text>
+        <text class="subtitle">{{pkg.name || '—'}} · 应付：¥{{pkg.price || 0}}</text>
+      </view>
+
+      <view class="section">
+        <view class="section-title">请填写支付信息</view>
+        <view class="section-body">
+          <!-- 支付方式 -->
+          <view class="form-item">
+            <view class="form-label">支付方式</view>
+            <view class="radio-group">
+              <view wx:for="{{methodOptions}}" wx:key="*this" class="radio-chip {{form.method===item?'checked':''}}" data-value="{{item}}" bindtap="selectMethod">
+                <view class="circle"></view>
+                <text class="chip-text">{{item}}</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 支付订单号 -->
+          <view class="form-item">
+            <view class="form-label">支付订单号</view>
+            <view class="input-wrap">
+              <input placeholder="请输入订单号" bindinput="onOrderNoInput" value="{{form.orderNo}}"/>
+            </view>
+          </view>
+
+          <!-- 实际支付金额 -->
+          <view class="form-item">
+            <view class="form-label">实际支付金额（元）</view>
+            <view class="input-wrap">
+              <input type="digit" placeholder="请输入金额，如 199.00" bindinput="onAmountInput" value="{{form.amount}}"/>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="divider"></view>
+
+      <view class="section">
+        <view class="section-title">上传支付截图（必填）</view>
+        <view class="images">
+          <view class="img-item" wx:for="{{images}}" wx:key="index">
+            <image class="img" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-index="{{index}}"/>
+            <view class="del" bindtap="removeImage" data-index="{{index}}">×</view>
+          </view>
+          <view class="add-item" wx:if="{{images.length < maxImages}}" bindtap="addImages">+
+          </view>
+        </view>
+      </view>
+
+      <view class="section">
+        <view class="section-title">备注信息（可选）</view>
+        <textarea class="textarea" placeholder="如：支付时间、使用账户名、其他补充信息" maxlength="300" bindinput="onRemarkInput" value="{{form.remark}}"></textarea>
+      </view>
+      <view class="actions">
+        <text class="link" bindtap="saveDraft">保存草稿</text>
+        <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submitProof" disabled="{{!canSubmit}}">提交审核</button>
+      </view>
+    </view>
+  </view>
+</view>

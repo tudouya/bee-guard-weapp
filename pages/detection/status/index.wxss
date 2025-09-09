@@ -1,0 +1,28 @@
+.container { 
+  display: block;
+  padding: 0;
+  height: auto;
+  box-sizing: border-box;
+  background: #f3f3f3; 
+}
+.content { padding: 0 16rpx; }
+
+.status-card { background: #fff; border-radius: 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.08); padding: 24rpx 16rpx; }
+.header { margin-bottom: 16rpx; }
+.title { font-size: 34rpx; font-weight: 600; color: #333; }
+.subtitle { display: block; margin-top: 6rpx; font-size: 24rpx; color: #999; }
+
+.order-info { background: #f7f7f7; border-radius: 12rpx; padding: 12rpx; margin-bottom: 16rpx; }
+.row { display: flex; justify-content: space-between; font-size: 28rpx; color: #333; padding: 4rpx 0; }
+.strong { color: #07c160; font-weight: 700; }
+
+.section-title { font-size: 30rpx; color: #333; font-weight: 600; margin: 10rpx 0; }
+.steps { display: flex; flex-direction: column; gap: 10rpx; margin-bottom: 8rpx; }
+.step { display: flex; align-items: center; gap: 10rpx; font-size: 28rpx; color: #666; }
+.step.done .text, .step.doing .text { color: #333; }
+.step.done .icon { color: #07c160; }
+.step.doing .icon { color: #faad14; }
+
+.tip { font-size: 24rpx; color: #999; margin: 12rpx 0 16rpx; }
+.btns { display: flex; gap: 12rpx; }
+

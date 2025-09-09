@@ -1,7 +1,0 @@
-<view class="loading-container">
-    <view class="loading-content">
-        <image src="../../images/tabbar/home.png" class="app-logo"></image>
-        <text class="app-name">新甜蜜</text>
-        <text class="loading-text">正在进入...</text>
-    </view>
-</view>
