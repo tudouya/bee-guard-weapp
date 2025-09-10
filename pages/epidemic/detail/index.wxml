@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="content">
+    <view class="card">
+      <view class="header">
+        <text class="title">{{detail.title || '—'}}</text>
+        <view class="meta">
+          <text class="date">{{detail.date || ''}}</text>
+          <text class="level level-{{detail.level || 'low'}}">{{detail.levelText || ''}}</text>
+        </view>
+      </view>
+
+      <view class="section" wx:if="{{detail.region}}">
+        <text class="label">涉及地区</text>
+        <text class="value">{{detail.region}}</text>
+      </view>
+
+      <view class="section">
+        <view class="content-text" wx:for="{{detail.paragraphs}}" wx:key="index">{{item}}</view>
+      </view>
+
+      <view class="actions">
+        <button class="u-btn u-btn-primary u-btn--sm" bindtap="viewMap">查看地图</button>
+        <button class="u-btn u-btn-primary u-btn--sm" open-type="share">分享</button>
+      </view>
+    </view>
+  </view>
+</view>

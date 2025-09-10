@@ -11,6 +11,7 @@
     "pages/results/detail/index",
     "pages/detection/status/index",
     "pages/epidemic/index",
+    "pages/epidemic/detail/index",
     "pages/profile/index"
   ],
   "window": {
@@ -50,6 +51,43 @@
         "selectedIconPath": "images/tabbar/my-click.png"
       }
     ]
+  },
+  "subpackages": [
+    {
+      "root": "packageKnowledge",
+      "name": "knowledge",
+      "pages": [
+        "pages/disease-list/index",
+        "pages/disease-detail/index",
+        "pages/prevention/index"
+      ]
+    },
+    {
+      "root": "packageCommunity",
+      "name": "community",
+      "pages": [
+        "pages/qa-list/index",
+        "pages/qa-detail/index",
+        "pages/qa-post/index",
+        "pages/share-list/index",
+        "pages/share-detail/index",
+        "pages/share-post/index"
+      ]
+    },
+    {
+      "root": "packageCharts",
+      "name": "charts",
+      "pages": [
+        "pages/epidemic-map/index",
+        "pages/epidemic-trend/index"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/epidemic/index": {
+      "packages": ["packageCharts"],
+      "network": "all"
+    }
   },
   "sitemapLocation": "sitemap.json"
 }

@@ -1,0 +1,6 @@
+.container { display: block; padding: 16rpx; box-sizing: border-box; background: #f3f3f3; height: auto; }
+.selector { display:flex; gap: 12rpx; margin-bottom: 12rpx; }
+.pick { background:#fff; border-radius: 8rpx; padding: 12rpx; box-shadow:0 1rpx 3rpx rgba(0,0,0,0.06); }
+.card { background:#fff; border-radius: 16rpx; padding: 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.08); }
+.chart { width: 100%; height: 420rpx; }
+.loading, .empty { text-align:center; color:#999; padding: 12rpx 0; }

@@ -30,24 +30,15 @@ Page({
   },
 
   viewMap: function() {
-    wx.showToast({
-      title: '疫情地图功能开发中',
-      icon: 'none'
-    });
+    wx.navigateTo({ url: '/packageCharts/pages/epidemic-map/index' });
   },
 
   viewMoreNews: function() {
-    wx.showToast({
-      title: '更多新闻功能开发中',
-      icon: 'none'
-    });
+    wx.navigateTo({ url: '/packageCharts/pages/epidemic-trend/index' });
   },
 
   viewNewsDetail: function(e) {
     const id = e.currentTarget.dataset.id;
-    wx.showToast({
-      title: '新闻详情功能开发中',
-      icon: 'none'
-    });
+    wx.navigateTo({ url: `/pages/epidemic/detail/index?id=${id}` });
   }
 });

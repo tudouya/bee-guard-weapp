@@ -1,0 +1,15 @@
+.container { padding: 0 16rpx; background: #f3f3f3; }
+.card { background:#fff; border-radius: 16rpx; padding: 24rpx 18rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06); margin-top: 16rpx; }
+.header { margin-bottom: 12rpx; }
+.title { display:block; font-size: 40rpx; font-weight: 800; color:#222; line-height: 1.4; }
+.meta { margin-top: 8rpx; display:flex; align-items:center; gap: 12rpx; color:#888; font-size: 26rpx; }
+.date { color:#888; }
+.level { font-size: 24rpx; padding: 4rpx 12rpx; border-radius: 999rpx; }
+.level-high { background:#fff2f0; color:#ff4d4f; }
+.level-medium { background:#fff7e6; color:#faad14; }
+.level-low { background:#f6ffed; color:#52c41a; }
+.section { margin-top: 16rpx; }
+.label { display:block; color:#666; font-size: 26rpx; margin-bottom: 8rpx; }
+.value { color:#333; font-size: 28rpx; }
+.content-text { color:#333; font-size: 32rpx; line-height: 1.6; letter-spacing: 0.2rpx; margin-top: 14rpx; }
+.actions { margin-top: 20rpx; display:flex; gap: 12rpx; }

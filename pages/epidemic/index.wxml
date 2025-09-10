@@ -1,22 +1,18 @@
 <view class="container">
-  <view class="header">
-    <text class="title">疫情数据</text>
-    <text class="desc">全国蜂群疫情状况一览</text>
-  </view>
-  
   <view class="content">
-    <view class="stats-overview">
-      <view class="stat-item">
-        <text class="stat-number">1,256</text>
-        <text class="stat-label">检测点</text>
+    <!-- 顶部关键指标（卡片样式） -->
+    <view class="stats-cards">
+      <view class="card-item">
+        <text class="card-number">1,256</text>
+        <text class="card-label">检测点</text>
       </view>
-      <view class="stat-item">
-        <text class="stat-number">89</text>
-        <text class="stat-label">疫情地区</text>
+      <view class="card-item">
+        <text class="card-number">89</text>
+        <text class="card-label">疫情地区</text>
       </view>
-      <view class="stat-item">
-        <text class="stat-number">23</text>
-        <text class="stat-label">高风险区</text>
+      <view class="card-item">
+        <text class="card-number">23</text>
+        <text class="card-label">高风险区</text>
       </view>
     </view>
     

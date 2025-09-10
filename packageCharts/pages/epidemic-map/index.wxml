@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="content">
+    <view class="selector">
+      <picker mode="selector" range="{{provinces}}" bindchange="onProv">
+        <view class="pick">省：{{region.province}}</view>
+      </picker>
+      <picker mode="selector" range="{{cities}}" bindchange="onCity">
+        <view class="pick">市：{{region.city}}</view>
+      </picker>
+      <picker mode="selector" range="{{districts}}" bindchange="onDist">
+        <view class="pick">县：{{region.district}}</view>
+      </picker>
+    </view>
+    <view class="card">
+      <view class="loading" wx:if="{{loading}}">加载中...</view>
+      <view class="empty" wx:if="{{!loading && empty}}">暂无数据</view>
+      <ec-canvas id="dist" canvas-id="dist" class="chart" ec="{{ec}}" style="width:100%;height:420rpx;"></ec-canvas>
+    </view>
+  </view>
+</view>

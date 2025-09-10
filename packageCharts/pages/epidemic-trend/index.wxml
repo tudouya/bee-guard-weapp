@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="content">
+    <view class="selector">
+      <picker mode="selector" range="{{diseases}}" bindchange="onDisease">
+        <view class="pick">病种：{{currentDisease}}</view>
+      </picker>
+      <picker mode="selector" range="{{months}}" bindchange="onMonth">
+        <view class="pick">月份：{{currentMonth}}</view>
+      </picker>
+    </view>
+    <view class="card">
+      <view class="loading" wx:if="{{loading}}">加载中...</view>
+      <view class="empty" wx:if="{{!loading && empty}}">暂无数据</view>
+      <ec-canvas id="trend" canvas-id="trend" class="chart" ec="{{ec}}" style="width:100%;height:420rpx;"></ec-canvas>
+    </view>
+  </view>
+</view>

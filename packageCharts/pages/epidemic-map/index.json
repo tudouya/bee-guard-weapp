@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "疫情地图",
+  "usingComponents": {
+    "ec-canvas": "../../ec-canvas/ec-canvas"
+  }
+}
