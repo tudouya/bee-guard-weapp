@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="card">
+    <view class="card-hd"><text class="badge">分类介绍</text></view>
+    <view class="title">{{detail.title}}</view>
+    <view class="divider"></view>
+    <view class="kv"><text class="k">简介：</text><text class="v">{{detail.intro}}</text></view>
+    <view class="kv"><text class="k">典型症状：</text><text class="v">{{detail.symptom}}</text></view>
+    <view class="kv"><text class="k">传播方式：</text><text class="v">{{detail.transmit}}</text></view>
+    <view class="kv"><text class="k">防控要点：</text><text class="v">{{detail.prevention}}</text></view>
+  </view>
+
+  <!-- 管理员文章（最新3篇） -->
+  <view class="card article-card">
+    <view class="section-hd">
+      <text class="section-title">文章（{{articles.length}}）</text>
+    </view>
+    <view class="article-list">
+      <view class="article-item" wx:for="{{preview}}" wx:key="id" bindtap="openArticle" data-id="{{item.id}}">
+        <view class="a-title">{{item.title}}</view>
+        <view class="a-brief">{{item.brief}}</view>
+        <view class="a-meta">{{item.date}} · {{item.views}}阅读</view>
+      </view>
+    </view>
+  </view>
+
+</view>

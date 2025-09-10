@@ -1,13 +1,45 @@
 <view class="container">
   <view class="content">
-    <view class="toolbar">
-      <button class="u-btn u-btn-primary u-btn--sm" bindtap="goPost">发布经验</button>
+    <view class="tabs">
+      <view class="tab-item" data-key="disease" bindtap="switchTab">蜂病百科</view>
+      <view class="tab-item" data-key="qa" bindtap="switchTab">蜂农提问</view>
+      <view class="tab-item active" data-key="share" bindtap="switchTab">经验分享</view>
     </view>
-    <view class="list">
-      <view class="item" wx:for="{{list}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
-        <view class="title">{{item.title}}</view>
-        <view class="meta">{{item.author}} · {{item.date}} · 👍 {{item.likes}}</view>
+    <!-- 搜索栏 -->
+    <view class="search">
+      <view class="search-box">
+        <image class="ico" src="https://dtm123.com:7803/targets/image/images/search.png"></image>
+        <input class="ipt" placeholder="搜索热门话题" disabled />
       </view>
     </view>
+    <!-- 话题筛选 Chips -->
+    <view class="chips">
+      <view class="chip active">全部</view>
+      <view class="chip">蜂群动态</view>
+      <view class="chip">其它</view>
+      <view class="chip">问题咨询</view>
+    </view>
+    <view class="panel">
+      <view class="cells">
+        <view class="cell" wx:for="{{list}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
+          <view class="cell-hd">
+            <image class="avatar" src="https://dtm123.com:7803/targets/image/images/010.png"></image>
+          </view>
+          <view class="cell-main">
+            <view class="row-head">
+              <text class="nickname">{{item.author}}</text>
+              <text class="tag">其他</text>
+            </view>
+            <view class="date">{{item.date}}</view>
+            <view class="bubble">{{item.title}}</view>
+          </view>
+          <view class="cell-aside">
+            <view class="metric">👍 {{item.likes}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 悬浮发布按钮（右下） -->
+    <view class="fab" bindtap="goPost" aria-label="发布经验">＋</view>
   </view>
 </view>

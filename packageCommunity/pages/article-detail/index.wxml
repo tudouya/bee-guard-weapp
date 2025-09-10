@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="content">
+    <view class="card">
+      <view class="a-title">{{article.title}}</view>
+      <view class="a-meta">{{article.date}} · {{article.views}}阅读</view>
+      <view class="a-body">{{article.body}}</view>
+    </view>
+    <view class="card" wx:if="{{related && related.length}}">
+      <view class="section-hd">
+        <text class="section-title">相关文章</text>
+      </view>
+      <view class="cells">
+        <view class="cell" wx:for="{{related}}" wx:key="id" bindtap="openArticle" data-id="{{item.id}}">
+          <view class="a-title small">{{item.title}}</view>
+          <view class="a-meta">{{item.date}} · {{item.views}}阅读</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

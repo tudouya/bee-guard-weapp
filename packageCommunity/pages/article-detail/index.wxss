@@ -1,0 +1,12 @@
+.container { display:block; padding:0; background:#f3f3f3; }
+.content { padding: 0 16rpx; }
+.card { background:#fff; border-radius: 16rpx; padding: 16rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06); margin-top: 12rpx; }
+.a-title { font-size: 32rpx; color:#333; font-weight: 800; }
+.a-title.small { font-size: 28rpx; font-weight: 700; }
+.a-meta { margin-top: 6rpx; color:#999; font-size: 22rpx; }
+.a-body { margin-top: 12rpx; color:#333; font-size: 30rpx; line-height: 1.7; }
+.section-hd { margin-bottom: 6rpx; }
+.section-title { font-size: 28rpx; color:#333; font-weight: 700; }
+.cells { }
+.cell { padding: 12rpx 0; border-top: 1rpx solid #f0f0f0; }
+.cell:first-child { border-top: none; }

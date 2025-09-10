@@ -1,10 +1,21 @@
 <view class="container">
   <view class="content">
-    <view class="card">
-      <view class="title">{{item.title}}</view>
-      <view class="meta">{{item.author}} · {{item.date}}</view>
-      <view class="rich">{{item.content}}</view>
-      <view class="status" wx:if="{{item.status!=='approved'}}">内容审核中，暂不展示</view>
+    <!-- 帖子卡片 -->
+    <view class="card post-card">
+      <view class="header">
+        <image class="avatar" src="https://dtm123.com:7803/targets/image/images/010.png"></image>
+        <view class="h-main">
+          <view class="row">
+            <text class="nickname">{{item.author}}</text>
+            <text class="tag">其它</text>
+          </view>
+          <text class="date">{{item.date}}</text>
+        </view>
+        <view class="h-aside">👍 {{item.likes || 0}}</view>
+      </view>
+      <view class="bubble big">{{item.content}}</view>
     </view>
+
+    
   </view>
 </view>

@@ -12,7 +12,8 @@
     "pages/detection/status/index",
     "pages/epidemic/index",
     "pages/epidemic/detail/index",
-    "pages/profile/index"
+    "pages/profile/index",
+    "pages/profile/topicRecord/index"
   ],
   "window": {
     "backgroundColor": "#f3f3f3",
@@ -66,6 +67,9 @@
       "root": "packageCommunity",
       "name": "community",
       "pages": [
+        "pages/disease-list/index",
+        "pages/disease-detail/index",
+        "pages/article-detail/index",
         "pages/qa-list/index",
         "pages/qa-detail/index",
         "pages/qa-post/index",

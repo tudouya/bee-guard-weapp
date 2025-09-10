@@ -1,18 +1,41 @@
 <view class="container">
   <view class="content">
-    <view class="card">
-      <view class="title">{{item.title}}</view>
-      <view class="meta">{{item.author}} · {{item.date}}</view>
-      <view class="desc">{{item.desc}}</view>
-    </view>
-    <view class="card" wx:if="{{item.status==='approved'}}">
-      <view class="sec-title">平台/企业建议</view>
-      <view class="suggest">{{item.suggest || '等待回复'}}
+    <!-- 帖子卡片 -->
+    <view class="card post-card">
+      <view class="header">
+        <image class="avatar" src="https://dtm123.com:7803/targets/image/images/010.png"></image>
+        <view class="h-main">
+          <view class="row">
+            <text class="nickname">{{item.author}}</text>
+            <text class="tag">问题咨询</text>
+          </view>
+          <text class="date">{{item.date}}</text>
+        </view>
+        <view class="h-aside">{{item.views || 12}}人参与话题</view>
       </view>
+      <view class="bubble big">{{item.desc}}</view>
+      <view class="post-foot"><text class="metric">回复{{replies.length}}</text></view>
     </view>
-    <view class="card warn" wx:if="{{item.status!=='approved'}}">
-      <view class="sec-title">审核中</view>
-      <view class="suggest">内容待审核通过后展示</view>
+
+    <!-- 建议区/审核状态 -->
+    <view class="panel" wx:if="{{item.suggest}}">
+      <view class="sec-title">平台/企业建议</view>
+      <view class="suggest">{{item.suggest}}</view>
     </view>
+
+    <!-- 回复列表（含嵌套） -->
+    <view class="card reply-card" wx:for="{{replies}}" wx:key="index">
+      <view class="r-hd">
+        <image class="r-avatar" src="https://dtm123.com:7803/targets/image/images/010.png"></image>
+        <view class="r-meta"><text class="r-name">{{item.author}}</text><text class="r-date">{{item.date}}</text></view>
+      </view>
+      <view class="r-text">{{item.text}}</view>
+      <view class="r-bubble" wx:for="{{item.children}}" wx:key="cindex">{{item.author}}：{{item.text}}</view>
+    </view>
+  </view>
+  <!-- 底部发布栏 -->
+  <view class="reply-bar">
+    <input class="reply-input" placeholder="发表回复"/>
+    <button class="reply-btn u-btn u-btn-primary u-btn--sm">发布</button>
   </view>
 </view>

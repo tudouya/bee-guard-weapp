@@ -1,52 +1,29 @@
 Page({
   data: {
-    userInfo: null,
-    isLoggedIn: false
+    userInfo: {},
+    projectNum: 0,
+    hiveNum: 0,
+    deviceNum: 0,
+    postNum: 0
   },
-
-  onLoad: function (options) {
-    
+  onLoad() {
+    this.mockInit();
   },
-
-  handleLogin: function() {
-    wx.showToast({
-      title: '登录功能开发中',
-      icon: 'none'
+  onShow() {
+    this.mockInit();
+  },
+  mockInit(){
+    this.setData({
+      userInfo: wx.getStorageSync('userInfo') || { user_nick: '游客', user_avatar: 'https://dtm123.com:7803/targets/image/images/avatar.png', user_phone: '' },
+      projectNum: 3,
+      hiveNum: 12,
+      deviceNum: 48,
+      postNum: 5
     });
   },
-
-  goToDetectionHistory: function() {
-    wx.showToast({
-      title: '检测记录功能开发中',
-      icon: 'none'
-    });
-  },
-
-  goToMyReports: function() {
-    wx.showToast({
-      title: '我的报告功能开发中',
-      icon: 'none'
-    });
-  },
-
-  goToSettings: function() {
-    wx.showToast({
-      title: '设置功能开发中',
-      icon: 'none'
-    });
-  },
-
-  goToHelp: function() {
-    wx.showToast({
-      title: '帮助反馈功能开发中',
-      icon: 'none'
-    });
-  },
-
-  goToAbout: function() {
-    wx.showToast({
-      title: '关于我们功能开发中',
-      icon: 'none'
-    });
-  }
+  handleInfo(){ wx.showToast({ title: '个人信息（占位）', icon: 'none' }); },
+  handleWarnRecord(){ wx.showToast({ title: '预警记录（占位）', icon: 'none' }); },
+  handleBrowseRecord(){ wx.showToast({ title: '浏览记录（占位）', icon: 'none' }); },
+  handleTopicRecord(){ wx.navigateTo({ url: '/pages/profile/topicRecord/index' }); },
+  handleWarrant(){ wx.showToast({ title: '消息授权（占位）', icon: 'none' }); }
 });

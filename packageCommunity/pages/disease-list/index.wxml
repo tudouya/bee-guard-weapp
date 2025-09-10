@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="content">
+    <!-- 顶部 Tab（沿用检测页风格） -->
+    <view class="tabs">
+      <view class="tab-item {{active==='disease'?'active':''}}" data-key="disease" bindtap="switchTab">蜂病百科</view>
+      <view class="tab-item {{active==='qa'?'active':''}}" data-key="qa" bindtap="switchTab">蜂农提问</view>
+      <view class="tab-item {{active==='share'?'active':''}}" data-key="share" bindtap="switchTab">经验分享</view>
+    </view>
+
+    <!-- 分类列表（紧贴左右 16rpx） -->
+    <view class="cells">
+      <view class="cell" wx:for="{{list}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
+        <view class="cell-main">
+          <view class="name">{{item.name}}</view>
+          <view class="brief">{{item.brief}}</view>
+          <view class="symptom">典型症状：{{item.symptom}}</view>
+        </view>
+        <view class="badge">{{item.count}}篇</view>
+      </view>
+    </view>
+  </view>
+</view>

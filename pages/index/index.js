@@ -41,10 +41,7 @@ Page({
         });
     },
     handleKnowledge: function() {
-        wx.showToast({
-            title: '防控知识功能开发中',
-            icon: 'none'
-        });
+        wx.navigateTo({ url: '/packageCommunity/pages/disease-list/index' });
     },
     handleInfo: function() {
         wx.switchTab({

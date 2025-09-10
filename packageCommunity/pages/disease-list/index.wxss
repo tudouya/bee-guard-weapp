@@ -1,0 +1,22 @@
+.container { display:block; padding: 0; background: #f3f3f3; }
+.content { padding: 0 16rpx; }
+/* Tab：参考检测页风格 */
+.tabs { display:flex; background:#fff; border-radius: 16rpx; overflow:hidden; margin: 12rpx 0 16rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.08); border:1rpx solid #e6e6e6; }
+.tab-item { flex:1; text-align:center; padding: 24rpx 8rpx; color:#7a7d80; font-size: 28rpx; position: relative; }
+.tab-item + .tab-item { border-left:1rpx solid #f0f0f0; }
+.tab-item.active { color:#07c160; background: rgba(7,193,96,0.24); border:1rpx solid rgba(7,193,96,0.35); font-weight: 600; }
+
+/* 面板卡片容器 */
+.panel { background:transparent; padding: 0; box-shadow:none; }
+.panel-hd { display:none; }
+.panel-title,.panel-sub { display:none; }
+
+/* 分类条目：与首页卡片一致留白 */
+.cells { }
+.cell { display:flex; align-items:flex-start; justify-content:space-between; padding: 16rpx; background:#fff; border-radius: 16rpx; margin-top: 12rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06); }
+.cell:first-child { margin-top: 0; }
+.cell-main { flex:1; padding-right: 12rpx; }
+.name { font-size: 30rpx; font-weight: 700; color:#333; }
+.brief { margin-top: 6rpx; color:#666; font-size: 24rpx; }
+.symptom { margin-top: 6rpx; color:#999; font-size: 22rpx; }
+.badge { padding: 6rpx 14rpx; font-size: 22rpx; color:#07c160; background: rgba(7,193,96,0.12); border-radius: 999rpx; white-space: nowrap; }
