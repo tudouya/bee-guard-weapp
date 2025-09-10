@@ -1,0 +1,10 @@
+<view class="container">
+  <view class="content">
+    <view class="card">
+      <view class="title">{{item.title}}</view>
+      <view class="meta">{{item.author}} · {{item.date}}</view>
+      <view class="rich">{{item.content}}</view>
+      <view class="status" wx:if="{{item.status!=='approved'}}">内容审核中，暂不展示</view>
+    </view>
+  </view>
+</view>

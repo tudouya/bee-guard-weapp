@@ -1,0 +1,9 @@
+.container { padding: 16rpx; }
+.card { background: #fff; border-radius: 16rpx; padding: 24rpx 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.06); }
+.header { margin-bottom: 12rpx; }
+.title { font-size: 34rpx; font-weight: 700; color:#333; }
+.subtitle { display:block; margin-top: 6rpx; color:#666; font-size: 24rpx; }
+.section { margin-top: 16rpx; }
+.sec-title { display:block; font-weight: 600; color:#333; margin-bottom: 6rpx; }
+.text { display:block; color:#555; font-size: 26rpx; line-height: 1.6; }
+.actions { margin-top: 20rpx; }

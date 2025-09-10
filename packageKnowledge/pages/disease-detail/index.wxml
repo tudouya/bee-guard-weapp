@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="content">
+    <view class="card">
+      <view class="header">
+        <text class="title">{{title}}</text>
+        <text class="subtitle">百科 · 介绍与防控</text>
+      </view>
+      <view class="section">
+        <text class="sec-title">简介</text>
+        <text class="text">{{intro}}</text>
+      </view>
+      <view class="section">
+        <text class="sec-title">典型症状</text>
+        <text class="text">{{symptom}}</text>
+      </view>
+      <view class="section">
+        <text class="sec-title">传播方式</text>
+        <text class="text">{{transmit}}</text>
+      </view>
+      <view class="section">
+        <text class="sec-title">防控方案</text>
+        <text class="text">{{prevention}}</text>
+      </view>
+      <view class="actions">
+        <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="openProducts">相关产品推荐</button>
+      </view>
+    </view>
+  </view>
+</view>

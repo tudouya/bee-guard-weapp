@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="content">
+    <view class="card">
+      <view class="form-item">
+        <view class="label">标题</view>
+        <input class="input" placeholder="请输入问题标题" bindinput="onTitle" value="{{form.title}}"/>
+      </view>
+      <view class="form-item">
+        <view class="label">问题描述</view>
+        <textarea class="textarea" placeholder="请描述问题，必要时附图/视频" bindinput="onDesc" value="{{form.desc}}"></textarea>
+      </view>
+      <view class="form-item">
+        <view class="label">图片（占位）</view>
+        <view class="uploader">
+          <view class="thumb" wx:for="{{images}}" wx:key="index" bindtap="preview" data-index="{{index}}">
+            <image class="img" src="{{item}}" mode="aspectFill"/>
+            <view class="del" bindtap="remove" data-index="{{index}}">×</view>
+          </view>
+          <view class="add" bindtap="choose">+</view>
+        </view>
+      </view>
+      <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submit">提交（审核后展示）</button>
+    </view>
+  </view>
+</view>

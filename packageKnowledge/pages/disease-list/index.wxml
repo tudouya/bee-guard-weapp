@@ -1,0 +1,20 @@
+<view class="container">
+  <view class="content">
+    <view class="card">
+      <view class="header">
+        <text class="title">蜂病百科</text>
+        <text class="subtitle">常见病害与防控</text>
+      </view>
+      <view class="list">
+        <view class="item" wx:for="{{list}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
+          <view class="info">
+            <text class="name">{{item.name}}</text>
+            <text class="brief">{{item.brief}}</text>
+          </view>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+      <button class="u-btn u-btn-primary u-btn--sm" bindtap="openPrevention">查看综合防控</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+.container { padding: 16rpx; }
+.card { background:#fff; border-radius: 16rpx; padding: 24rpx 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.06); }
+.title { font-size: 32rpx; font-weight:700; color:#333; }
+.meta { margin-top: 6rpx; color:#999; font-size: 22rpx; }
+.rich { margin-top: 12rpx; color:#555; font-size: 26rpx; line-height: 1.6; }
+.status { margin-top: 12rpx; color:#faad14; font-size: 24rpx; }

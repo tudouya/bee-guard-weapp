@@ -1,0 +1,12 @@
+.container { padding: 16rpx; }
+.card { background: #fff; border-radius: 16rpx; padding: 24rpx 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.06); }
+.header { margin-bottom: 16rpx; }
+.title { font-size: 36rpx; font-weight: 700; color: #333; }
+.subtitle { display:block; margin-top: 8rpx; color: #666; font-size: 24rpx; }
+.list { margin: 8rpx 0; }
+.item { display:flex; align-items:center; justify-content:space-between; padding: 20rpx 0; border-bottom: 1rpx solid #f0f0f0; }
+.item:last-child { border-bottom: none; }
+.info { flex: 1; padding-right: 16rpx; }
+.name { display:block; font-size: 28rpx; color:#333; margin-bottom: 6rpx; }
+.brief { display:block; font-size: 24rpx; color:#999; }
+.arrow { color:#bbb; font-size: 32rpx; }

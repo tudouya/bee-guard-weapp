@@ -1,0 +1,16 @@
+<view class="container">
+  <view class="content">
+    <view class="card">
+      <view class="header">
+        <text class="title">综合防控方案</text>
+        <text class="subtitle">良好管理 · 监测与隔离 · 合理用药</text>
+      </view>
+      <view class="section">
+        <text class="text">1) 建立常态化健康监测机制，发现异常及时隔离。</text>
+        <text class="text">2) 保持蜂具清洁与环境干燥，减少病原残留。</text>
+        <text class="text">3) 避免盗蜂与不当调群，控制传播途径。</text>
+        <text class="text">4) 按指导合理用药，遵守休药期与安全规范。</text>
+      </view>
+    </view>
+  </view>
+</view>

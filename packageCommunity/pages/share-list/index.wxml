@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="content">
+    <view class="toolbar">
+      <button class="u-btn u-btn-primary u-btn--sm" bindtap="goPost">发布经验</button>
+    </view>
+    <view class="list">
+      <view class="item" wx:for="{{list}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
+        <view class="title">{{item.title}}</view>
+        <view class="meta">{{item.author}} · {{item.date}} · 👍 {{item.likes}}</view>
+      </view>
+    </view>
+  </view>
+</view>

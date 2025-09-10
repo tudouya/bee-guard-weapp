@@ -1,0 +1,18 @@
+<view class="container">
+  <view class="content">
+    <view class="card">
+      <view class="title">{{item.title}}</view>
+      <view class="meta">{{item.author}} · {{item.date}}</view>
+      <view class="desc">{{item.desc}}</view>
+    </view>
+    <view class="card" wx:if="{{item.status==='approved'}}">
+      <view class="sec-title">平台/企业建议</view>
+      <view class="suggest">{{item.suggest || '等待回复'}}
+      </view>
+    </view>
+    <view class="card warn" wx:if="{{item.status!=='approved'}}">
+      <view class="sec-title">审核中</view>
+      <view class="suggest">内容待审核通过后展示</view>
+    </view>
+  </view>
+</view>
