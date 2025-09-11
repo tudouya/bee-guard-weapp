@@ -43,6 +43,18 @@ Page({
     handleKnowledge: function() {
         wx.navigateTo({ url: '/packageCommunity/pages/disease-list/index' });
     },
+    // 新增：企业展示
+    handleEnterprise: function() {
+        wx.showToast({ title: '功能开发中', icon: 'none' });
+    },
+    // 新增：产品推荐
+    handleProduct: function() {
+        wx.showToast({ title: '功能开发中', icon: 'none' });
+    },
+    // 新增：答疑解惑（跳转社区三标签页并默认激活“蜂农提问”）
+    handleQna: function() {
+        wx.navigateTo({ url: '/packageCommunity/pages/disease-list/index?tab=qa' });
+    },
     handleInfo: function() {
         wx.switchTab({
             url: '/pages/epidemic/index'

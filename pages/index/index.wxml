@@ -85,6 +85,19 @@
                     <image src="https://dtm123.com:7803/targets/image/images/015.png"></image>
                     <text>防控知识</text>
                 </view>
+                <!-- 新增三个功能板块：企业展示、产品推荐、答疑解惑（图标复用） -->
+                <view bindtap="handleEnterprise" class="home-list-item">
+                    <image src="https://dtm123.com:7803/targets/image/images/004.png"></image>
+                    <text>企业展示</text>
+                </view>
+                <view bindtap="handleProduct" class="home-list-item">
+                    <image src="https://dtm123.com:7803/targets/image/images/013.png"></image>
+                    <text>产品推荐</text>
+                </view>
+                <view bindtap="handleQna" class="home-list-item">
+                    <image src="https://dtm123.com:7803/targets/image/images/015.png"></image>
+                    <text>答疑解惑</text>
+                </view>
             </view>
             <view class="home-fire">
                 <view class="home-fire-hader">

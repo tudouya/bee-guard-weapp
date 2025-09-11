@@ -188,10 +188,16 @@ page {
     display: flex;
 }
 
+.home-list { flex-wrap: wrap; }
+
 .home-list-item {
     flex-direction: column;
     width: 33.33%;
+    margin-top: 16rpx; /* 第二行与第一行的间距 */
 }
+
+/* 第一行不需要顶部间距 */
+.home-list-item:nth-child(-n+3) { margin-top: 0; }
 
 .home-list-item image {
     height: 88rpx;
