@@ -1,5 +1,6 @@
 <view class="my">
-    <image class="my-bj" src="https://dtm123.com:7803/targets/image/images/mybj.png"></image>
+    <!-- 品牌配色顶部背景（参考首页 Banner） -->
+    <view class="my-banner" style="height: {{bannerHeight}}px;"></view>
     <view class="my-con">
         <view class="my-con-header">
             <view bindtap="handleInfo" class="my-con-header-left">
@@ -16,7 +17,7 @@
             </view>
             <image bindtap="handleInfo" class="my-header-con-top-set" src="https://dtm123.com:7803/targets/image/images/set.png"></image>
         </view>
-        <view class="my-brief">
+        <view class="my-brief" id="data-board">
             <view class="my-brief-con">
                 <view class="my-brief-title">数据看板</view>
                 <view class="my-title my-board">
@@ -44,17 +45,17 @@
         </view>
         <view class="my-brief">
             <view class="my-list">
-                <view bindtap="handleWarnRecord" class="my-list-item">
+                <view bindtap="handleMyResults" class="my-list-item">
                     <view class="my-list-item-left">
                         <image src="https://dtm123.com:7803/targets/image/images/warn.png"></image>
-                        <text>预警记录</text>
+                        <text>我的检测记录</text>
                     </view>
                     <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
                 </view>
-                <view bindtap="handleBrowseRecord" class="my-list-item">
+                <view bindtap="handlePaidFlow" class="my-list-item">
                     <view class="my-list-item-left">
                         <image src="https://dtm123.com:7803/targets/image/images/information.png"></image>
-                        <text>资讯浏览记录</text>
+                        <text>自费检测与审核</text>
                     </view>
                     <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
                 </view>
@@ -62,6 +63,20 @@
                     <view class="my-list-item-left">
                         <image src="https://dtm123.com:7803/targets/image/images/topic.png"></image>
                         <text>话题发布/回复</text>
+                    </view>
+                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                </view>
+                <view bindtap="handleGuide" class="my-list-item">
+                    <view class="my-list-item-left">
+                        <image src="https://dtm123.com:7803/targets/image/images/information.png"></image>
+                        <text>邮寄指南</text>
+                    </view>
+                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                </view>
+                <view bindtap="handleKnowledge" class="my-list-item">
+                    <view class="my-list-item-left">
+                        <image src="https://dtm123.com:7803/targets/image/images/topic.png"></image>
+                        <text>知识库与社区</text>
                     </view>
                     <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
                 </view>

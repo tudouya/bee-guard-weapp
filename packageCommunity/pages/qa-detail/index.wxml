@@ -1,5 +1,6 @@
 <view class="container">
   <view class="content">
+    <view class="backbar"><button class="u-btn u-btn-primary u-btn--sm" bindtap="goBackToCommunity">返回列表</button></view>
     <!-- 帖子卡片 -->
     <view class="card post-card">
       <view class="header">

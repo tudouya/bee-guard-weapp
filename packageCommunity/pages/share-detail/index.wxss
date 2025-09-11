@@ -14,3 +14,5 @@
 
 .bubble.big { background:#f5f7fa; color:#333; font-size: 30rpx; line-height: 1.7; padding: 16rpx; border-radius: 12rpx; margin-top: 10rpx; }
 .status { margin-top: 12rpx; color:#faad14; font-size: 24rpx; }
+/* 顶部返回条 */
+.backbar { padding: 12rpx 0; }

@@ -1,22 +1,99 @@
 <view class="container">
   <view class="content">
-    <!-- 顶部 Tab（沿用检测页风格） -->
+    <!-- 顶部 Tab（与“话题发布/回复”一致，社区三入口统一至此） -->
     <view class="tabs">
       <view class="tab-item {{active==='disease'?'active':''}}" data-key="disease" bindtap="switchTab">蜂病百科</view>
       <view class="tab-item {{active==='qa'?'active':''}}" data-key="qa" bindtap="switchTab">蜂农提问</view>
       <view class="tab-item {{active==='share'?'active':''}}" data-key="share" bindtap="switchTab">经验分享</view>
     </view>
 
-    <!-- 分类列表（紧贴左右 16rpx） -->
-    <view class="cells">
-      <view class="cell" wx:for="{{list}}" wx:key="id" bindtap="openDetail" data-id="{{item.id}}">
-        <view class="cell-main">
-          <view class="name">{{item.name}}</view>
-          <view class="brief">{{item.brief}}</view>
-          <view class="symptom">典型症状：{{item.symptom}}</view>
+    <!-- Disease Tab -->
+    <block wx:if="{{active==='disease'}}">
+      <view class="cells">
+        <view class="cell" wx:for="{{diseaseList}}" wx:key="id" bindtap="openDiseaseDetail" data-id="{{item.id}}">
+          <view class="cell-main">
+            <view class="name">{{item.name}}</view>
+            <view class="brief">{{item.brief}}</view>
+            <view class="symptom">典型症状：{{item.symptom}}</view>
+          </view>
+          <view class="badge">{{item.count}}篇</view>
         </view>
-        <view class="badge">{{item.count}}篇</view>
       </view>
-    </view>
+    </block>
+
+    <!-- QA Tab -->
+    <block wx:elif="{{active==='qa'}}">
+      <!-- 搜索与筛选占位（可按需启用） -->
+      <view class="search">
+        <view class="search-box">
+          <image class="ico" src="https://dtm123.com:7803/targets/image/images/search.png"></image>
+          <input class="ipt" placeholder="搜索热门话题" disabled />
+        </view>
+      </view>
+      <view class="chips">
+        <view class="chip active">全部</view>
+        <view class="chip">蜂群动态</view>
+        <view class="chip">其它</view>
+        <view class="chip">问题咨询</view>
+      </view>
+      <view class="panel">
+        <view class="cells">
+          <view class="cell" wx:for="{{qaList}}" wx:key="id" bindtap="openQaDetail" data-id="{{item.id}}">
+            <view class="cell-hd">
+              <image class="avatar" src="https://dtm123.com:7803/targets/image/images/010.png"></image>
+            </view>
+            <view class="cell-main">
+              <view class="row-head">
+                <text class="nickname">{{item.author}}</text>
+                <text class="tag">问题咨询</text>
+              </view>
+              <view class="date">{{item.date}}</view>
+              <view class="bubble">{{item.title}}</view>
+            </view>
+            <view class="cell-aside">
+              <view class="metric">13人参与话题</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="fab" bindtap="goQaPost" aria-label="发布问题">＋</view>
+    </block>
+
+    <!-- Share Tab -->
+    <block wx:elif="{{active==='share'}}">
+      <view class="search">
+        <view class="search-box">
+          <image class="ico" src="https://dtm123.com:7803/targets/image/images/search.png"></image>
+          <input class="ipt" placeholder="搜索热门话题" disabled />
+        </view>
+      </view>
+      <view class="chips">
+        <view class="chip active">全部</view>
+        <view class="chip">蜂群动态</view>
+        <view class="chip">其它</view>
+        <view class="chip">问题咨询</view>
+      </view>
+      <view class="panel">
+        <view class="cells">
+          <view class="cell" wx:for="{{shareList}}" wx:key="id" bindtap="openShareDetail" data-id="{{item.id}}">
+            <view class="cell-hd">
+              <image class="avatar" src="https://dtm123.com:7803/targets/image/images/010.png"></image>
+            </view>
+            <view class="cell-main">
+              <view class="row-head">
+                <text class="nickname">{{item.author}}</text>
+                <text class="tag">其他</text>
+              </view>
+              <view class="date">{{item.date}}</view>
+              <view class="bubble">{{item.title}}</view>
+            </view>
+            <view class="cell-aside">
+              <view class="metric">👍 {{item.likes}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="fab" bindtap="goSharePost" aria-label="发布经验">＋</view>
+    </block>
   </view>
 </view>

@@ -1,8 +1,9 @@
 page{background:#f3f3f3}
 .my{position:relative}
-.my-bj{height:240rpx;z-index:2}
-.my-bj,.my-con{position:absolute;top:0;width:100%}
-.my-con{z-index:9}
+/* 顶部品牌配色背景（替换旧背景图） */
+.my-banner{position:absolute;top:0;left:0;right:0;min-height:240rpx;width:100%;z-index:2;background:linear-gradient(to bottom right,#15c06b 0%,#07c160 50%,#04924d 100%)}
+.my-con{position:absolute;top:0;width:100%;z-index:9}
+/* 装饰元素已移除，保留纯渐变背景 */
 .my-con-header{display:flex;height:188rpx;justify-content:space-between;padding:0 24rpx}
 .my-con-header-left{align-items:center;display:flex}
 .my-con-header-avatar{border-radius:104rpx;height:104rpx;margin-right:24rpx;width:104rpx}

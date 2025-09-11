@@ -1,4 +1,7 @@
 <view class="container">
+  <view class="backbar" style="padding: 12rpx 0 0 0; margin: 0 0 0 0;">
+    <button class="u-btn u-btn-primary u-btn--sm" bindtap="goBackToCommunity">返回列表</button>
+  </view>
   <view class="card">
     <view class="card-hd"><text class="badge">分类介绍</text></view>
     <view class="title">{{detail.title}}</view>

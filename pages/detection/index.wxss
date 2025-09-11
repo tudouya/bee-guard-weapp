@@ -10,40 +10,42 @@
 
 .tabs {
   display: flex;
+  align-items: center;
+  justify-content: space-around;
   background: #fff;
-  /* 放入 .content 后，与表单视觉宽度完全一致 */
-  margin: 0 0 24rpx 0;
-  border-radius: 16rpx;
-  overflow: hidden;
-  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.08);
-  border: 1rpx solid #e6e6e6; /* 提升边界清晰度 */
+  height: 88rpx;
+  margin: 0 0 12rpx 0;
+  /* 铺满整行，与标题栏视觉融合 */
+  margin-left: -16rpx;
+  margin-right: -16rpx;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .tab-item {
   flex: 1;
   text-align: center;
-  padding: 24rpx 8rpx; /* 收窄高度更紧凑 */
-  color: #7a7d80; /* 非激活态更收敛 */
+  color: #666;
   font-size: 28rpx;
-  position: relative;
-  transition: all 0.3s ease;
+  height: 82rpx;
+  line-height: 82rpx;
+  border-bottom: 6rpx solid transparent;
+  transition: color 0.2s ease;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* 标签间分隔线 */
-.tab-item + .tab-item { border-left: 1rpx solid #f0f0f0; }
-
+/* 选中态：主色 + 底部高亮线（无整框边框） */
 .tab-item.active {
   color: #07c160;
-  background: rgba(7, 193, 96, 0.24);
-  border: 1rpx solid rgba(7, 193, 96, 0.35);
-  font-weight: 600;
+  font-weight: 700;
+  border-bottom-color: #07c160;
 }
 
-/* 去掉标签页底部短横线 */
+/* 去除以往激活态的背景与描边效果（保持纯净的下边框高亮） */
 .tab-item.active::after { content: none; display: none; }
 
 .content {

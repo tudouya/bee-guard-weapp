@@ -22,5 +22,9 @@ Page({
       { author: '蜂友C', date: '2025-01-08', text: '我遇到过类似情况，按流程做检测后对症处理就好了。' }
     ];
     this.setData({ item, replies });
+  },
+  // 返回社区统一页（蜂农提问 Tab）
+  goBackToCommunity(){
+    wx.redirectTo({ url: '/packageCommunity/pages/disease-list/index?tab=qa' });
   }
 });

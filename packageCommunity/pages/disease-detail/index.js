@@ -48,10 +48,14 @@ Page({
   },
   switchTab(e){
     const key = e.currentTarget.dataset.key;
-    if (key === 'qa') { wx.redirectTo({ url: '/packageCommunity/pages/qa-list/index' }); return; }
-    if (key === 'share') { wx.redirectTo({ url: '/packageCommunity/pages/share-list/index' }); return; }
+    if (key === 'qa') { wx.redirectTo({ url: '/packageCommunity/pages/disease-list/index?tab=qa' }); return; }
+    if (key === 'share') { wx.redirectTo({ url: '/packageCommunity/pages/disease-list/index?tab=share' }); return; }
   },
   goAsk(){ wx.navigateTo({ url: '/packageCommunity/pages/qa-post/index' }); },
   goShare(){ wx.navigateTo({ url: '/packageCommunity/pages/share-post/index' }); },
-  openArticle(e){ const aid = e.currentTarget.dataset.id; wx.navigateTo({ url: `/packageCommunity/pages/article-detail/index?id=${aid}&d=${this.data.diseaseId}` }); }
+  openArticle(e){ const aid = e.currentTarget.dataset.id; wx.navigateTo({ url: `/packageCommunity/pages/article-detail/index?id=${aid}&d=${this.data.diseaseId}` }); },
+  // 返回社区统一页（蜂病百科 Tab）
+  goBackToCommunity(){
+    wx.redirectTo({ url: '/packageCommunity/pages/disease-list/index?tab=disease' });
+  }
 });

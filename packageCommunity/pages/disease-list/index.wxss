@@ -1,10 +1,9 @@
 .container { display:block; padding: 0; background: #f3f3f3; }
 .content { padding: 0 16rpx; }
-/* Tab：参考检测页风格 */
-.tabs { display:flex; background:#fff; border-radius: 16rpx; overflow:hidden; margin: 12rpx 0 16rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.08); border:1rpx solid #e6e6e6; }
-.tab-item { flex:1; text-align:center; padding: 24rpx 8rpx; color:#7a7d80; font-size: 28rpx; position: relative; }
-.tab-item + .tab-item { border-left:1rpx solid #f0f0f0; }
-.tab-item.active { color:#07c160; background: rgba(7,193,96,0.24); border:1rpx solid rgba(7,193,96,0.35); font-weight: 600; }
+/* Tab：与“话题发布/回复”一致：整行白底、无边框，激活仅底边高亮 */
+.tabs { display:flex; align-items:center; justify-content:space-around; background:#fff; height:88rpx; margin: 0 0 12rpx 0; margin-left:-16rpx; margin-right:-16rpx; border:0; border-radius:0; box-shadow:none; }
+.tab-item { flex:1; text-align:center; color:#666; font-size:28rpx; height:82rpx; line-height:82rpx; border-bottom:6rpx solid transparent; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tab-item.active { color:#07c160; font-weight:700; border-bottom-color:#07c160; }
 
 /* 面板卡片容器 */
 .panel { background:transparent; padding: 0; box-shadow:none; }
@@ -20,3 +19,24 @@
 .brief { margin-top: 6rpx; color:#666; font-size: 24rpx; }
 .symptom { margin-top: 6rpx; color:#999; font-size: 22rpx; }
 .badge { padding: 6rpx 14rpx; font-size: 22rpx; color:#07c160; background: rgba(7,193,96,0.12); border-radius: 999rpx; white-space: nowrap; }
+
+/* QA/Share 专用样式整合 */
+.search { margin: 12rpx 0; }
+.search-box { display:flex; align-items:center; background:#fff; border-radius: 999rpx; padding: 12rpx 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.06); }
+.search-box .ico { width: 28rpx; height: 28rpx; margin-right: 8rpx; }
+.search-box .ipt { flex:1; color:#999; }
+
+.chips { display:flex; flex-wrap:wrap; gap: 12rpx; margin-bottom: 8rpx; }
+.chip { padding: 10rpx 16rpx; background:#fff; border-radius: 999rpx; color:#666; font-size: 24rpx; }
+.chip.active { color:#07c160; background: rgba(7,193,96,0.16); }
+
+.cell-hd { margin-right: 12rpx; }
+.avatar { width: 64rpx; height: 64rpx; border-radius: 50%; background:#f0f0f0; }
+.row-head { display:flex; align-items:center; gap: 12rpx; }
+.nickname { font-size: 28rpx; color:#333; font-weight: 700; }
+.tag { font-size: 22rpx; color:#ff8f1f; background: #fff5e6; padding: 4rpx 10rpx; border-radius: 999rpx; }
+.date { margin-top: 4rpx; color:#999; font-size: 22rpx; }
+.bubble { margin-top: 10rpx; background:#f5f7fa; color:#333; font-size: 28rpx; line-height: 1.6; padding: 14rpx; border-radius: 12rpx; }
+.cell-aside { align-self: flex-start; white-space: nowrap; color:#999; font-size: 22rpx; }
+.metric { padding-top: 6rpx; }
+.fab { position: fixed; right: 36rpx; bottom: 128px; width: 112rpx; height: 112rpx; border-radius: 50%; background:#07c160; color:#fff; display:flex; align-items:center; justify-content:center; font-size: 64rpx; line-height: 1; box-shadow: 0 10rpx 22rpx rgba(7,193,96,0.35); }

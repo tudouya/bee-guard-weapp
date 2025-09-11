@@ -29,7 +29,12 @@ Page({
     loggedIn: false
   },
 
-  onLoad: function () {},
+  onLoad: function (options) {
+    // 支持通过 ?mode=paid 定位到自费检测分段
+    if (options && options.mode && (options.mode === 'paid' || options.mode === 'code')) {
+      this.setData({ activeMode: options.mode });
+    }
+  },
 
   // 检测号输入事件
   onDetectionNumberInput: function(e) {

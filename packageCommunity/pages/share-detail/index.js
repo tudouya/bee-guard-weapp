@@ -12,6 +12,9 @@ Page({
       status: id === '2' ? 'approved' : 'pending'
     };
     this.setData({ item });
+  },
+  // 返回社区统一页（经验分享 Tab）
+  goBackToCommunity(){
+    wx.redirectTo({ url: '/packageCommunity/pages/disease-list/index?tab=share' });
   }
 });
-

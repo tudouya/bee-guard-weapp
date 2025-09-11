@@ -45,3 +45,59 @@
 
   - 不跑通发布与审核流，只保留发布表单 UI。
   - 文章数据暂用本地 mock，后端完成后将 ARTICLE 抽到 services/community.js，统一替换。
+
+
+
+  建议导航结构与跳转
+
+  - 检测服务
+      - 我的检测记录 → 跳转 /pages/results/list/index（替换“预警记录”）
+      - 自费检测与审核 → 跳转 /pages/detection/index 且默认激活“自费检测”分段（替换“资讯浏览记录”）
+      - 邮寄指南 → 跳转 /pages/detection/guide/index（保留常用入口，减少用户迷路）
+  - 社区与知识
+      - 我的话题发布/回复 → 保留 /pages/profile/topicRecord/index
+      - 知识库与社区 → 跳转 /packageCommunity/pages/disease-list/index（统一三标签入口）
+  - 疫情可视化
+      - 疫情地图/趋势 → 跳转 /packageCharts/pages/epidemic-map/index 或 /packageCharts/pages/epidemic-trend/index
+  - 账户与设置
+      - 账号与绑定 → 若未登录跳转 /pages/auth/login/index；已登录展示手机号并提示“更换手机号”（占位）
+      - 消息通知授权 → 保留现有授权占位
+      - 帮助与客服 → 弹出电话/复制客服微信（现有方法可复用）
+      - 用户协议/隐私政策 → 使用本地 WebView 占位或 Toast 提示
+
+  UI/交互小优化
+
+  - 顶部状态卡片
+      - 未登录显示“微信一键登录”按钮（跳 /pages/auth/login/index）
+      - 已登录显示手机号与“查看检测记录”快捷按钮
+  - 最近检测概览（可选，小卡片）
+      - 使用 resultsSvc.getResults({ page:1, pageSize:1 }) 拉取最近一条，展示状态与快速入口（详情/进度）
+      - 纯前端 Mock，不改服务层
+  - 统一视觉
+      - 使用全局按钮类：u-btn u-btn-primary u-btn--sm/--md，按 docs/UI-Palette-and-Usage.md
+
+  最小实施方案（不新增页面）
+
+  - 文案替换与路由调整（优先级高）
+      - 将“预警记录”改为“我的检测记录”，点按跳 /pages/results/list/index
+      - 将“资讯浏览记录”改为“自费检测与审核”，点按跳 /pages/detection/index 并在页面内切换到“自费检测”分段（可通过 query 或在检测页
+  上次模式记忆实现）
+      - 新增“邮寄指南”项，点按跳 /pages/detection/guide/index
+      - 新增“知识库与社区”，点按跳 /packageCommunity/pages/disease-list/index
+      - 保留“话题发布/回复”“消息授权”“帮助与客服”
+  - 登录态提示
+      - 未登录在“我的检测记录”点击时先跳 /pages/auth/login/index
+
+  可选后续（按需）
+
+  - 新增“我的地址管理”页（Mock），管理邮寄信息（符合 P0 邮寄流程增强）
+  - 新增“我的检测号/赠送码”页（Mock），便于查找来源编号
+  - 新增“认证”入口（占位），满足“结果查询与认证页面”在主包的导航要求
+
+  请确认你要执行的范围：
+
+  - 仅替换文案与点击路由（最快）
+  - 另加“最近检测概览”小卡片
+  - 继续新增“邮寄地址管理/检测号”占位页（Mock）后挂到“我的”页
+
+  我可以先做第一步（文字与路由替换），验证通过后再逐项补强。
