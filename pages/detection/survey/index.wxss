@@ -28,6 +28,9 @@
 .input-wrap { background: #f7f7f7; border-radius: 36rpx; height: 72rpx; padding: 0 16rpx; display: flex; align-items: center; }
 .input-wrap input { flex: 1; font-size: 30rpx; color: #333; }
 
+.flex-row { display: flex; gap: 12rpx; }
+.picker-cell { min-width: 220rpx; background: #f7f7f7; border-radius: 36rpx; height: 72rpx; padding: 0 20rpx; display: flex; align-items: center; font-size: 28rpx; color: #333; }
+
 .radio-group, .checkbox-group { display: flex; flex-wrap: wrap; gap: 12rpx 12rpx; }
 .radio-item, .checkbox-item { 
   display: inline-flex; 
@@ -67,3 +70,10 @@
 }
 
 .textarea { width: 100%; min-height: 160rpx; background: #f7f7f7; border-radius: 12rpx; padding: 12rpx; font-size: 28rpx; color: #333; box-sizing: border-box; }
+
+.rank-list { display: flex; flex-direction: column; gap: 12rpx; }
+.rank-item { display: flex; justify-content: space-between; align-items: center; padding: 10rpx 0; }
+.rank-label { font-size: 28rpx; color: #333; }
+
+.med-list { display: flex; flex-direction: column; gap: 8rpx; }
+.med-item {}

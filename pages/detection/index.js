@@ -28,6 +28,10 @@ Page({
     ],
     loggedIn: false
   },
+  // 跳转至确认邮寄页面
+  goToShipping(){
+    wx.navigateTo({ url: '/pages/detection/shipping/index' });
+  },
 
   onLoad: function (options) {
     // 支持通过 ?mode=paid 定位到自费检测分段

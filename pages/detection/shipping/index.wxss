@@ -1,0 +1,25 @@
+.container { display:block; padding: 0; background:#f3f3f3; }
+.content { padding: 0 16rpx; }
+
+.shipping-card { background:#fff; border-radius: 16rpx; padding: 24rpx 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.08); }
+.card-header { display:flex; align-items:center; margin-bottom: 16rpx; }
+.card-icon { font-size: 32rpx; margin-right: 16rpx; }
+.card-title { font-size: 32rpx; font-weight: 600; color:#333; flex:1; }
+.tip { background:#f7f7f7; color:#666; font-size: 24rpx; padding: 12rpx; border-radius: 12rpx; margin-bottom: 14rpx; }
+
+.form { }
+.form-item { margin-bottom: 18rpx; }
+.form-item:last-child { margin-bottom: 0; }
+.form-label { color:#333; font-size: 28rpx; margin-bottom: 8rpx; }
+.form-input-wrapper { background:#f7f7f7; border-radius: 32rpx; height: 56rpx; padding: 0 12rpx; display:flex; align-items:center; }
+.form-input { color:#333; font-size: 28rpx; flex:1; }
+.form-input::placeholder { color:#999; }
+
+.picker-wrapper { background:#f7f7f7; border-radius: 16rpx; padding: 12rpx; }
+.picker-text { color:#666; font-size: 28rpx; }
+
+.images { display:flex; flex-wrap:wrap; gap: 12rpx; }
+.img { width: 150rpx; height: 150rpx; background:#f5f5f5; border-radius: 12rpx; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.img-pic { width: 100%; height: 100%; }
+.img-add { font-size: 56rpx; color:#07c160; border: 2rpx dashed #ccefdc; background: #f8fffb; }
+

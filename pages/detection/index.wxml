@@ -76,6 +76,18 @@
         </view>
       </view>
     
+    <!-- 确认邮寄入口卡片（置底） -->
+    <view class="detection-card detection-card--spaced">
+      <view class="card-header">
+        <text class="card-icon">📮</text>
+        <text class="card-title">确认邮寄</text>
+      </view>
+      <view class="card-content">
+        <text class="card-subtitle">几天后再寄样？在这里填写邮寄信息</text>
+        <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="goToShipping">去填写邮寄信息</button>
+      </view>
+    </view>
+
     <!-- 结果查询入口卡片（置底） -->
     <view class="detection-card detection-card--spaced detection-card--results">
       <view class="card-header">

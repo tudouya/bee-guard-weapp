@@ -6,6 +6,7 @@
     "pages/detection/guide/index",
     "pages/detection/payment/index",
     "pages/detection/proof/index",
+    "pages/detection/shipping/index",
     "pages/auth/login/index",
     "pages/results/list/index",
     "pages/results/detail/index",
