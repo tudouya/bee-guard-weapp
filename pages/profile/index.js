@@ -1,3 +1,5 @@
+const authUtil = require('../../utils/auth.js');
+
 Page({
   data: {
     userInfo: {},
@@ -8,23 +10,37 @@ Page({
     bannerHeight: 300
   },
   onLoad() {
-    this.mockInit();
+    this.initUserInfo();
   },
   onShow() {
-    this.mockInit();
+    this.initUserInfo();
     this.updateBannerHeight();
   },
   onReady(){ this.updateBannerHeight(); },
-  mockInit(){
+  initUserInfo(){
+    const auth = (authUtil && authUtil.getAuth) ? authUtil.getAuth() : { token: '', phone: '' };
+    const loggedIn = !!(auth && auth.token);
+    const phone = (auth && auth.phone) ? auth.phone : '';
+    const display = loggedIn ? phone : '游客';
+    const info = { user_nick: display, user_avatar: 'https://dtm123.com:7803/targets/image/images/avatar.png', user_phone: loggedIn ? phone : '' };
     this.setData({
-      userInfo: wx.getStorageSync('userInfo') || { user_nick: '游客', user_avatar: 'https://dtm123.com:7803/targets/image/images/avatar.png', user_phone: '' },
+      userInfo: info,
       projectNum: 3,
       hiveNum: 12,
       deviceNum: 48,
       postNum: 5
     });
   },
-  handleInfo(){ wx.showToast({ title: '个人信息（占位）', icon: 'none' }); },
+  handleInfo(){
+    if (authUtil && authUtil.ensureLogin) {
+      Promise.resolve(authUtil.ensureLogin()).then(res => {
+        if (!res || !res.ok) return; // 未登录时已跳登录页
+        wx.showToast({ title: '个人信息（占位）', icon: 'none' });
+      });
+    } else {
+      wx.showToast({ title: '个人信息（占位）', icon: 'none' });
+    }
+  },
   // 我的检测记录
   handleMyResults(){ wx.navigateTo({ url: '/pages/results/list/index' }); },
   // 自费检测与审核（跳转检测页，默认自费分段）

@@ -1,3 +1,5 @@
+const authUtil = require('../../../utils/auth.js');
+
 Page({
   data: {
     companyOptions: ['顺丰速运', '京东物流', '中国邮政', '圆通速递', '中通快递', '申通快递', '其他'],
@@ -77,6 +79,18 @@ Page({
   },
   submit(){
     if (this.data.submitting) return;
+    if (authUtil.ensureLogin) {
+      const self = this;
+      return Promise.resolve(authUtil.ensureLogin()).then(res => {
+        if (!res || !res.ok) return;
+        self._doSubmit();
+      });
+    }
+    this._doSubmit();
+  },
+
+  _doSubmit(){
+    if (this.data.submitting) return;
     const v = this.validate();
     if (!v.ok) {
       wx.showToast({ title: v.msg, icon: 'none' });
@@ -93,4 +107,3 @@ Page({
       .finally(()=> this.setData({ submitting: false }));
   }
 });
-

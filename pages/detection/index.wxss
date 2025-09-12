@@ -113,9 +113,10 @@
 }
 
 .card-subtitle {
+  display: block; /* text 默认 inline，margin 不生效，强制块级 */
   font-size: 26rpx;
   color: #666;
-  margin-bottom: 18rpx;
+  margin-bottom: 32rpx; /* 明显增大与按钮的间距 */
 }
 
 .card-content {

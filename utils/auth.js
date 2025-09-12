@@ -1,8 +1,13 @@
 function setAuth(auth) {
   try {
-    if (auth && auth.token) {
+    if (!auth || typeof auth !== 'object') return;
+    if (auth.token !== undefined && auth.token !== null && auth.token !== '') {
       wx.setStorageSync('auth_token', auth.token);
+    }
+    if (auth.phone !== undefined) {
       wx.setStorageSync('auth_phone', auth.phone || '');
+    }
+    if (auth.expiresAt !== undefined) {
       wx.setStorageSync('auth_expires', auth.expiresAt || '');
     }
   } catch (e) {}
@@ -32,10 +37,27 @@ function isLoggedIn() {
   return !!token;
 }
 
+// Ensure user has logged in before proceeding an action
+// Usage: const { ok } = await ensureLogin(); if (!ok) return;
+function ensureLogin(options = {}) {
+  const logged = isLoggedIn();
+  if (logged) {
+    return Promise.resolve({ ok: true });
+  }
+  // Minimal-intrusion: navigate to standalone login page
+  try {
+    wx.showToast({ title: '请先登录', icon: 'none', duration: 600 });
+  } catch (e) {}
+  try {
+    wx.navigateTo({ url: '/pages/auth/login/index' });
+  } catch (e) {}
+  return Promise.resolve({ ok: false, pending: true });
+}
+
 module.exports = {
   setAuth,
   getAuth,
   clearAuth,
-  isLoggedIn
+  isLoggedIn,
+  ensureLogin
 };
-

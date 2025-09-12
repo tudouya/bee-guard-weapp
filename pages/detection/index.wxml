@@ -88,21 +88,15 @@
       </view>
     </view>
 
-    <!-- 结果查询入口卡片（置底） -->
+    <!-- 结果查询入口卡片（置底，与确认邮寄一致排版） -->
     <view class="detection-card detection-card--spaced detection-card--results">
       <view class="card-header">
         <text class="card-icon">📄</text>
         <text class="card-title">结果查询</text>
       </view>
       <view class="card-content">
-        <view wx:if="{{!loggedIn}}" class="login-tip">
-          <text class="tip-text">请先登录后查询检测结果</text>
-          <button class="btn-login u-btn u-btn-primary u-btn--sm" bindtap="handleLogin">微信一键登录</button>
-        </view>
-        <view wx:else class="login-tip">
-          <text class="tip-text">已登录，可查看您的检测记录</text>
-          <button class="btn-login u-btn u-btn-primary u-btn--sm" bindtap="goToResults">查看我的检测记录</button>
-        </view>
+        <text class="card-subtitle">查看历史检测记录与详情</text>
+        <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="goToResults">查看我的检测记录</button>
       </view>
     </view>
   </view>

@@ -1,3 +1,5 @@
+const authUtil = require('../../../utils/auth.js');
+
 Page({
   data: {
     pkg: { id: '', name: '', price: 0 },
@@ -37,6 +39,18 @@ Page({
     });
   },
   paidDone() {
+    if (authUtil.ensureLogin) {
+      const self = this;
+      Promise.resolve(authUtil.ensureLogin()).then(res => {
+        if (!res || !res.ok) return;
+        self._goProof();
+      });
+      return;
+    }
+    this._goProof();
+  },
+
+  _goProof() {
     const { id, name, price } = this.data.pkg;
     const { orderId } = this.data;
     wx.navigateTo({

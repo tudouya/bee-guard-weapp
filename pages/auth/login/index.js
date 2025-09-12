@@ -3,9 +3,34 @@ const authUtil = require('../../../utils/auth.js');
 
 Page({
   data: {
-    loading: false
+    loading: false,
+    agree: false
+  },
+  onLoginTap() {
+    if (this.data.loading) return;
+    if (!this.data.agree) {
+      wx.showModal({
+        title: '请先阅读并同意',
+        content: '请阅读并勾选《用户协议》和《隐私政策》后再登录',
+        showCancel: false,
+        confirmText: '知道了'
+      });
+    }
+  },
+  onAgreeChange(e) {
+    const checked = (e && e.detail && e.detail.value && e.detail.value.length > 0) || false;
+    this.setData({ agree: checked });
   },
   async onGetPhoneNumber(e) {
+    if (!this.data.agree) {
+      wx.showModal({
+        title: '请先阅读并同意',
+        content: '请阅读并勾选《用户协议》和《隐私政策》后再登录',
+        showCancel: false,
+        confirmText: '知道了'
+      });
+      return;
+    }
     if (!e || !e.detail) {
       wx.showToast({ title: '授权失败，请重试', icon: 'none' });
       return;
@@ -22,24 +47,38 @@ Page({
       });
       const loginCode = loginRes.code;
       // 2. 向后端换取 session/openid（mock）
-      const { session } = await authSvc.loginByWeChatCode(loginCode);
-      // 3. 获取手机号 code（新流程）
-      const phoneCode = e.detail.code; // 新版返回 code
-      // 4. 绑定手机号并签发 token（mock）
-      const { token, phone, expiresAt } = await authSvc.bindPhoneByCode(phoneCode, session);
-      authUtil.setAuth({ token, phone, expiresAt });
-      wx.showToast({ title: '登录成功', icon: 'success', duration: 500 });
+      const loginResp = await authSvc.loginByWeChatCode(loginCode);
+      // 兼容不同字段命名，优先提取 token 并暂存（供后续 bind-phone 授权用）
+      const loginToken = (loginResp && (loginResp.token || loginResp.access_token || (loginResp.data && (loginResp.data.token || loginResp.data.access_token)))) || '';
+      const loginPhone = (loginResp && (loginResp.phone || (loginResp.data && loginResp.data.phone))) || '';
+      const session = loginResp && (loginResp.session || loginResp.sessionKey || loginResp.session_key) || '';
+      if (loginToken) {
+        authUtil.setAuth({ token: loginToken, phone: loginPhone, expiresAt: loginResp.expiresAt || '' });
+      } else if (loginPhone) {
+        authUtil.setAuth({ phone: loginPhone });
+      }
+      // 3. 获取手机号 code（新版 API 返回 code）
+      const phoneCode = e.detail.code;
+      // 4. 绑定手机号并签发 token（真实接口）
+      const bindResp = await authSvc.bindPhoneByCode(phoneCode, session);
+      const token = (bindResp && (bindResp.token || (bindResp.data && bindResp.data.token))) || '';
+      const phone = (bindResp && (bindResp.phone || (bindResp.data && bindResp.data.phone))) || '';
+      const expiresAt = (bindResp && (bindResp.expiresAt || (bindResp.data && bindResp.data.expiresAt))) || '';
+      if (token) authUtil.setAuth({ token });
+      if (phone) authUtil.setAuth({ phone });
+      if (expiresAt) authUtil.setAuth({ expiresAt });
+      wx.showToast({ title: '登录成功', icon: 'success', duration: 400 });
       setTimeout(() => {
-        wx.navigateTo({ url: '/pages/results/list/index' });
-      }, 500);
+        // 统一返回到发起页，保持可回退
+        wx.navigateBack({
+          fail: () => wx.switchTab({ url: '/pages/detection/index' })
+        });
+      }, 400);
     } catch (err) {
       wx.showToast({ title: '登录失败，请重试', icon: 'none' });
     } finally {
       this.setData({ loading: false });
     }
-  },
-  useSmsLogin() {
-    wx.showToast({ title: '暂未开通短信登录', icon: 'none' });
   },
   openUserAgreement() {
     wx.showToast({ title: '用户协议（占位）', icon: 'none' });
@@ -48,4 +87,3 @@ Page({
     wx.showToast({ title: '隐私政策（占位）', icon: 'none' });
   }
 });
-

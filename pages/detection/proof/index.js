@@ -1,3 +1,5 @@
+const authUtil = require('../../../utils/auth.js');
+
 Page({
   data: {
     pkg: { id: '', name: '', price: 0 },
@@ -78,6 +80,17 @@ Page({
     }
   },
   submitProof() {
+    if (authUtil.ensureLogin) {
+      const self = this;
+      return Promise.resolve(authUtil.ensureLogin()).then(res => {
+        if (!res || !res.ok) return;
+        self._doSubmitProof();
+      });
+    }
+    this._doSubmitProof();
+  },
+
+  _doSubmitProof() {
     const { method, orderNo, amount } = this.data.form;
     if (!method) {
       wx.showToast({ title: '请选择支付方式', icon: 'none' });

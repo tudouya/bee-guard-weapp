@@ -28,8 +28,15 @@ Page({
     ],
     loggedIn: false
   },
-  // 跳转至确认邮寄页面
+  // 跳转至确认邮寄页面（需登录）
   goToShipping(){
+    if (authUtil.ensureLogin) {
+      Promise.resolve(authUtil.ensureLogin()).then(res => {
+        if (!res || !res.ok) return;
+        wx.navigateTo({ url: '/pages/detection/shipping/index' });
+      });
+      return;
+    }
     wx.navigateTo({ url: '/pages/detection/shipping/index' });
   },
 
@@ -54,8 +61,20 @@ Page({
     });
   },
 
-  // 验证检测号并开始检测
+  // 验证检测号并开始检测（需登录）
   verifyAndStartDetection: function() {
+    if (authUtil.ensureLogin) {
+      const self = this;
+      Promise.resolve(authUtil.ensureLogin()).then(res => {
+        if (!res || !res.ok) return;
+        self._doVerifyAndStart();
+      });
+      return;
+    }
+    this._doVerifyAndStart();
+  },
+
+  _doVerifyAndStart: function() {
     const { detectionNumber, phoneNumber } = this.data.detectionForm;
     
     if (!detectionNumber) {
@@ -103,8 +122,20 @@ Page({
     });
   },
 
-  // 扫码支付
+  // 扫码支付（需登录）
   payForDetection: function() {
+    if (authUtil.ensureLogin) {
+      const self = this;
+      Promise.resolve(authUtil.ensureLogin()).then(res => {
+        if (!res || !res.ok) return;
+        self._goPay();
+      });
+      return;
+    }
+    this._goPay();
+  },
+
+  _goPay: function() {
     const selectedPackage = this.data.paidPackages.find(pkg => pkg.selected);
     
     if (!selectedPackage) {
@@ -134,6 +165,13 @@ Page({
   },
 
   goToResults: function() {
+    if (authUtil.ensureLogin) {
+      Promise.resolve(authUtil.ensureLogin()).then(res => {
+        if (!res || !res.ok) return;
+        wx.navigateTo({ url: '/pages/results/list/index' });
+      });
+      return;
+    }
     wx.navigateTo({ url: '/pages/results/list/index' });
   },
 

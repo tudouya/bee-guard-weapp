@@ -1,3 +1,5 @@
+const authUtil = require('../../../utils/auth.js');
+
 Page({
   data: {
     typeData: [
@@ -11,6 +13,12 @@ Page({
   onLoad() {
     // 可按需注入占位数据，当前仅展示头部 Tab
   },
+  onShow() {
+    // 目标功能页守卫：未登录则跳登录页
+    if (authUtil && authUtil.ensureLogin) {
+      authUtil.ensureLogin();
+    }
+  },
   handleChangeType(e) {
     const item = e.currentTarget.dataset.item;
     const typeData = (this.data.typeData || []).map(t => ({ ...t, checked: t.id === item.id }));
@@ -20,4 +28,3 @@ Page({
     wx.showToast({ title: '详情占位', icon: 'none' });
   }
 });
-
