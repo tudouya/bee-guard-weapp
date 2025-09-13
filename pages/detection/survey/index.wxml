@@ -250,27 +250,6 @@
           </view>
         </view>
 
-        <!-- 25 本次是否邮寄样品 -->
-        <view class="form-item">
-          <view class="form-label">25. 本次是否邮寄蜜蜂样品</view>
-          <view class="radio-group">
-            <view class="radio-chip {{form.postSample==='是'?'checked':''}}" data-key="form.postSample" data-value="是" bindtap="selectValue"><view class="circle"></view><text class="chip-text">是</text></view>
-            <view class="radio-chip {{form.postSample==='否'?'checked':''}}" data-key="form.postSample" data-value="否" bindtap="selectValue"><view class="circle"></view><text class="chip-text">否</text></view>
-          </view>
-        </view>
-
-        <!-- 26 邮寄日期（当 Q25=是） -->
-        <view class="form-item" wx:if="{{form.postSample==='是'}}">
-          <view class="form-label">26. 蜜蜂样品邮寄日期</view>
-          <view class="flex-row">
-            <picker mode="date" value="{{form.postDate}}" bindchange="onInput" data-key="form.postDate">
-              <view class="picker-cell">{{form.postDate || '选择日期'}}</view>
-            </picker>
-            <picker mode="time" value="{{form.postTime}}" bindchange="onInput" data-key="form.postTime">
-              <view class="picker-cell">{{form.postTime || '选择时间'}}</view>
-            </picker>
-          </view>
-        </view>
 
         <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submitSurvey">提交问卷</button>
       </view>

@@ -75,12 +75,7 @@ Page({
       // 23 可能原因（单选）
       possibleReason: '',
       // 24 往年集中发病时间段（多选月份）
-      pastMonths: [],
-      // 25 是否邮寄样品
-      postSample: '', // '是' | '否'
-      // 26 邮寄日期（日期+时间，可编辑）
-      postDate: '',
-      postTime: ''
+      pastMonths: []
     },
     // 选项
     raiseMethodOptions: ['定地','省内小转地','跨省大转地'],
@@ -282,12 +277,6 @@ Page({
     }
     // Q24 多选月份
     if (!req((f.pastMonths || []).length > 0, '请选择往年集中发病月份')) return false;
-    // Q25/26
-    if (!req(!!f.postSample, '请选择是否邮寄样品')) return false;
-    if (f.postSample === '是') {
-      if (!req(!!f.postDate, '请选择邮寄日期')) return false;
-      if (!req(!!f.postTime, '请选择邮寄时间')) return false;
-    }
     return true;
   },
 
