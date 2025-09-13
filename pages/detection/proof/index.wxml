@@ -20,11 +20,11 @@
             </view>
           </view>
 
-          <!-- 支付订单号 -->
+          <!-- 交易流水号 -->
           <view class="form-item">
-            <view class="form-label">支付订单号</view>
+            <view class="form-label">交易流水号</view>
             <view class="input-wrap">
-              <input placeholder="请输入订单号" bindinput="onOrderNoInput" value="{{form.orderNo}}"/>
+              <input placeholder="请输入交易流水号" bindinput="onTradeNoInput" value="{{form.tradeNo}}"/>
             </view>
           </view>
 
@@ -58,7 +58,7 @@
       </view>
       <view class="actions">
         <text class="link" bindtap="saveDraft">保存草稿</text>
-        <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submitProof" disabled="{{!canSubmit}}">提交审核</button>
+        <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submitProof">提交审核</button>
       </view>
     </view>
   </view>

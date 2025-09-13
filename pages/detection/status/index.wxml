@@ -3,12 +3,15 @@
     <view class="status-card">
       <view class="header">
         <text class="title">支付审核状态</text>
-        <text class="subtitle">申请编号：{{appId || '—'}}</text>
+        <text class="subtitle" wx:if="{{orderId}}">订单编号：{{orderId}}</text>
+        <text class="subtitle" wx:else>申请编号：{{appId || '—'}} </text>
       </view>
 
       <view class="order-info">
         <view class="row"><text>支付金额：</text><text class="strong">¥{{price || 0}}</text></view>
         <view class="row"><text>提交时间：</text><text>{{submitTime}}</text></view>
+        <view class="row" wx:if="{{statusText}}"><text>当前状态：</text><text>{{statusText}}</text></view>
+        <view class="row" wx:if="{{detectionCode}}"><text>检测号：</text><text class="strong">{{detectionPrefix}}-{{detectionCode}}</text></view>
       </view>
 
       <view class="section-title">审核进度</view>
@@ -28,4 +31,3 @@
     </view>
   </view>
 </view>
-
