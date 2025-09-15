@@ -57,6 +57,11 @@ function request(method, path, data = {}, opts = {}) {
       success(res) {
         const { statusCode, data: body } = res;
         if (statusCode >= 200 && statusCode < 300) {
+          // Handle new API format: { success: true, data: [...] }
+          if (body && typeof body === 'object' && body.success === true) {
+            resolve(body);
+            return;
+          }
           // Expect envelope: { code: 0, message, data }
           if (body && typeof body === 'object' && body.code === 0) {
             resolve(body.data);

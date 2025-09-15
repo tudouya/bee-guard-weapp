@@ -1,4 +1,5 @@
 const region = require('../../../services/region.js');
+const api = require('../../../utils/api.js');
 
 function nowDateStr() {
   const d = new Date();
@@ -17,6 +18,7 @@ function nowTimeStr() {
 Page({
   data: {
     detectionId: '',
+    detectionCodeId: null,
     form: {
       // 1 填表时间（日期 + 时间，默认当前，可编辑）
       fillDate: '',
@@ -77,6 +79,14 @@ Page({
       // 24 往年集中发病时间段（多选月份）
       pastMonths: []
     },
+    // 供原生控件派发后辅助显隐（如“其他症状”）
+    hasSymptomOther: false,
+    // 复选预选映射，便于在 WXML 中标记 checked
+    selectedMaps: {
+      sickAges: {},
+      symptoms: {},
+      pastMonths: {}
+    },
     // 选项
     raiseMethodOptions: ['定地','省内小转地','跨省大转地'],
     beeSpeciesOptions: ['中华蜜蜂','西方蜜蜂（意大利蜜蜂等）'],
@@ -106,6 +116,10 @@ Page({
     if (options && options.detectId) {
       this.setData({ detectionId: options.detectId });
     }
+    if (options && (options.codeId !== undefined)) {
+      const cid = String(options.codeId).trim();
+      this.setData({ detectionCodeId: cid ? Number(cid) : null });
+    }
     // 初始化日期与时间（默认当前，可编辑）
     this.setData({
       'form.fillDate': nowDateStr(),
@@ -129,6 +143,30 @@ Page({
     this.setData({ [key]: val });
   },
 
+  // 原生单选组变更
+  onRadioChange(e) {
+    const key = e.currentTarget.dataset.key; // 如 'form.raiseMethod'
+    const val = e.detail && e.detail.value;
+    if (!key) return;
+    this.setData({ [key]: val });
+  },
+
+  // 原生多选组变更
+  onCheckboxChange(e) {
+    const key = e.currentTarget.dataset.key; // 如 'form.sickAges' / 'form.symptoms' / 'form.pastMonths'
+    const values = (e.detail && e.detail.value) || [];
+    if (!key) return;
+    const base = key.split('.').pop();
+    const map = {};
+    (values || []).forEach(v => { map[v] = true; });
+    const updates = { [key]: values, [`selectedMaps.${base}`]: map };
+    // “其他症状”显隐
+    if (key === 'form.symptoms') {
+      updates.hasSymptomOther = values.indexOf('其他') > -1;
+    }
+    this.setData(updates);
+  },
+
   // 地理位置选择
   chooseLocation() {
     wx.chooseLocation({
@@ -140,6 +178,156 @@ Page({
         wx.showToast({ title: '定位未授权，可手动填写', icon: 'none' });
       }
     });
+  },
+
+  // 预填：根据不同场景快速生成逻辑分支
+  applyPreset(e) {
+    const preset = (e && e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.key) || '';
+    const set = (obj) => this.setData(obj);
+    const mkMap = (arr=[]) => {
+      const m = {}; (arr||[]).forEach(v => m[v] = true); return m;
+    };
+    if (preset === 'reset') {
+      set({
+        'form.ownerName': '',
+        'form.locationName': '',
+        'form.phone': '',
+        'form.beeCount': '',
+        'form.isProductionNow': '',
+        'form.productType': '',
+        'form.honeyType': '',
+        'form.pollenType': '',
+        'form.nextMonth': '',
+        'form.needMove': '',
+        'form.moveDestination': { province: '', city: '', district: '' },
+        'form.nextFloral': '',
+        'form.hasAbnormal': '',
+        'form.sickAges': [],
+        'form.sickCount': '',
+        'form.symptoms': [],
+        'form.symptomOther': '',
+        'form.meds': [''],
+        'form.occurRule': '',
+        'form.possibleReason': '',
+        'form.pastMonths': [],
+        hasSymptomOther: false,
+        'selectedMaps.sickAges': {},
+        'selectedMaps.symptoms': {},
+        'selectedMaps.pastMonths': {}
+      });
+      return;
+    }
+
+    // 基础示例值（覆盖姓名/地址/手机号/蜂群数）
+    let patch = {
+      'form.ownerName': '张三',
+      'form.locationName': '北京市朝阳区某地',
+      'form.phone': '13800138000',
+      'form.beeCount': '50',
+      'form.raiseMethod': '定地',
+      'form.beeSpecies': '中华蜜蜂'
+    };
+
+    if (preset === 'noAbnormal') {
+      patch = Object.assign(patch, {
+        'form.isProductionNow': '否',
+        'form.productType': '',
+        'form.honeyType': '',
+        'form.pollenType': '',
+        'form.nextMonth': '5月',
+        'form.needMove': '否',
+        'form.nextFloral': '油菜花',
+        'form.hasAbnormal': '否',
+        'form.sickAges': [],
+        'form.sickCount': '',
+        'form.symptoms': [],
+        'form.symptomOther': '',
+        'form.meds': [''],
+        'form.occurRule': '',
+        'form.possibleReason': '',
+        'form.pastMonths': ['3','4','5'],
+        hasSymptomOther: false,
+        'selectedMaps.sickAges': mkMap([]),
+        'selectedMaps.symptoms': mkMap([]),
+        'selectedMaps.pastMonths': mkMap(['3','4','5'])
+      });
+    } else if (preset === 'prodHoney') {
+      patch = Object.assign(patch, {
+        'form.isProductionNow': '是',
+        'form.productType': '蜂蜜',
+        'form.honeyType': '槐花蜜',
+        'form.pollenType': '',
+        'form.nextMonth': '5月',
+        'form.needMove': '否',
+        'form.nextFloral': '槐花',
+        'form.hasAbnormal': '否',
+        'form.sickAges': [],
+        'form.sickCount': '',
+        'form.symptoms': [],
+        'form.symptomOther': '',
+        'form.meds': [''],
+        'form.occurRule': '',
+        'form.possibleReason': '',
+        'form.pastMonths': ['4','5','6'],
+        hasSymptomOther: false,
+        'selectedMaps.sickAges': mkMap([]),
+        'selectedMaps.symptoms': mkMap([]),
+        'selectedMaps.pastMonths': mkMap(['4','5','6'])
+      });
+    } else if (preset === 'prodPollen') {
+      patch = Object.assign(patch, {
+        'form.isProductionNow': '是',
+        'form.productType': '花粉',
+        'form.honeyType': '',
+        'form.pollenType': '松花粉',
+        'form.nextMonth': '3月',
+        'form.needMove': '否',
+        'form.nextFloral': '油菜花',
+        'form.hasAbnormal': '否',
+        'form.sickAges': [],
+        'form.sickCount': '',
+        'form.symptoms': [],
+        'form.symptomOther': '',
+        'form.meds': [''],
+        'form.occurRule': '',
+        'form.possibleReason': '',
+        'form.pastMonths': ['3','4'],
+        hasSymptomOther: false,
+        'selectedMaps.sickAges': mkMap([]),
+        'selectedMaps.symptoms': mkMap([]),
+        'selectedMaps.pastMonths': mkMap(['3','4'])
+      });
+    } else if (preset === 'abnormalDemo') {
+      const sickAges = ['成蜂'];
+      const symptoms = ['成蜂爬蜂','其他'];
+      const past = ['7','8'];
+      patch = Object.assign(patch, {
+        'form.isProductionNow': '否',
+        'form.productType': '',
+        'form.honeyType': '',
+        'form.pollenType': '',
+        'form.nextMonth': '8月',
+        'form.needMove': '是',
+        'form.moveDestination': { province: '河南省', city: '郑州市', district: '中原区' },
+        'form.nextFloral': '',
+        'form.hasAbnormal': '是',
+        'form.sickAges': sickAges,
+        'form.sickCount': '3',
+        'form.symptoms': symptoms,
+        'form.symptomOther': '个别爬蜂，伴随颤抖',
+        'form.meds': ['无'],
+        'form.occurRule': '之前有发生但时间不固定',
+        'form.possibleReason': '当地气候或环境造成',
+        'form.pastMonths': past,
+        hasSymptomOther: true,
+        'selectedMaps.sickAges': mkMap(sickAges),
+        'selectedMaps.symptoms': mkMap(symptoms),
+        'selectedMaps.pastMonths': mkMap(past)
+      });
+    } else {
+      return;
+    }
+    set(patch);
   },
 
   // 排序题：为每个收入项选择 1-4
@@ -160,7 +348,10 @@ Page({
   toggleArrayVal(e) {
     const key = e.currentTarget.dataset.key; // 如 'form.sickAges' / 'form.symptoms' / 'form.pastMonths'
     const val = e.currentTarget.dataset.value;
-    const list = (this.data.form && key.startsWith('form.')) ? (this.getDataByPath(key) || []) : [];
+    if (typeof key !== 'string') return;
+    if (typeof val === 'undefined') return;
+    const isFormPath = /^form\./.test(key);
+    const list = (this.data.form && isFormPath) ? (this.getDataByPath(key) || []) : [];
     const next = list.slice();
     const i = next.indexOf(val);
     if (i > -1) next.splice(i, 1); else next.push(val);
@@ -280,17 +471,73 @@ Page({
     return true;
   },
 
-  // 提交（Mock）
-  submitSurvey() {
+  // 提交（调用后端接口）
+  async submitSurvey() {
     if (!this.validate()) return;
+    const f = this.data.form || {};
+    const payload = {
+      detection_code_id: this.data.detectionCodeId != null ? Number(this.data.detectionCodeId) : undefined,
+      fill_date: f.fillDate || '',
+      fill_time: f.fillTime || '',
+      owner_name: f.ownerName || '',
+      location_name: f.locationName || '',
+      location_latitude: f.locationPoint && f.locationPoint.lat || undefined,
+      location_longitude: f.locationPoint && f.locationPoint.lng || undefined,
+      phone: (f.phone || '').trim(),
+      bee_count: f.beeCount ? Number(f.beeCount) : 0,
+      raise_method: f.raiseMethod || '',
+      bee_species: f.beeSpecies || '',
+      income_ranks: {
+        honey: f.incomeRanks && f.incomeRanks.honey || '',
+        royalJelly: f.incomeRanks && f.incomeRanks.royalJelly || '',
+        pollination: f.incomeRanks && f.incomeRanks.pollination || '',
+        sellBee: f.incomeRanks && f.incomeRanks.sellBee || ''
+      },
+      is_production_now: f.isProductionNow || '',
+      product_type: f.productType || '',
+      honey_type: f.productType === '蜂蜜' ? (f.honeyType || '') : undefined,
+      pollen_type: f.productType === '花粉' ? (f.pollenType || '') : undefined,
+      next_month: f.nextMonth || '',
+      need_move: f.nextMonth && f.nextMonth !== '没有或已是当年最后一个生产期' ? (f.needMove || '') : '',
+      move_province: (f.needMove === '是') ? (f.moveDestination && f.moveDestination.province || '') : undefined,
+      move_city: (f.needMove === '是') ? (f.moveDestination && f.moveDestination.city || '') : undefined,
+      move_district: (f.needMove === '是') ? (f.moveDestination && f.moveDestination.district || '') : undefined,
+      next_floral: (f.needMove === '否') ? (f.nextFloral || '') : undefined,
+      has_abnormal: f.hasAbnormal || '',
+      past_months: Array.isArray(f.pastMonths) ? f.pastMonths : []
+    };
+    if (f.hasAbnormal === '是') {
+      payload.sick_ages = Array.isArray(f.sickAges) ? f.sickAges : [];
+      payload.sick_count = f.sickCount ? Number(f.sickCount) : undefined;
+      payload.symptoms = Array.isArray(f.symptoms) ? f.symptoms : [];
+      if (payload.symptoms.indexOf('其他') > -1) payload.symptom_other = f.symptomOther || '';
+      payload.medications = Array.isArray(f.meds) ? f.meds.filter(v => (v || '').trim()) : [];
+      payload.occur_rule = f.occurRule || '';
+      payload.possible_reason = f.possibleReason || '';
+    }
+
     wx.showLoading({ title: '提交中...' });
-    setTimeout(() => {
+    try {
+      await api.post('/api/surveys', payload);
       wx.hideLoading();
       wx.showToast({ title: '提交成功', icon: 'success', duration: 600 });
       const detectId = this.data.detectionId || '';
       setTimeout(() => {
         wx.navigateTo({ url: `/pages/detection/guide/index?detectId=${encodeURIComponent(detectId)}` });
       }, 600);
-    }, 600);
+    } catch (error) {
+      wx.hideLoading();
+      if (error && error.status === 422 && error.errors) {
+        const msgs = [];
+        const errs = error.errors || {};
+        Object.keys(errs).forEach(k => {
+          const arr = errs[k];
+          if (Array.isArray(arr) && arr.length) msgs.push(arr[0]);
+        });
+        wx.showModal({ title: '提交失败', content: msgs.join('\n') || (error.message || '表单校验失败'), showCancel: false });
+      } else {
+        wx.showToast({ title: (error && error.message) || '网络异常，请稍后重试', icon: 'none' });
+      }
+    }
   }
 });

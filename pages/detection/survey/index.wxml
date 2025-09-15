@@ -7,6 +7,14 @@
       </view>
 
       <view class="form">
+        <!-- 预填按钮 -->
+        <view class="preset-bar">
+          <button class="u-btn u-btn--sm" data-key="noAbnormal" bindtap="applyPreset">预填：无异常</button>
+          <button class="u-btn u-btn--sm" data-key="prodHoney" bindtap="applyPreset">预填：生产期-蜂蜜</button>
+          <button class="u-btn u-btn--sm" data-key="prodPollen" bindtap="applyPreset">预填：生产期-花粉</button>
+          <button class="u-btn u-btn--sm" data-key="abnormalDemo" bindtap="applyPreset">预填：异常案例</button>
+          <button class="u-btn u-btn--sm" data-key="reset" bindtap="applyPreset">重置</button>
+        </view>
         <view class="section-title">基础信息</view>
 
         <!-- 1 填表时间（可编辑，默认当前） -->
@@ -25,7 +33,7 @@
 
         <!-- 2 场主姓名 -->
         <view class="form-item">
-          <view class="form-label">2. 场主姓名</view>
+          <view class="form-label"><text class="req">*</text>2. 场主姓名</view>
           <view class="input-wrap">
             <input placeholder="请输入姓名" value="{{form.ownerName}}" bindinput="onInput" data-key="form.ownerName" />
           </view>
@@ -33,7 +41,7 @@
 
         <!-- 3 蜂场当前地址 -->
         <view class="form-item">
-          <view class="form-label">3. 蜂场当前地址</view>
+          <view class="form-label"><text class="req">*</text>3. 蜂场当前地址</view>
           <view class="input-wrap">
             <input placeholder="点击右侧按钮自动获取或手动输入" value="{{form.locationName}}" bindinput="onInput" data-key="form.locationName" />
             <button class="u-btn u-btn-primary u-btn--sm" bindtap="chooseLocation">获取位置</button>
@@ -42,7 +50,7 @@
 
         <!-- 4 手机号 -->
         <view class="form-item">
-          <view class="form-label">4. 联系手机号</view>
+          <view class="form-label"><text class="req">*</text>4. 联系手机号</view>
           <view class="input-wrap">
             <input type="number" placeholder="请输入手机号" value="{{form.phone}}" bindinput="onInput" data-key="form.phone" />
           </view>
@@ -50,37 +58,37 @@
 
         <!-- 5 蜂群数量 -->
         <view class="form-item">
-          <view class="form-label">5. 蜂群数量（群）</view>
+          <view class="form-label"><text class="req">*</text>5. 蜂群数量（群）</view>
           <view class="input-wrap">
             <input type="number" placeholder="请输入数字" value="{{form.beeCount}}" bindinput="onInput" data-key="form.beeCount" />
           </view>
         </view>
 
-        <!-- 6 饲养方式 -->
+        <!-- 6 饲养方式（原生单选） -->
         <view class="form-item">
-          <view class="form-label">6. 饲养方式</view>
-          <view class="radio-group">
-            <view wx:for="{{raiseMethodOptions}}" wx:key="*this" class="radio-chip {{form.raiseMethod===item?'checked':''}}" data-key="form.raiseMethod" data-value="{{item}}" bindtap="selectValue">
-              <view class="circle"></view>
+          <view class="form-label"><text class="req">*</text>6. 饲养方式</view>
+          <radio-group bindchange="onRadioChange" data-key="form.raiseMethod" class="radio-group">
+            <label wx:for="{{raiseMethodOptions}}" wx:key="*this" class="radio-item">
+              <radio value="{{item}}" checked="{{form.raiseMethod===item}}" />
               <text class="chip-text">{{item}}</text>
-            </view>
-          </view>
+            </label>
+          </radio-group>
         </view>
 
-        <!-- 7 蜂种 -->
+        <!-- 7 蜂种（原生单选） -->
         <view class="form-item">
-          <view class="form-label">7. 蜂种</view>
-          <view class="radio-group">
-            <view wx:for="{{beeSpeciesOptions}}" wx:key="*this" class="radio-chip {{form.beeSpecies===item?'checked':''}}" data-key="form.beeSpecies" data-value="{{item}}" bindtap="selectValue">
-              <view class="circle"></view>
+          <view class="form-label"><text class="req">*</text>7. 蜂种</view>
+          <radio-group bindchange="onRadioChange" data-key="form.beeSpecies" class="radio-group">
+            <label wx:for="{{beeSpeciesOptions}}" wx:key="*this" class="radio-item">
+              <radio value="{{item}}" checked="{{form.beeSpecies===item}}" />
               <text class="chip-text">{{item}}</text>
-            </view>
-          </view>
+            </label>
+          </radio-group>
         </view>
 
         <!-- 8 收入来源排序（数字排名） -->
         <view class="form-item">
-          <view class="form-label">8. 蜂场收入来源排序（1-4）</view>
+          <view class="form-label"><text class="req">*</text>8. 蜂场收入来源排序（1-4）</view>
           <view class="rank-list">
             <view class="rank-item" wx:for="{{incomeItems}}" wx:key="{{item.key}}">
               <text class="rank-label">{{item.label}}</text>
@@ -91,29 +99,29 @@
           </view>
         </view>
 
-        <!-- 9 当前是否为生产期 -->
+        <!-- 9 当前是否为生产期（原生单选） -->
         <view class="form-item">
-          <view class="form-label">9. 当前是否为生产期</view>
-          <view class="radio-group">
-            <view class="radio-chip {{form.isProductionNow==='是'?'checked':''}}" data-key="form.isProductionNow" data-value="是" bindtap="selectValue"><view class="circle"></view><text class="chip-text">是</text></view>
-            <view class="radio-chip {{form.isProductionNow==='否'?'checked':''}}" data-key="form.isProductionNow" data-value="否" bindtap="selectValue"><view class="circle"></view><text class="chip-text">否</text></view>
-          </view>
+          <view class="form-label"><text class="req">*</text>9. 当前是否为生产期</view>
+          <radio-group bindchange="onRadioChange" data-key="form.isProductionNow" class="radio-group">
+            <label class="radio-item"><radio value="是" checked="{{form.isProductionNow==='是'}}" /><text class="chip-text">是</text></label>
+            <label class="radio-item"><radio value="否" checked="{{form.isProductionNow==='否'}}" /><text class="chip-text">否</text></label>
+          </radio-group>
         </view>
 
-        <!-- 10 当前主要生产的蜂产品种类（当 Q9=是 显示） -->
+        <!-- 10 当前主要生产的蜂产品种类（当 Q9=是 显示，原生单选） -->
         <view class="form-item" wx:if="{{form.isProductionNow==='是'}}">
-          <view class="form-label">10. 当前主要生产的蜂产品种类</view>
-          <view class="radio-group">
-            <view wx:for="{{productTypeOptions}}" wx:key="*this" class="radio-chip {{form.productType===item?'checked':''}}" data-key="form.productType" data-value="{{item}}" bindtap="selectValue">
-              <view class="circle"></view>
+          <view class="form-label"><text class="req">*</text>10. 当前主要生产的蜂产品种类</view>
+          <radio-group bindchange="onRadioChange" data-key="form.productType" class="radio-group">
+            <label wx:for="{{productTypeOptions}}" wx:key="*this" class="radio-item">
+              <radio value="{{item}}" checked="{{form.productType===item}}" />
               <text class="chip-text">{{item}}</text>
-            </view>
-          </view>
+            </label>
+          </radio-group>
         </view>
 
         <!-- 11 蜂蜜种类（当 Q10=蜂蜜 必填） -->
         <view class="form-item" wx:if="{{form.productType==='蜂蜜'}}">
-          <view class="form-label">11. 蜂蜜种类</view>
+          <view class="form-label"><text class="req">*</text>11. 蜂蜜种类</view>
           <view class="input-wrap">
             <input placeholder="请输入蜂蜜种类" value="{{form.honeyType}}" bindinput="onInput" data-key="form.honeyType" />
           </view>
@@ -121,7 +129,7 @@
 
         <!-- 12 花粉种类（当 Q10=花粉 必填） -->
         <view class="form-item" wx:if="{{form.productType==='花粉'}}">
-          <view class="form-label">12. 花粉种类</view>
+          <view class="form-label"><text class="req">*</text>12. 花粉种类</view>
           <view class="input-wrap">
             <input placeholder="请输入花粉种类" value="{{form.pollenType}}" bindinput="onInput" data-key="form.pollenType" />
           </view>
@@ -129,24 +137,24 @@
 
         <!-- 13 下一个生产期开始时间（下拉） -->
         <view class="form-item">
-          <view class="form-label">13. 下一个生产期开始时间</view>
+          <view class="form-label"><text class="req">*</text>13. 下一个生产期开始时间</view>
           <picker range="{{monthOptions}}" bindchange="onNextMonthChange">
             <view class="picker-cell">{{form.nextMonth || '选择月份或“没有/最后一个”'}}</view>
           </picker>
         </view>
 
-        <!-- 14 是否需要转地（当 Q13 非“没有/最后一个” 显示） -->
+        <!-- 14 是否需要转地（当 Q13 非“没有/最后一个” 显示，原生单选） -->
         <view class="form-item" wx:if="{{form.nextMonth && form.nextMonth!='没有或已是当年最后一个生产期'}}">
-          <view class="form-label">14. 下一个生产期是否需要转地</view>
-          <view class="radio-group">
-            <view class="radio-chip {{form.needMove==='是'?'checked':''}}" data-key="form.needMove" data-value="是" bindtap="selectValue"><view class="circle"></view><text class="chip-text">是</text></view>
-            <view class="radio-chip {{form.needMove==='否'?'checked':''}}" data-key="form.needMove" data-value="否" bindtap="selectValue"><view class="circle"></view><text class="chip-text">否</text></view>
-          </view>
+          <view class="form-label"><text class="req">*</text>14. 下一个生产期是否需要转地</view>
+          <radio-group bindchange="onRadioChange" data-key="form.needMove" class="radio-group">
+            <label class="radio-item"><radio value="是" checked="{{form.needMove==='是'}}" /><text class="chip-text">是</text></label>
+            <label class="radio-item"><radio value="否" checked="{{form.needMove==='否'}}" /><text class="chip-text">否</text></label>
+          </radio-group>
         </view>
 
         <!-- 15 转地目的地（当 Q14=是） -->
         <view class="form-item" wx:if="{{form.needMove==='是'}}">
-          <view class="form-label">15. 下一个转地目的地（省/市/县）</view>
+          <view class="form-label"><text class="req">*</text>15. 下一个转地目的地（省/市/县）</view>
           <picker mode="multiSelector"
                   bindchange="onRegionChange"
                   bindcolumnchange="onRegionColumnChange"
@@ -160,49 +168,54 @@
 
         <!-- 16 下个生产期主要蜜粉源（当 Q14=否） -->
         <view class="form-item" wx:if="{{form.needMove==='否'}}">
-          <view class="form-label">16. 下一个生产期主要蜜粉源</view>
+          <view class="form-label"><text class="req">*</text>16. 下一个生产期主要蜜粉源</view>
           <view class="input-wrap">
             <input placeholder="请输入主要蜜粉源" value="{{form.nextFloral}}" bindinput="onInput" data-key="form.nextFloral" />
           </view>
         </view>
 
-        <!-- 17 近一个月内是否有蜂群异常 -->
+        <!-- 17 近一个月内是否有蜂群异常（原生单选） -->
         <view class="form-item">
-          <view class="form-label">17. 近一个月内是否有蜂群异常</view>
-          <view class="radio-group">
-            <view class="radio-chip {{form.hasAbnormal==='是'?'checked':''}}" data-key="form.hasAbnormal" data-value="是" bindtap="selectValue"><view class="circle"></view><text class="chip-text">是</text></view>
-            <view class="radio-chip {{form.hasAbnormal==='否'?'checked':''}}" data-key="form.hasAbnormal" data-value="否" bindtap="selectValue"><view class="circle"></view><text class="chip-text">否</text></view>
-          </view>
+          <view class="form-label"><text class="req">*</text>17. 近一个月内是否有蜂群异常</view>
+          <radio-group bindchange="onRadioChange" data-key="form.hasAbnormal" class="radio-group">
+            <label class="radio-item"><radio value="是" checked="{{form.hasAbnormal==='是'}}" /><text class="chip-text">是</text></label>
+            <label class="radio-item"><radio value="否" checked="{{form.hasAbnormal==='否'}}" /><text class="chip-text">否</text></label>
+          </radio-group>
         </view>
 
-        <!-- 18 发病虫龄（多选） -->
+        <!-- 18 发病虫龄（多选，原生） -->
         <view class="form-item" wx:if="{{form.hasAbnormal==='是'}}">
-          <view class="form-label">18. 发病虫龄（多选）</view>
-          <view class="checkbox-group">
-            <view wx:for="{{sickAgeOptions}}" wx:key="*this" class="check-chip {{form.sickAges.indexOf(item)>-1?'checked':''}}" data-key="form.sickAges" data-value="{{item}}" bindtap="toggleArrayVal">
-              <view class="circle"></view><text class="chip-text">{{item}}</text>
-            </view>
-          </view>
+          <view class="form-label"><text class="req">*</text>18. 发病虫龄（多选）</view>
+          <checkbox-group bindchange="onCheckboxChange" data-key="form.sickAges" class="checkbox-group">
+            <label wx:for="{{sickAgeOptions}}" wx:key="*this" class="checkbox-item">
+              <checkbox value="{{item}}" checked="{{selectedMaps.sickAges[item]}}" />
+              <text class="chip-text">{{item}}</text>
+            </label>
+          </checkbox-group>
         </view>
 
         <!-- 19 发病蜂群数 -->
         <view class="form-item" wx:if="{{form.hasAbnormal==='是'}}">
-          <view class="form-label">19. 发病蜂群数</view>
+          <view class="form-label"><text class="req">*</text>19. 发病蜂群数</view>
           <view class="input-wrap">
             <input type="number" placeholder="请填入数字" value="{{form.sickCount}}" bindinput="onInput" data-key="form.sickCount" />
           </view>
         </view>
 
-        <!-- 20 主要症状（多选） + 其他说明 -->
+        <!-- 20 主要症状（多选，原生） + 其他说明 -->
         <view class="form-item" wx:if="{{form.hasAbnormal==='是'}}">
-          <view class="form-label">20. 主要症状（多选）</view>
-          <view class="checkbox-group">
-            <view wx:for="{{symptomOptions}}" wx:key="*this" class="check-chip {{form.symptoms.indexOf(item)>-1?'checked':''}}" data-key="form.symptoms" data-value="{{item}}" bindtap="toggleArrayVal">
-              <view class="circle"></view><text class="chip-text">{{item}}</text>
+          <view class="form-label"><text class="req">*</text>20. 主要症状（多选）</view>
+          <checkbox-group bindchange="onCheckboxChange" data-key="form.symptoms" class="checkbox-group">
+            <label wx:for="{{symptomOptions}}" wx:key="*this" class="checkbox-item">
+              <checkbox value="{{item}}" checked="{{selectedMaps.symptoms[item]}}" />
+              <text class="chip-text">{{item}}</text>
+            </label>
+          </checkbox-group>
+          <view wx:if="{{hasSymptomOther}}" style="margin-top: 12rpx;">
+            <view class="form-label"><text class="req">*</text>其他症状说明</view>
+            <view class="input-wrap">
+              <input placeholder="请输入其他症状" value="{{form.symptomOther}}" bindinput="onInput" data-key="form.symptomOther" />
             </view>
-          </view>
-          <view class="input-wrap" wx:if="{{form.symptoms.indexOf('其他')>-1}}" style="margin-top: 12rpx;">
-            <input placeholder="请输入其他症状" value="{{form.symptomOther}}" bindinput="onInput" data-key="form.symptomOther" />
           </view>
         </view>
 
@@ -220,34 +233,37 @@
           </view>
         </view>
 
-        <!-- 22 该病发生规律 -->
+        <!-- 22 该病发生规律（原生单选） -->
         <view class="form-item" wx:if="{{form.hasAbnormal==='是'}}">
-          <view class="form-label">22. 该病发生规律</view>
-          <view class="radio-group">
-            <view wx:for="{{occurRuleOptions}}" wx:key="*this" class="radio-chip {{form.occurRule===item?'checked':''}}" data-key="form.occurRule" data-value="{{item}}" bindtap="selectValue">
-              <view class="circle"></view><text class="chip-text">{{item}}</text>
-            </view>
-          </view>
+          <view class="form-label"><text class="req">*</text>22. 该病发生规律</view>
+          <radio-group bindchange="onRadioChange" data-key="form.occurRule" class="radio-group">
+            <label wx:for="{{occurRuleOptions}}" wx:key="*this" class="radio-item">
+              <radio value="{{item}}" checked="{{form.occurRule===item}}" />
+              <text class="chip-text">{{item}}</text>
+            </label>
+          </radio-group>
         </view>
 
-        <!-- 23 您认为与什么有关 -->
+        <!-- 23 您认为与什么有关（原生单选） -->
         <view class="form-item" wx:if="{{form.hasAbnormal==='是'}}">
-          <view class="form-label">23. 您认为当前蜂群异常可能与什么有关</view>
-          <view class="radio-group">
-            <view wx:for="{{reasonOptions}}" wx:key="*this" class="radio-chip {{form.possibleReason===item?'checked':''}}" data-key="form.possibleReason" data-value="{{item}}" bindtap="selectValue">
-              <view class="circle"></view><text class="chip-text">{{item}}</text>
-            </view>
-          </view>
+          <view class="form-label"><text class="req">*</text>23. 您认为当前蜂群异常可能与什么有关</view>
+          <radio-group bindchange="onRadioChange" data-key="form.possibleReason" class="radio-group">
+            <label wx:for="{{reasonOptions}}" wx:key="*this" class="radio-item">
+              <radio value="{{item}}" checked="{{form.possibleReason===item}}" />
+              <text class="chip-text">{{item}}</text>
+            </label>
+          </radio-group>
         </view>
 
-        <!-- 24 往年蜂群集中发病的时间段（多选月份） -->
+        <!-- 24 往年蜂群集中发病的时间段（多选月份，原生） -->
         <view class="form-item">
-          <view class="form-label">24. 往年蜂群集中发病的时间段（可多选）</view>
-          <view class="checkbox-group">
-            <view wx:for="{{monthsAll}}" wx:key="*this" class="check-chip {{form.pastMonths.indexOf(item)>-1?'checked':''}}" data-key="form.pastMonths" data-value="{{item}}" bindtap="toggleArrayVal">
-              <view class="circle"></view><text class="chip-text">{{item}}月份</text>
-            </view>
-          </view>
+          <view class="form-label"><text class="req">*</text>24. 往年蜂群集中发病的时间段（可多选）</view>
+          <checkbox-group bindchange="onCheckboxChange" data-key="form.pastMonths" class="checkbox-group">
+            <label wx:for="{{monthsAll}}" wx:key="*this" class="checkbox-item">
+              <checkbox value="{{item}}" checked="{{selectedMaps.pastMonths[item]}}" />
+              <text class="chip-text">{{item}}月份</text>
+            </label>
+          </checkbox-group>
         </view>
 
 

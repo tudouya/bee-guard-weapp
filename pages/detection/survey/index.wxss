@@ -8,6 +8,9 @@
 }
 .content { padding: 0 16rpx; }
 
+.preset-bar { display: flex; flex-wrap: wrap; gap: 12rpx; margin: 8rpx 0 16rpx; }
+.preset-bar .u-btn { padding: 0 20rpx; }
+
 .survey-card {
   background: #fff;
   border-radius: 16rpx;
@@ -24,6 +27,7 @@
 .divider { height: 1rpx; background: #f0f0f0; margin: 8rpx 0 12rpx; }
 .form-item {}
 .form-label { font-size: 28rpx; color: #333; margin-bottom: 10rpx; }
+.form-label .req { color: #e54d42; margin-right: 8rpx; }
 
 .input-wrap { background: #f7f7f7; border-radius: 36rpx; height: 72rpx; padding: 0 16rpx; display: flex; align-items: center; }
 .input-wrap input { flex: 1; font-size: 30rpx; color: #333; }

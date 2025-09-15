@@ -1,16 +1,16 @@
 const authUtil = require('../../../utils/auth.js');
+const shippingSvc = require('../../../services/shipping.js');
 
 Page({
   data: {
-    companyOptions: ['顺丰速运', '京东物流', '中国邮政', '圆通速递', '中通快递', '申通快递', '其他'],
+    companyOptions: ['顺丰', '圆通', '京东快递', '中通', '申通', '中国邮政', '其他'],
     companyIndex: -1,
     submitting: false,
     form: {
       detectionNumber: '',
       phone: '',
       trackingNo: '',
-      date: '',
-      images: []
+      date: ''
     }
   },
   onLoad(options){
@@ -35,43 +35,18 @@ Page({
   onDateChange(e){
     this.setData({ 'form.date': e.detail.value });
   },
-  openCompanyPicker(){
-    const list = this.data.companyOptions;
-    wx.showActionSheet({
-      itemList: list,
-      success: (res) => {
-        if (typeof res.tapIndex === 'number') {
-          this.setData({ companyIndex: res.tapIndex });
-        }
-      }
-    });
-  },
-  chooseImage(){
-    const that = this;
-    wx.chooseImage({
-      count: 3,
-      sizeType: ['compressed'],
-      sourceType: ['album','camera'],
-      success(res){
-        const imgs = (that.data.form.images || []).concat(res.tempFilePaths || []);
-        that.setData({ 'form.images': imgs.slice(0, 6) });
-      }
-    });
-  },
-  previewImage(e){
-    const url = e.currentTarget.dataset.url;
-    const urls = this.data.form.images || [];
-    if (!url) return;
-    wx.previewImage({ current: url, urls });
+  onCompanyChange(e){
+    const idx = Number(e.detail.value);
+    if (!Number.isNaN(idx)) {
+      this.setData({ companyIndex: idx });
+    }
   },
   validate(){
     const { detectionNumber, phone, trackingNo } = this.data.form;
     const { companyIndex, companyOptions } = this.data;
-    // 检测号：QY- / ZF- 前缀或纯数字 6-12 位
-    const reDetect = /^(?:((QY|ZF)-)[A-Za-z0-9]{4,10}|\d{6,12})$/;
     const rePhone = /^1[3-9]\d{9}$/;
     const reTrack = /^[A-Za-z0-9-]{6,}$/;
-    if (!reDetect.test((detectionNumber || '').trim())) return { ok: false, msg: '检测号格式不正确' };
+    if (!((detectionNumber || '').trim())) return { ok: false, msg: '请填写检测号' };
     if (!rePhone.test((phone || '').trim())) return { ok: false, msg: '手机号格式不正确' };
     if (companyIndex < 0 || !companyOptions[companyIndex]) return { ok: false, msg: '请选择快递公司' };
     if (!reTrack.test((trackingNo || '').trim())) return { ok: false, msg: '快递单号格式不正确' };
@@ -89,7 +64,7 @@ Page({
     this._doSubmit();
   },
 
-  _doSubmit(){
+  async _doSubmit(){
     if (this.data.submitting) return;
     const v = this.validate();
     if (!v.ok) {
@@ -97,13 +72,35 @@ Page({
       return;
     }
     this.setData({ submitting: true });
-    // Mock 提交：1.2s 延时
-    new Promise((resolve)=> setTimeout(resolve, 1200))
-      .then(()=>{
-        try { wx.setStorageSync('lastShippingInfo', { form: this.data.form, companyIndex: this.data.companyIndex, savedAt: Date.now() }); } catch (e) {}
-        wx.showToast({ title: '提交成功', icon: 'success' });
-        setTimeout(()=> { wx.navigateBack({ fail: ()=> wx.switchTab({ url: '/pages/detection/index' }) }); }, 800);
-      })
-      .finally(()=> this.setData({ submitting: false }));
+    try {
+      const { form, companyOptions, companyIndex } = this.data;
+      const payload = {
+        detection_number: (form.detectionNumber || '').trim(),
+        courier_company: companyOptions[companyIndex],
+        tracking_no: (form.trackingNo || '').trim()
+      };
+      if (form.date) payload.shipped_at = form.date;
+      await shippingSvc.createShippingNotification(payload);
+      try { wx.setStorageSync('lastShippingInfo', { form: this.data.form, companyIndex: this.data.companyIndex, savedAt: Date.now() }); } catch (e) {}
+      wx.showToast({ title: '提交成功', icon: 'success' });
+      setTimeout(()=> { wx.navigateBack({ fail: ()=> wx.switchTab({ url: '/pages/detection/index' }) }); }, 600);
+    } catch (err) {
+      let msg = '提交失败，请稍后重试';
+      const code = err && err.payload && err.payload.code;
+      const status = err && err.status;
+      if (code === 'detection_not_found' || status === 404) msg = '检测号不存在，请确认';
+      else if (code === 'forbidden' || status === 403) msg = '该检测号不属于当前用户';
+      else if (code === 'shipping_duplicate' || status === 409) msg = '该检测号与单号已提交，请勿重复';
+      else if (status === 422 && err.errors) {
+        const firstKey = Object.keys(err.errors)[0];
+        const firstMsg = firstKey ? (err.errors[firstKey] && err.errors[firstKey][0]) : '';
+        msg = firstMsg || '参数校验失败';
+      } else if (err && err.message) {
+        msg = err.message;
+      }
+      wx.showToast({ title: msg, icon: 'none' });
+    } finally {
+      this.setData({ submitting: false });
+    }
   }
 });

@@ -41,6 +41,8 @@ Page({
       wx.showToast({ title: '个人信息（占位）', icon: 'none' });
     }
   },
+  // 我的检测号
+  handleMyDetectionNumbers(){ wx.navigateTo({ url: '/pages/profile/detectionNumbers/index' }); },
   // 我的检测记录
   handleMyResults(){ wx.navigateTo({ url: '/pages/results/list/index' }); },
   // 自费检测与审核（跳转检测页，默认自费分段）
@@ -50,8 +52,8 @@ Page({
   handleGuide(){ wx.navigateTo({ url: '/pages/detection/guide/index' }); },
   // 知识库与社区（统一入口）
   handleKnowledge(){ wx.navigateTo({ url: '/packageCommunity/pages/disease-list/index' }); },
-  handleWarrant(){ wx.showToast({ title: '消息授权（占位）', icon: 'none' }); }
-  ,
+  handleWarrant(){ wx.showToast({ title: '消息授权（占位）', icon: 'none' }); },
+
   updateBannerHeight(){
     try {
       const q = wx.createSelectorQuery().in(this);

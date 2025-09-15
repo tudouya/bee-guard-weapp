@@ -1,0 +1,142 @@
+<view class="detection-numbers">
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="content" wx:else>
+    <!-- 统计信息 -->
+    <view class="stats-card">
+      <view class="stats-header">
+        <text class="stats-title">📊 我的检测号统计</text>
+      </view>
+      <view class="stats-content">
+        <view class="stat-item">
+          <text class="stat-number">{{stats.total}}</text>
+          <text class="stat-label">总数</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-number">{{stats.assigned}}</text>
+          <text class="stat-label">可用</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-number">{{stats.used}}</text>
+          <text class="stat-label">已用</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-number">{{stats.expired}}</text>
+          <text class="stat-label">过期</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 检测号列表 -->
+    <view class="numbers-list" wx:if="{{!isEmpty}}">
+      <!-- 可用检测号 -->
+      <view class="section" wx:if="{{assignedNumbers.length > 0}}">
+        <view class="section-title">🟢 可使用的检测号</view>
+        <view class="number-card" wx:for="{{assignedNumbers}}" wx:key="full_code">
+          <view class="card-header">
+            <view class="number-info">
+              <text class="number-id">{{item.full_code}}</text>
+              <view class="status-badge" style="background-color: #07c160;">
+                可使用
+              </view>
+            </view>
+          </view>
+          <view class="card-content">
+            <text class="package-name">{{item.displaySourceType}}</text>
+            <text class="time-info">分配时间：{{item.assignedAtText}}</text>
+          </view>
+          <view class="card-actions">
+            <button class="action-btn secondary"
+                    bindtap="copyNumber"
+                    data-number="{{item.full_code}}"
+                    data-status="{{item.status}}">
+              复制
+            </button>
+            <button class="action-btn primary"
+                    bindtap="startDetection"
+                    data-number="{{item.full_code}}">
+              立即检测
+            </button>
+          </view>
+        </view>
+      </view>
+
+      <!-- 已使用检测号 -->
+      <view class="section" wx:if="{{usedNumbers.length > 0}}">
+        <view class="section-title">⚫ 已完成的检测号</view>
+        <view class="number-card" wx:for="{{usedNumbers}}" wx:key="full_code">
+          <view class="card-header">
+            <view class="number-info">
+              <text class="number-id">{{item.full_code}}</text>
+              <view class="status-badge" style="background-color: #6b7280;">
+                已完成
+              </view>
+            </view>
+          </view>
+          <view class="card-content">
+            <text class="package-name">{{item.displaySourceType}}</text>
+            <text class="time-info">使用时间：{{item.usedAtText}}</text>
+          </view>
+          <view class="card-actions">
+            <button class="action-btn secondary"
+                    bindtap="copyNumber"
+                    data-number="{{item.full_code}}"
+                    data-status="{{item.status}}">
+              复制
+            </button>
+            <button class="action-btn primary"
+                    bindtap="viewReport"
+                    data-number="{{item.full_code}}">
+              查看报告
+            </button>
+          </view>
+        </view>
+      </view>
+
+      <!-- 已过期检测号 -->
+      <view class="section" wx:if="{{expiredNumbers.length > 0}}">
+        <view class="section-title">🔴 已过期的检测号</view>
+        <view class="number-card" wx:for="{{expiredNumbers}}" wx:key="full_code">
+          <view class="card-header">
+            <view class="number-info">
+              <text class="number-id">{{item.full_code}}</text>
+              <view class="status-badge" style="background-color: #ff4d4f;">
+                已过期
+              </view>
+            </view>
+          </view>
+          <view class="card-content">
+            <text class="package-name">{{item.displaySourceType}}</text>
+            <text class="time-info expired">已过期</text>
+          </view>
+          <view class="card-actions">
+            <button class="action-btn secondary"
+                    bindtap="copyNumber"
+                    data-number="{{item.full_code}}"
+                    data-status="{{item.status}}">
+              复制
+            </button>
+            <button class="action-btn disabled" disabled>
+              已过期
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:else>
+      <image class="empty-icon" src="https://dtm123.com:7803/targets/image/images/warn.png"></image>
+      <text class="empty-title">暂无检测号</text>
+      <text class="empty-desc">请联系管理员分配检测号</text>
+    </view>
+  </view>
+</view>

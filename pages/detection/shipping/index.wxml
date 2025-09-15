@@ -16,7 +16,7 @@
         <view class="form-item">
           <view class="form-label">检测号</view>
           <view class="form-input-wrapper">
-            <input class="form-input" placeholder="例如：QY-123456 或 ZF-987654" value="{{form.detectionNumber}}" bindinput="onInput" data-key="detectionNumber" />
+            <input class="form-input" placeholder="如 ZFNF4TTC6YZU" value="{{form.detectionNumber}}" bindinput="onInput" data-key="detectionNumber" />
           </view>
         </view>
 
@@ -29,9 +29,11 @@
 
         <view class="form-item">
           <view class="form-label">快递公司</view>
-          <view class="picker-wrapper" bindtap="openCompanyPicker">
-            <text class="picker-text">{{ companyOptions[companyIndex] || '请选择快递公司' }}</text>
-          </view>
+          <picker mode="selector" range="{{companyOptions}}" bindchange="onCompanyChange">
+            <view class="picker-wrapper">
+              <text class="picker-text">{{ companyIndex >= 0 ? companyOptions[companyIndex] : '请选择快递公司' }}</text>
+            </view>
+          </picker>
         </view>
 
         <view class="form-item">
@@ -50,19 +52,10 @@
           </picker>
         </view>
 
-        <view class="form-item">
-          <view class="form-label">照片（可选，本地预览）</view>
-          <view class="images">
-            <view class="img" wx:for="{{form.images}}" wx:key="*this">
-              <image class="img-pic" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-url="{{item}}" />
-            </view>
-            <view class="img img-add" bindtap="chooseImage">＋</view>
-          </view>
-        </view>
+        
 
         <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" loading="{{submitting}}" bindtap="submit">提交确认</button>
       </view>
     </view>
   </view>
 </view>
-
