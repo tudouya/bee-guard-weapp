@@ -38,7 +38,7 @@ Page({
       const { page, pageSize } = this.data;
       const res = await resultsSvc.getResults({ page, pageSize });
       const newAll = append ? this.data.all.concat(res.list) : res.list;
-      const hasMore = newAll.length < res.total;
+      const hasMore = res.hasMore === true ? true : (newAll.length < res.total);
       this.setData({ all: newAll, total: res.total, hasMore }, () => {
         this.applyFilters();
       });
@@ -55,7 +55,7 @@ Page({
     // keyword
     if (query.keyword && query.keyword.trim()) {
       const kw = query.keyword.trim().toLowerCase();
-      arr = arr.filter(x => (x.detectionId||'').toLowerCase().includes(kw) || (x.sampleId||'').toLowerCase().includes(kw));
+      arr = arr.filter(x => (x.detectionId||'').toLowerCase().includes(kw) || (x.sampleNo||'').toLowerCase().includes(kw));
     }
     this.setData({ list: arr });
   },
@@ -68,26 +68,13 @@ Page({
   },
   viewDetail(e) {
     const id = e.currentTarget.dataset.id;
-    const item = this.data.list.find(x => x.id === id);
+    const item = this.data.list.find(x => String(x.id) === String(id));
     if (!item) return;
-    const q = `id=${item.id}`
-      + `&detectionId=${encodeURIComponent(item.detectionId)}`
-      + `&status=${item.status}`
-      + `&statusText=${encodeURIComponent(item.statusText)}`
-      + `&date=${encodeURIComponent(item.submitTime)}`
-      + `&type=${encodeURIComponent(item.sponsorType || '')}`
-      + `&recName=${encodeURIComponent((item.recommendation && item.recommendation.productName) || '')}`
-      + `&recBrief=${encodeURIComponent((item.recommendation && item.recommendation.brief) || '')}`
-      + `&recSource=${encodeURIComponent((item.recommendation && item.recommendation.source) || '')}`
-      + `&recTargetType=${encodeURIComponent((item.recommendation && item.recommendation.targetType) || '')}`
-      + `&recUrl=${encodeURIComponent((item.recommendation && item.recommendation.url) || '')}`
-      + `&recPid=${encodeURIComponent((item.recommendation && item.recommendation.productId) || '')}`
-      + `&prevent=${encodeURIComponent(item.preventionBrief || '')}`;
-    wx.navigateTo({ url: `/pages/results/detail/index?${q}` });
+    wx.navigateTo({ url: `/pages/results/detail/index?id=${encodeURIComponent(item.id)}` });
   },
   viewProgress(e) {
     const id = e.currentTarget.dataset.id;
-    const item = this.data.list.find(x => x.id === id);
+    const item = this.data.list.find(x => String(x.id) === String(id));
     if (!item) return;
     if (item.status === 'pending') {
       wx.navigateTo({ url: `/pages/detection/guide/index?detectId=${encodeURIComponent(item.detectionId)}` });

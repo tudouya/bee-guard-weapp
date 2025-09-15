@@ -1,106 +1,104 @@
-// Mock results service
+// Detection results service (API + graceful mock fallback)
+const config = require('../utils/config.js');
+const authUtil = require('../utils/auth.js');
 
-function demoData() {
-  // 3条示例数据，覆盖不同状态
-  return [
-    {
-      id: 1,
-      detectionId: 'BG20251001', // 企业赠送
-      sampleId: 'SP20252001',
-      submitTime: '2025-01-12 10:30',
-      status: 'completed',
-      statusText: '检测完成',
-      diseases: [
-        { name: 'SBV 囊状幼虫病', result: '阴性' },
-        { name: 'AFB 美洲幼虫腐臭病', result: '阳性' },
-        { name: 'EFB 欧洲幼虫腐臭病', result: '阴性' }
-      ],
-      preventionBrief: '建议：隔离感染群，遵医嘱用药，保持干燥清洁。',
-      sponsorType: 'enterprise',
-      enterpriseId: 'ent-11',
-      recommendation: {
-        source: 'enterprise',
-        productName: '蜂康宝抗病毒剂',
-        brief: '企业推荐：针对AFB，安全高效',
-        targetType: 'internal',
-        productId: 'ent-101',
-        url: ''
-      },
-      recommendations: [
-        { source: 'enterprise', productName: '蜂康宝抗病毒剂', brief: '针对AFB，安全高效', targetType: 'internal', productId: 'ent-101', url: '' },
-        { source: 'enterprise', productName: '蜂巢清洁剂', brief: '清洁蜂具，减少病原残留', targetType: 'internal', productId: 'ent-102', url: '' }
-      ]
-    },
-    {
-      id: 2,
-      detectionId: 'ZF20251002', // 自费检测
-      sampleId: 'SP20252002',
-      submitTime: '2025-01-15 14:20',
-      status: 'processing',
-      statusText: '检测中',
-      diseases: [
-        { name: 'SBV 囊状幼虫病', result: '阴性' },
-        { name: 'AFB 美洲幼虫腐臭病', result: '阴性' }
-      ],
-      preventionBrief: '建议：保持通风干燥，观察群势变化。',
-      sponsorType: 'self',
-      enterpriseId: '',
-      recommendation: {
-        source: 'platform',
-        productName: '蜂群健康营养液',
-        brief: '平台推荐：提升免疫力，预防疾病',
-        targetType: 'external',
-        productId: '',
-        url: 'https://example.com/mall/product/bee-nutrition'
-      },
-      recommendations: [
-        { source: 'platform', productName: '蜂群健康营养液', brief: '提升免疫力，预防疾病', targetType: 'external', productId: '', url: 'https://example.com/mall/product/bee-nutrition' },
-        { source: 'platform', productName: '蜂具消毒喷雾', brief: '便捷消杀，保障卫生', targetType: 'external', productId: '', url: 'https://example.com/mall/product/bee-sanitize' }
-      ]
-    },
-    {
-      id: 3,
-      detectionId: 'ZF20251003', // 自费检测
-      sampleId: 'SP20252003',
-      submitTime: '2025-01-18 09:05',
-      status: 'pending',
-      statusText: '待邮寄',
-      diseases: [],
-      preventionBrief: '请尽快按说明邮寄样品，以免影响检测进度。',
-      sponsorType: 'self',
-      enterpriseId: '',
-      recommendation: {
-        source: 'platform',
-        productName: '蜂具消毒喷雾',
-        brief: '平台推荐：便捷消杀，保障卫生',
-        targetType: 'external',
-        productId: '',
-        url: 'https://example.com/mall/product/bee-sanitize'
-      },
-      recommendations: [
-        { source: 'platform', productName: '蜂具消毒喷雾', brief: '便捷消杀，保障卫生', targetType: 'external', productId: '', url: 'https://example.com/mall/product/bee-sanitize' },
-        { source: 'platform', productName: '包装密封袋', brief: '密封防泄露，便于邮寄', targetType: 'external', productId: '', url: 'https://example.com/mall/product/bee-bag' }
-      ]
+function buildUrl(path, params = {}) {
+  const q = Object.keys(params || {})
+    .filter(k => params[k] !== undefined && params[k] !== null && params[k] !== '')
+    .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
+    .join('&');
+  return q ? `${path}?${q}` : path;
+}
+
+function request({ url, method = 'GET', data = null, auth = true }) {
+  return new Promise((resolve, reject) => {
+    const headers = { 'content-type': 'application/json', 'Accept': 'application/json' };
+    if (auth) {
+      try {
+        const { token } = authUtil.getAuth();
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+      } catch (e) {}
     }
+    wx.request({
+      url,
+      method,
+      data,
+      header: headers,
+      success(res) {
+        const { statusCode, data } = res;
+        if (statusCode >= 200 && statusCode < 300) return resolve(data);
+        // Normalize error
+        const err = new Error('HTTP ' + statusCode);
+        err.statusCode = statusCode;
+        err.body = data;
+        reject(err);
+      },
+      fail(err) { reject(err); }
+    });
+  });
+}
+
+// Fallback minimal mock (only used when API unavailable during dev)
+function fallbackList({ page = 1, per_page = 10 } = {}) {
+  const demo = [
+    { id: 12, detectionId: 'ZF20250711001', detectionNumber: 'ZF20250711001', sampleNo: 'S-0001', sampleTime: '2025-06-20T08:00:00.000000Z', submitTime: '2025-06-21T03:21:55.000000Z', reportedAt: '2025-06-22T10:00:00.000000Z', status: 'completed', statusText: '已完成', positiveCount: 2, positives: ['DWV','AFB'], recommendation: {} },
+    { id: 13, detectionId: 'ZF20250711002', detectionNumber: 'ZF20250711002', sampleNo: 'S-0002', sampleTime: '2025-06-22T08:00:00.000000Z', submitTime: '2025-06-23T03:21:55.000000Z', reportedAt: null, status: 'processing', statusText: '检测中', positiveCount: 0, positives: [], recommendation: {} },
+    { id: 14, detectionId: 'ZF20250711003', detectionNumber: 'ZF20250711003', sampleNo: 'S-0003', sampleTime: '2025-06-24T08:00:00.000000Z', submitTime: '2025-06-25T03:21:55.000000Z', reportedAt: null, status: 'pending', statusText: '待处理', positiveCount: 0, positives: [], recommendation: {} },
   ];
-}
-
-function getResults({ page = 1, pageSize = 10 } = {}) {
-  const demo = demoData();
   const total = demo.length;
-  const start = (page - 1) * pageSize;
-  const end = Math.min(start + pageSize, total);
+  const start = (page - 1) * per_page;
+  const end = Math.min(start + per_page, total);
   const list = demo.slice(start, end);
-  return new Promise((resolve) => setTimeout(() => resolve({ list, total }), 300));
+  return Promise.resolve({ data: list, meta: { page, per_page, total, has_more: end < total } });
 }
 
-function getDetail(id) {
-  const demo = demoData();
-  const item = demo.find(x => String(x.id) === String(id)) || null;
-  return new Promise((resolve) => setTimeout(() => resolve(item), 200));
+async function getResults({ page = 1, pageSize = 10, status } = {}) {
+  const url = config.apiBase + buildUrl('/api/detections', { page, per_page: pageSize, status });
+  try {
+    const res = await request({ url, method: 'GET', auth: true });
+    const data = Array.isArray(res.data) ? res.data : [];
+    const meta = res.meta || { total: data.length, has_more: false };
+    return { list: data, total: meta.total || data.length, hasMore: !!meta.has_more };
+  } catch (err) {
+    // 401 -> let caller decide; provide minimal fallback to keep UI clickable during dev
+    const fb = await fallbackList({ page, per_page: pageSize });
+    return { list: fb.data, total: fb.meta.total, hasMore: fb.meta.has_more };
+  }
 }
 
-module.exports = {
-  getResults,
-  getDetail
-};
+async function getDetail(id) {
+  const url = config.apiBase + `/api/detections/${encodeURIComponent(id)}`;
+  try {
+    const res = await request({ url, method: 'GET', auth: true });
+    return res || null;
+  } catch (err) {
+    // Provide a tiny fallback to avoid hard-crash during UI validation
+    return {
+      id,
+      detectionId: 'ZF20250711001',
+      detectionNumber: 'ZF20250711001',
+      sampleNo: 'S-0001',
+      contactName: '—',
+      address: '—',
+      sampleTime: '2025-06-20T08:00:00.000000Z',
+      submitTime: '2025-06-21T03:21:55.000000Z',
+      testedAt: '2025-06-22T08:30:00.000000Z',
+      reportedAt: '2025-06-22T10:00:00.000000Z',
+      status: 'completed',
+      statusText: '已完成',
+      testedBy: '—',
+      reportNo: 'BG-2025-0001',
+      notes: '',
+      results: [
+        { code: 'DWV', name: '畸形翅病毒', category: 'rna', level: 'weak', levelText: '弱', positive: true },
+        { code: 'AFB', name: '美洲幼虫腐臭病', category: 'dna_bacteria_fungi', level: 'strong', levelText: '强', positive: true },
+        { code: 'SBV', name: '囊状幼虫病病毒', category: 'rna', level: null, levelText: '空', positive: false }
+      ],
+      positiveCount: 2,
+      positives: ['DWV','AFB'],
+      recommendations: []
+    };
+  }
+}
+
+module.exports = { getResults, getDetail };

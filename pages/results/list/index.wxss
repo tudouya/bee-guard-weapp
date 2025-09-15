@@ -25,20 +25,13 @@
 .status-completed { background: #e8f5e8; color: #52c41a; }
 .status-processing { background: #fff7e6; color: #faad14; }
 .status-pending { background: #f0f0f0; color: #666; }
+.status-received { background: #e6f4ff; color: #1677ff; }
 .meta { color: #666; font-size: 26rpx; margin-bottom: 8rpx; }
 .meta-row { display: block; margin: 4rpx 0; line-height: 38rpx; }
 .block { margin: 8rpx 0; }
 .block-title { font-size: 26rpx; color: #333; font-weight: 600; margin-bottom: 6rpx; line-height: 36rpx; }
-/* 移除检测结果与展开更多显示，保留其他区块样式 */
-.brief-line { display: flex; justify-content: space-between; gap: 12rpx; align-items: center; }
-.brief { flex: 1; color: #666; font-size: 26rpx; line-height: 38rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.link { color: #07c160; font-size: 24rpx; }
-.recommend { display: flex; align-items: center; gap: 10rpx; }
-.tag { font-size: 20rpx; color: #fff; background: #07c160; border-radius: 6rpx; padding: 2rpx 6rpx; }
-.rec-content { flex: 1; display: flex; gap: 8rpx; align-items: baseline; overflow: hidden; }
-.rec-name { font-size: 26rpx; color: #333; font-weight: 600; line-height: 36rpx; max-width: 40%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rec-brief { font-size: 24rpx; color: #666; flex: 1; line-height: 36rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pos-tags { display: flex; flex-wrap: wrap; gap: 8rpx; margin-top: 6rpx; }
+.pos-tag { font-size: 22rpx; color: #ff4d4f; background: #fff1f0; border: 1rpx solid #ffa39e; border-radius: 20rpx; padding: 4rpx 10rpx; }
 .item-actions { display: flex; gap: 10rpx; margin-top: 8rpx; }
-.item-actions { display: flex; gap: 10rpx; }
 .load-more { text-align: center; color: #07c160; padding: 16rpx 0; }
 /* 移除“没有更多了”提示样式 */
