@@ -2,8 +2,30 @@
 // 说明：
 // - 原 qa-list 与 share-list 页面在 onLoad 即重定向到本页，并携带 ?tab=qa|share 参数
 // - 本页根据 active 渲染三块内容，保持页内切换以提升流畅度
-// - 数据为 mock，占位结构，后续对接后端时按各 Tab 懒加载并缓存
+// - 疾病百科与社区帖子均按需拉取真实接口数据，并缓存分页进度
 const knowledge = require('../../../services/knowledge');
+const community = require('../../../services/community');
+
+const DEFAULT_AVATAR = 'https://dtm123.com:7803/targets/image/images/010.png';
+
+function normalizePost(item = {}, fallbackType = 'question') {
+  const author = item.author || {};
+  return {
+    id: item.id,
+    type: item.type || fallbackType,
+    title: item.title || '—',
+    excerpt: item.excerpt || '',
+    authorName: author.nickname || '蜂友',
+    avatar: author.avatar || DEFAULT_AVATAR,
+    category: item.category || (fallbackType === 'question' ? '问题咨询' : '经验分享'),
+    diseaseName: item.disease && item.disease.name || '',
+    diseaseCode: item.disease && item.disease.code || '',
+    likes: Number(item.likes || 0),
+    replies: Number(item.replies || 0),
+    views: Number(item.views || 0),
+    publishedAt: item.published_at || '',
+  };
+}
 
 Page({
   data: {
@@ -16,16 +38,26 @@ Page({
     dLoading: false,
     dNoMore: false,
     dLoaded: false,
-    // 问答列表（示例，保留本地占位）
-    qaList: [
-      { id: 1, title: '春季群势下降如何处理？', author: '蜂友A', date: '2025-01-06' },
-      { id: 2, title: '疑似AFB，如何快速排查？', author: '蜂友B', date: '2025-01-05' }
-    ],
-    // 分享列表（示例，保留本地占位）
-    shareList: [
-      { id: 1, title: '越冬期蜂群管理经验', author: '蜂友C', date: '2025-01-03', likes: 126 },
-      { id: 2, title: '蜂具日常消毒流程', author: '蜂友D', date: '2025-01-02', likes: 312 }
-    ],
+    // 问答列表（分页加载）
+    qaList: [],
+    qaPage: 1,
+    qaPerPage: 10,
+    qaTotalPages: 1,
+    qaLoading: false,
+    qaNoMore: false,
+    qaLoaded: false,
+    qaError: '',
+    qaSort: 'latest',
+    // 经验分享列表（分页加载）
+    shareList: [],
+    sharePage: 1,
+    sharePerPage: 10,
+    shareTotalPages: 1,
+    shareLoading: false,
+    shareNoMore: false,
+    shareLoaded: false,
+    shareError: '',
+    shareSort: 'latest',
     // 每个 Tab 的滚动位置
     scrollPositions: { disease: 0, qa: 0, share: 0 }
   },
@@ -48,7 +80,27 @@ Page({
     // 首次拉取疾病列表
     if (this.data.active === 'disease') {
       this.fetchDiseases();
+    } else if (this.data.active === 'qa') {
+      this.fetchQaList({ reset: true });
+    } else if (this.data.active === 'share') {
+      this.fetchShareList({ reset: true });
     }
+  },
+  onShow(){
+    try {
+      const needs = wx.getStorageSync('communityNeedsRefresh');
+      if (needs && typeof needs === 'object') {
+        if (needs.qa) {
+          this.resetQaState();
+          this.fetchQaList({ reset: true });
+        }
+        if (needs.share) {
+          this.resetShareState();
+          this.fetchShareList({ reset: true });
+        }
+        wx.removeStorageSync('communityNeedsRefresh');
+      }
+    } catch (e) {}
   },
   switchTab(e){
     const key = e.currentTarget.dataset.key;
@@ -58,6 +110,12 @@ Page({
       if (y >= 0) { wx.pageScrollTo({ scrollTop: y, duration: 0 }); }
       if (key === 'disease' && !this.data.dLoaded) {
         this.fetchDiseases();
+      }
+      if (key === 'qa' && !this.data.qaLoaded) {
+        this.fetchQaList({ reset: true });
+      }
+      if (key === 'share' && !this.data.shareLoaded) {
+        this.fetchShareList({ reset: true });
       }
     });
   },
@@ -90,6 +148,96 @@ Page({
       wx.showToast({ title: e && e.message ? e.message : '加载失败', icon: 'none' });
     } finally {
       this.setData({ dLoading: false });
+    }
+  },
+  resetQaState(){
+    this.setData({
+      qaList: [],
+      qaPage: 1,
+      qaTotalPages: 1,
+      qaNoMore: false,
+      qaLoaded: false,
+      qaError: ''
+    });
+  },
+  resetShareState(){
+    this.setData({
+      shareList: [],
+      sharePage: 1,
+      shareTotalPages: 1,
+      shareNoMore: false,
+      shareLoaded: false,
+      shareError: ''
+    });
+  },
+  async fetchQaList({ reset = false } = {}){
+    if (this.data.qaLoading) return;
+    if (!reset && this.data.qaNoMore) return;
+    const nextPage = reset ? 1 : this.data.qaPage;
+    this.setData({ qaLoading: true, qaError: '' });
+    try {
+      const { list, meta } = await community.listPosts({
+        type: 'question',
+        page: nextPage,
+        per_page: this.data.qaPerPage,
+        sort: this.data.qaSort
+      });
+      const cleaned = (list || []).map((item) => normalizePost(item, 'question'));
+      const currentList = reset ? [] : (this.data.qaList || []);
+      const merged = currentList.concat(cleaned);
+      const perPage = this.data.qaPerPage;
+      const totalPages = meta && meta.total_pages ? Number(meta.total_pages) : (cleaned.length < perPage ? nextPage : nextPage + 1);
+      const currentPage = meta && meta.page ? Number(meta.page) : nextPage;
+      const noMore = meta && meta.total_pages ? currentPage >= totalPages : cleaned.length < perPage;
+      this.setData({
+        qaList: merged,
+        qaPage: currentPage + 1,
+        qaTotalPages: totalPages,
+        qaNoMore: noMore,
+        qaLoaded: true
+      });
+    } catch (err) {
+      const msg = err && err.message ? err.message : '加载失败';
+      this.setData({ qaError: msg });
+      wx.showToast({ title: msg, icon: 'none' });
+    } finally {
+      this.setData({ qaLoading: false });
+      wx.stopPullDownRefresh();
+    }
+  },
+  async fetchShareList({ reset = false } = {}){
+    if (this.data.shareLoading) return;
+    if (!reset && this.data.shareNoMore) return;
+    const nextPage = reset ? 1 : this.data.sharePage;
+    this.setData({ shareLoading: true, shareError: '' });
+    try {
+      const { list, meta } = await community.listPosts({
+        type: 'experience',
+        page: nextPage,
+        per_page: this.data.sharePerPage,
+        sort: this.data.shareSort
+      });
+      const cleaned = (list || []).map((item) => normalizePost(item, 'experience'));
+      const currentList = reset ? [] : (this.data.shareList || []);
+      const merged = currentList.concat(cleaned);
+      const perPage = this.data.sharePerPage;
+      const totalPages = meta && meta.total_pages ? Number(meta.total_pages) : (cleaned.length < perPage ? nextPage : nextPage + 1);
+      const currentPage = meta && meta.page ? Number(meta.page) : nextPage;
+      const noMore = meta && meta.total_pages ? currentPage >= totalPages : cleaned.length < perPage;
+      this.setData({
+        shareList: merged,
+        sharePage: currentPage + 1,
+        shareTotalPages: totalPages,
+        shareNoMore: noMore,
+        shareLoaded: true
+      });
+    } catch (err) {
+      const msg = err && err.message ? err.message : '加载失败';
+      this.setData({ shareError: msg });
+      wx.showToast({ title: msg, icon: 'none' });
+    } finally {
+      this.setData({ shareLoading: false });
+      wx.stopPullDownRefresh();
     }
   },
   // 疾病百科详情
@@ -129,6 +277,27 @@ Page({
   onReachBottom(){
     if (this.data.active === 'disease') {
       this.fetchDiseases();
+    } else if (this.data.active === 'qa') {
+      this.fetchQaList();
+    } else if (this.data.active === 'share') {
+      this.fetchShareList();
+    }
+  },
+  onPullDownRefresh(){
+    if (this.data.active === 'qa') {
+      this.fetchQaList({ reset: true });
+    } else if (this.data.active === 'share') {
+      this.fetchShareList({ reset: true });
+    } else if (this.data.active === 'disease') {
+      this.setData({
+        diseaseList: [],
+        dPage: 1,
+        dTotalPages: 1,
+        dNoMore: false,
+        dLoaded: false
+      }, () => {
+        this.fetchDiseases();
+      });
     }
   }
 });

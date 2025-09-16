@@ -43,22 +43,28 @@
         <view class="cells">
           <view class="cell" wx:for="{{qaList}}" wx:key="id" bindtap="openQaDetail" data-id="{{item.id}}">
             <view class="cell-hd">
-              <image class="avatar" src="https://dtm123.com:7803/targets/image/images/010.png"></image>
+              <image class="avatar" src="{{item.avatar}}"></image>
             </view>
             <view class="cell-main">
               <view class="row-head">
-                <text class="nickname">{{item.author}}</text>
-                <text class="tag">问题咨询</text>
+                <text class="nickname">{{item.authorName}}</text>
+                <text class="tag">{{item.category || '问题咨询'}}</text>
               </view>
-              <view class="date">{{item.date}}</view>
+              <view class="date">{{item.publishedAt || '刚刚'}}</view>
               <view class="bubble">{{item.title}}</view>
+              <view class="bubble excerpt" wx:if="{{item.excerpt}}">{{item.excerpt}}</view>
             </view>
             <view class="cell-aside">
-              <view class="metric">13人参与话题</view>
+              <view class="metric">{{item.replies}}条回复</view>
+              <view class="metric">{{item.views}}次浏览</view>
             </view>
           </view>
         </view>
       </view>
+      <view class="empty" wx:if="{{qaError}}">{{qaError}}</view>
+      <view class="empty" wx:if="{{!qaLoading && qaLoaded && (!qaList || qaList.length===0) && !qaError}}">暂无内容</view>
+      <view class="loadmore" wx:if="{{qaLoading}}">加载中…</view>
+      <view class="nomore" wx:if="{{!qaLoading && qaLoaded && qaNoMore && qaList.length>0}}">没有更多了</view>
       <view class="fab" bindtap="goQaPost" aria-label="发布问题">＋</view>
     </block>
 
@@ -80,22 +86,28 @@
         <view class="cells">
           <view class="cell" wx:for="{{shareList}}" wx:key="id" bindtap="openShareDetail" data-id="{{item.id}}">
             <view class="cell-hd">
-              <image class="avatar" src="https://dtm123.com:7803/targets/image/images/010.png"></image>
+              <image class="avatar" src="{{item.avatar}}"></image>
             </view>
             <view class="cell-main">
               <view class="row-head">
-                <text class="nickname">{{item.author}}</text>
-                <text class="tag">其他</text>
+                <text class="nickname">{{item.authorName}}</text>
+                <text class="tag">{{item.category || '经验分享'}}</text>
               </view>
-              <view class="date">{{item.date}}</view>
+              <view class="date">{{item.publishedAt || '刚刚'}}</view>
               <view class="bubble">{{item.title}}</view>
+              <view class="bubble excerpt" wx:if="{{item.excerpt}}">{{item.excerpt}}</view>
             </view>
             <view class="cell-aside">
-              <view class="metric">👍 {{item.likes}}</view>
+              <view class="metric">{{item.likes}}个点赞</view>
+              <view class="metric">{{item.views}}次浏览</view>
             </view>
           </view>
         </view>
       </view>
+      <view class="empty" wx:if="{{shareError}}">{{shareError}}</view>
+      <view class="empty" wx:if="{{!shareLoading && shareLoaded && (!shareList || shareList.length===0) && !shareError}}">暂无内容</view>
+      <view class="loadmore" wx:if="{{shareLoading}}">加载中…</view>
+      <view class="nomore" wx:if="{{!shareLoading && shareLoaded && shareNoMore && shareList.length>0}}">没有更多了</view>
       <view class="fab" bindtap="goSharePost" aria-label="发布经验">＋</view>
     </block>
   </view>

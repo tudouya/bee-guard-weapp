@@ -1,34 +1,127 @@
 const authUtil = require('../../../utils/auth.js');
+const api = require('../../../utils/api.js');
+const community = require('../../../services/community.js');
+
+function mergeRefreshFlag(key){
+  try {
+    const current = wx.getStorageSync('communityNeedsRefresh') || {};
+    current[key] = true;
+    wx.setStorageSync('communityNeedsRefresh', current);
+  } catch (e) {}
+}
+
+function createUid(){
+  return 'img_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
 
 Page({
   data: {
     form: { title: '', desc: '' },
-    images: []
+    images: [],
+    uploadingCount: 0,
+    submitting: false,
+    maxImages: 3
   },
   onTitle(e) { this.setData({ 'form.title': e.detail.value }); },
   onDesc(e) { this.setData({ 'form.desc': e.detail.value }); },
-  choose() {
-    wx.chooseImage({ count: 3, sizeType: ['compressed'], success: (res) => {
-      const list = (this.data.images || []).concat(res.tempFilePaths || []);
-      this.setData({ images: list.slice(0, 3) });
-    }});
-  },
-  remove(e) { const i = e.currentTarget.dataset.index; const list = this.data.images.slice(); list.splice(i,1); this.setData({ images: list }); },
-  preview(e) { const i = e.currentTarget.dataset.index; wx.previewImage({ current: this.data.images[i], urls: this.data.images }); },
-  onShow(){ if (authUtil && authUtil.ensureLogin) { authUtil.ensureLogin(); } },
-  submit() {
-    if (authUtil && authUtil.ensureLogin) {
-      const res = authUtil.ensureLogin();
-      if (res && typeof res.then === 'function') {
-        return res.then(r => { if (!r || !r.ok) return; this._doSubmit(); });
-      }
-      if (!res || !res.ok) return;
+  async choose() {
+    const ensure = authUtil && authUtil.ensureLogin ? await authUtil.ensureLogin() : { ok: true };
+    if (!ensure || !ensure.ok) return;
+    const remain = this.data.maxImages - (this.data.images || []).length;
+    if (remain <= 0) {
+      wx.showToast({ title: '最多上传3张图片', icon: 'none' });
+      return;
     }
-    this._doSubmit();
+    wx.chooseImage({
+      count: remain,
+      sizeType: ['compressed'],
+      success: (res) => {
+        const paths = (res.tempFilePaths || []).slice(0, remain);
+        paths.forEach((p) => this.uploadImage(p));
+      }
+    });
   },
-  _doSubmit() {
-    if (!this.data.form.title) { wx.showToast({ title: '请输入标题', icon: 'none' }); return; }
-    wx.showToast({ title: '已提交，等待审核', icon: 'success' });
-    setTimeout(() => wx.navigateBack(), 600);
-  }
+  uploadImage(tempPath){
+    if (!tempPath) return;
+    const uid = createUid();
+    const item = { uid, url: tempPath, uploading: true };
+    const list = (this.data.images || []).concat([item]);
+    this.setData({ images: list, uploadingCount: this.data.uploadingCount + 1 });
+    api.upload(tempPath)
+      .then(res => {
+        const id = res && res.id;
+        const url = res && res.url ? res.url : tempPath;
+        const idx = this.data.images.findIndex(img => img.uid === uid);
+        if (idx === -1) return;
+        this.setData({
+          [`images[${idx}].id`]: id,
+          [`images[${idx}].url`]: url,
+          [`images[${idx}].uploading`]: false
+        });
+      })
+      .catch(err => {
+        const msg = err && err.message ? err.message : '上传失败';
+        wx.showToast({ title: msg, icon: 'none' });
+        const next = (this.data.images || []).filter(img => img.uid !== uid);
+        this.setData({ images: next });
+      })
+      .finally(() => {
+        this.setData({ uploadingCount: Math.max(0, this.data.uploadingCount - 1) });
+      });
+  },
+  remove(e) {
+    const uid = e.currentTarget.dataset.uid;
+    const list = (this.data.images || []).filter(img => img.uid !== uid);
+    this.setData({ images: list });
+  },
+  preview(e) {
+    const uid = e.currentTarget.dataset.uid;
+    const list = this.data.images || [];
+    const urls = list.map(img => img.url);
+    if (!urls.length) return;
+    const current = list.find(img => img.uid === uid);
+    wx.previewImage({ current: current ? current.url : urls[0], urls });
+  },
+  onShow(){ if (authUtil && authUtil.ensureLogin) { authUtil.ensureLogin(); } },
+  async submit() {
+    if (this.data.submitting) return;
+    const ensure = authUtil && authUtil.ensureLogin ? await authUtil.ensureLogin() : { ok: true };
+    if (!ensure || !ensure.ok) return;
+    if (this.data.uploadingCount > 0) {
+      wx.showToast({ title: '图片上传中，请稍候', icon: 'none' });
+      return;
+    }
+    const title = (this.data.form.title || '').trim();
+    const content = (this.data.form.desc || '').trim();
+    if (title.length < 4) {
+      wx.showToast({ title: '标题至少4个字', icon: 'none' });
+      return;
+    }
+    if (content.length < 20) {
+      wx.showToast({ title: '描述至少20个字', icon: 'none' });
+      return;
+    }
+    const imageIds = (this.data.images || [])
+      .filter(img => img && img.id)
+      .map(img => img.id);
+    this.setData({ submitting: true });
+    wx.showLoading({ title: '提交中', mask: true });
+    try {
+      await community.createPost({
+        type: 'question',
+        title,
+        content,
+        images: imageIds
+      });
+      wx.showToast({ title: '已提交，待审核', icon: 'success' });
+      mergeRefreshFlag('qa');
+      setTimeout(() => wx.navigateBack(), 600);
+    } catch (err) {
+      const msg = err && err.message ? err.message : '提交失败';
+      wx.showToast({ title: msg, icon: 'none' });
+    } finally {
+      this.setData({ submitting: false });
+      wx.hideLoading();
+    }
+  },
 });

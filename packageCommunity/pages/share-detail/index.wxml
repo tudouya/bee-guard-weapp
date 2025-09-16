@@ -1,22 +1,56 @@
 <view class="container">
   <view class="content">
-    <view class="backbar"><button class="u-btn u-btn-primary u-btn--sm" bindtap="goBackToCommunity">返回列表</button></view>
-    <!-- 帖子卡片 -->
-    <view class="card post-card">
-      <view class="header">
-        <image class="avatar" src="https://dtm123.com:7803/targets/image/images/010.png"></image>
-        <view class="h-main">
-          <view class="row">
-            <text class="nickname">{{item.author}}</text>
-            <text class="tag">其它</text>
+    <block wx:if="{{loading}}">
+      <view class="loadmore">加载中…</view>
+    </block>
+    <block wx:elif="{{!item}}">
+      <view class="empty">内容不存在或已删除</view>
+    </block>
+    <block wx:else>
+      <view class="card post-card">
+        <view class="header">
+          <image class="avatar" src="{{item.avatar}}"></image>
+          <view class="h-main">
+            <view class="row">
+              <text class="nickname">{{item.authorName}}</text>
+              <text class="tag">{{item.category}}</text>
+            </view>
+            <text class="date">{{item.publishedAt}}</text>
           </view>
-          <text class="date">{{item.date}}</text>
+          <view class="h-aside">{{item.views}}次浏览</view>
         </view>
-        <view class="h-aside">👍 {{item.likes || 0}}</view>
+        <view class="post-title">{{item.title}}</view>
+        <view class="bubble big">{{item.content}}</view>
+        <view class="image-grid" wx:if="{{item.images && item.images.length}}">
+          <image class="image-item" wx:for="{{item.images}}" wx:key="id" src="{{item.url}}" mode="aspectFill" bindtap="previewImage" data-index="{{index}}" />
+        </view>
+        <view class="post-actions">
+          <button class="like-btn {{liked?'liked':''}}" size="mini" bindtap="toggleLike" loading="{{likeLoading}}" hover-class="none">{{liked?'已点赞':'点赞'}} · {{likes}}</button>
+          <text class="metric">回复 {{item.repliesCount}}</text>
+        </view>
       </view>
-      <view class="bubble big">{{item.content}}</view>
-    </view>
 
-    
+      <view class="card reply-card" wx:for="{{replies}}" wx:key="id">
+        <view class="r-hd">
+          <image class="r-avatar" src="{{item.avatar}}"></image>
+          <view class="r-meta">
+            <text class="r-name">{{item.authorName}}</text>
+            <text class="r-date">{{item.publishedAt}}</text>
+          </view>
+        </view>
+        <view class="r-text">{{item.content}}</view>
+        <view class="r-children" wx:if="{{item.children && item.children.length}}">
+          <view class="r-bubble" wx:for="{{item.children}}" wx:for-item="child" wx:key="id">{{child.authorName}}：{{child.content}}</view>
+        </view>
+      </view>
+      <view class="empty" wx:if="{{replyError}}">{{replyError}}</view>
+      <view class="empty" wx:if="{{!replyLoading && replies.length===0 && !replyError}}">暂无回复</view>
+      <view class="loadmore" wx:if="{{replyLoading}}">加载中…</view>
+      <view class="nomore" wx:if="{{!replyLoading && replyNoMore && replies.length>0}}">没有更多了</view>
+    </block>
+  </view>
+  <view class="reply-bar">
+    <input class="reply-input" placeholder="发表回复" bindinput="onReplyInput" value="{{replyContent}}" />
+    <button class="reply-btn u-btn u-btn-primary u-btn--sm" bindtap="submitReply" loading="{{submittingReply}}" disabled="{{submittingReply}}">发布</button>
   </view>
 </view>

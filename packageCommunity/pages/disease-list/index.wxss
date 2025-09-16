@@ -36,7 +36,8 @@
 .nickname { font-size: 28rpx; color:#333; font-weight: 700; }
 .tag { font-size: 22rpx; color:#ff8f1f; background: #fff5e6; padding: 4rpx 10rpx; border-radius: 999rpx; }
 .date { margin-top: 4rpx; color:#999; font-size: 22rpx; }
-.bubble { margin-top: 10rpx; background:#f5f7fa; color:#333; font-size: 28rpx; line-height: 1.6; padding: 14rpx; border-radius: 12rpx; }
+.bubble { margin-top: 10rpx; background:#f5f7fa; color:#333; font-size: 28rpx; line-height: 1.6; padding: 14rpx; border-radius: 12rpx; word-break: break-word; overflow-wrap: break-word; }
+.bubble.excerpt { font-size: 24rpx; color:#666; background:#f8f9fb; margin-top: 8rpx; }
 .cell-aside { align-self: flex-start; white-space: nowrap; color:#999; font-size: 22rpx; }
 .metric { padding-top: 6rpx; }
 .fab { position: fixed; right: 36rpx; bottom: 128px; width: 112rpx; height: 112rpx; border-radius: 50%; background:#07c160; color:#fff; display:flex; align-items:center; justify-content:center; font-size: 64rpx; line-height: 1; box-shadow: 0 10rpx 22rpx rgba(7,193,96,0.35); }

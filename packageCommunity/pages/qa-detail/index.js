@@ -1,30 +1,194 @@
+const community = require('../../../services/community');
+const authUtil = require('../../../utils/auth.js');
+
+const DEFAULT_AVATAR = 'https://dtm123.com:7803/targets/image/images/010.png';
+
+function ensureDeviceId(){
+  try {
+    const existed = wx.getStorageSync('deviceId');
+    if (existed) return existed;
+    const id = 'dev_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    wx.setStorageSync('deviceId', id);
+    return id;
+  } catch (e) {
+    return '';
+  }
+}
+
+function normalizeReply(item) {
+  if (!item || typeof item !== 'object') return null;
+  const author = item.author || {};
+  return {
+    id: item.id,
+    content: item.content || '',
+    replyType: item.reply_type || 'farmer',
+    authorName: author.nickname || '蜂友',
+    avatar: author.avatar || DEFAULT_AVATAR,
+    publishedAt: item.published_at || '',
+    children: Array.isArray(item.children)
+      ? item.children.map((child) => {
+        const cauthor = child.author || {};
+        return {
+          id: child.id,
+          content: child.content || '',
+          authorName: cauthor.nickname || '蜂友',
+          avatar: cauthor.avatar || DEFAULT_AVATAR,
+          publishedAt: child.published_at || ''
+        };
+      })
+      : []
+  };
+}
+
 Page({
   data: {
-    item: { title: '问题详情', author: '蜂友', date: '—', desc: '—', views: 0, suggest: '' },
-    replies: []
+    id: '',
+    loading: true,
+    item: null,
+    likes: 0,
+    liked: false,
+    likeLoading: false,
+    replies: [],
+    replyPage: 1,
+    replyPerPage: 10,
+    replyNoMore: false,
+    replyLoading: false,
+    replyError: '',
+    replyContent: '',
+    submittingReply: false
   },
   onLoad(options) {
-    const id = options && options.id || '1';
-    // mock 一条数据
-    const long = '还是这离蜂，蜂群小，脾里没子、没蜜、没粉，现在外面也没有什么蜜源，但是啊，也没有什么蜜源，这离蜂真是愁人。' +
-      '最近气温忽高忽低，白天温差也大，担心影响群势。请大家帮忙看看需要从饲喂、保温还是病原检测入手？先谢过各位老师。';
-    const item = {
-      title: id === '2' ? '疑似AFB，如何快速排查？' : '春季群势下降如何处理？',
-      author: id === '2' ? '蜂友B' : '蜂友A',
-      date: '2025-01-06',
-      desc: long,
-      views: 12,
-      suggest: id === '2' ? '建议先进行病原检测，保持干燥，严格隔离疑似病群。' : ''
-    };
-    const replies = [
-      { author: '顾念', date: '2025-01-07', text: '本人钥匙丢失在大榕树餐厅一楼，捡到请联系我，重谢！', children: [ { author: '小竹吟风', text: '没有看到' } ] },
-      { author: '喜洋洋', date: '2025-01-07', text: '建议先观察 2 天，必要时加热保温，补粉补蜜。', children: [ { author: '星', text: '同意，注意通风，避免潮湿。' } ] },
-      { author: '蜂友C', date: '2025-01-08', text: '我遇到过类似情况，按流程做检测后对症处理就好了。' }
-    ];
-    this.setData({ item, replies });
+    const id = options && options.id;
+    if (!id) {
+      wx.showToast({ title: '参数缺失', icon: 'none' });
+      setTimeout(() => wx.navigateBack(), 600);
+      return;
+    }
+    this.setData({ id: String(id) });
+    this.fetchDetail();
+    this.fetchReplies({ reset: true });
   },
-  // 返回社区统一页（蜂农提问 Tab）
-  goBackToCommunity(){
-    wx.redirectTo({ url: '/packageCommunity/pages/disease-list/index?tab=qa' });
+  async fetchDetail(){
+    const { id } = this.data;
+    if (!id) return;
+    this.setData({ loading: true });
+    try {
+      const detail = await community.getPostDetail(id, { deviceId: ensureDeviceId() });
+      if (!detail || !detail.id) throw new Error('内容不存在');
+      const author = detail.author || {};
+      const disease = detail.disease || {};
+      const item = {
+        id: detail.id,
+        title: detail.title || '无标题',
+        content: detail.content || '',
+        contentFormat: detail.content_format || 'plain',
+        images: Array.isArray(detail.images) ? detail.images : [],
+        authorName: author.nickname || '蜂友',
+        avatar: author.avatar || DEFAULT_AVATAR,
+        category: detail.category || '问题咨询',
+        diseaseName: disease.name || '',
+        publishedAt: detail.published_at || '',
+        views: Number(detail.views || 0),
+        repliesCount: Number(detail.replies || 0)
+      };
+      this.setData({
+        item,
+        likes: Number(detail.likes || 0),
+        liked: !!detail.liked
+      });
+    } catch (err) {
+      const msg = err && err.message ? err.message : '加载失败';
+      wx.showToast({ title: msg, icon: 'none' });
+      this.setData({ item: null });
+    } finally {
+      this.setData({ loading: false });
+    }
+  },
+  async fetchReplies({ reset = false } = {}){
+    const { id, replyLoading, replyNoMore, replyPage, replyPerPage } = this.data;
+    if (!id || replyLoading) return;
+    if (!reset && replyNoMore) return;
+    const nextPage = reset ? 1 : replyPage;
+    this.setData({ replyLoading: true, replyError: '' });
+    try {
+      const { list, meta } = await community.listReplies(id, { page: nextPage, per_page: replyPerPage });
+      const normalized = (list || []).map((item) => normalizeReply(item)).filter(Boolean);
+      const current = reset ? [] : (this.data.replies || []);
+      const merged = current.concat(normalized);
+      const totalPages = meta && meta.total_pages ? Number(meta.total_pages) : (meta && meta.page ? Number(meta.page) : nextPage);
+      const currentPage = meta && meta.page ? Number(meta.page) : nextPage;
+      if (meta && typeof meta.total === 'number' && this.data.item) {
+        this.setData({ 'item.repliesCount': Number(meta.total) });
+      }
+      this.setData({
+        replies: merged,
+        replyPage: currentPage + 1,
+        replyNoMore: currentPage >= totalPages
+      });
+    } catch (err) {
+      const msg = err && err.message ? err.message : '回复加载失败';
+      this.setData({ replyError: msg });
+      wx.showToast({ title: msg, icon: 'none' });
+    } finally {
+      this.setData({ replyLoading: false });
+      wx.stopPullDownRefresh();
+    }
+  },
+  onReplyInput(e){
+    this.setData({ replyContent: e.detail.value });
+  },
+  async submitReply(){
+    if (this.data.submittingReply) return;
+    const ensure = authUtil && authUtil.ensureLogin ? await authUtil.ensureLogin() : { ok: true };
+    if (!ensure || !ensure.ok) return;
+    const content = (this.data.replyContent || '').trim();
+    if (content.length < 5) {
+      wx.showToast({ title: '回复内容至少5个字', icon: 'none' });
+      return;
+    }
+    this.setData({ submittingReply: true });
+    try {
+      await community.createReply(this.data.id, { content });
+      wx.showToast({ title: '已提交，待审核', icon: 'success' });
+      this.setData({ replyContent: '' });
+    } catch (err) {
+      const msg = err && err.message ? err.message : '提交失败';
+      wx.showToast({ title: msg, icon: 'none' });
+    } finally {
+      this.setData({ submittingReply: false });
+    }
+  },
+  async toggleLike(){
+    if (this.data.likeLoading) return;
+    const ensure = authUtil && authUtil.ensureLogin ? await authUtil.ensureLogin() : { ok: true };
+    if (!ensure || !ensure.ok) return;
+    this.setData({ likeLoading: true });
+    try {
+      const res = this.data.liked
+        ? await community.unlikePost(this.data.id)
+        : await community.likePost(this.data.id);
+      const liked = res && typeof res.liked === 'boolean' ? res.liked : !this.data.liked;
+      const likes = res && typeof res.likes === 'number' ? res.likes : (liked ? this.data.likes + 1 : Math.max(0, this.data.likes - 1));
+      this.setData({ liked, likes });
+    } catch (err) {
+      const msg = err && err.message ? err.message : '操作失败';
+      wx.showToast({ title: msg, icon: 'none' });
+    } finally {
+      this.setData({ likeLoading: false });
+    }
+  },
+  previewImage(e){
+    const { index } = e.currentTarget.dataset;
+    const images = (this.data.item && this.data.item.images) || [];
+    if (!images.length) return;
+    const urls = images.map(img => img.url || img);
+    wx.previewImage({ current: urls[index || 0], urls });
+  },
+  onPullDownRefresh(){
+    this.fetchDetail();
+    this.fetchReplies({ reset: true });
+  },
+  onReachBottom(){
+    this.fetchReplies();
   }
 });

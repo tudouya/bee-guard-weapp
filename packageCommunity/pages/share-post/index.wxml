@@ -6,14 +6,15 @@
       <view class="form-item">
         <view class="label">图片（占位）</view>
         <view class="uploader">
-          <view class="thumb" wx:for="{{images}}" wx:key="index" bindtap="preview" data-index="{{index}}">
-            <image class="img" src="{{item}}" mode="aspectFill"/>
-            <view class="del" bindtap="remove" data-index="{{index}}">×</view>
+          <view class="thumb" wx:for="{{images}}" wx:key="uid" bindtap="preview" data-uid="{{item.uid}}">
+            <image class="img" src="{{item.url}}" mode="aspectFill"/>
+            <view class="del" catchtap="remove" data-uid="{{item.uid}}">×</view>
+            <view class="uploading" wx:if="{{item.uploading}}">上传中</view>
           </view>
-          <view class="add" bindtap="choose">+</view>
+          <view class="add" bindtap="choose" wx:if="{{images.length < maxImages}}">+</view>
         </view>
       </view>
-      <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submit">提交审核</button>
+      <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submit" loading="{{submitting}}" disabled="{{submitting}}">提交审核</button>
     </view>
   </view>
 </view>

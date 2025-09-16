@@ -4,36 +4,27 @@
   </view>
   <view class="topicRecord-con">
     <block wx:if="{{id===1}}">
-      <view class="topicRecord-con-list" wx:for="{{publicData}}" wx:key="index" bindtap="handleDetails" data-id="{{item.problem_id}}">
+      <view class="topicRecord-con-list" wx:for="{{publicData}}" wx:key="id" bindtap="handleDetails" data-id="{{item.id}}" data-item="{{item}}">
         <view class="topicRecord-con-list-top">
-          <image class="topicRecord-con-list-avatar" src="{{item.problem_user_avatar || 'https://dtm123.com:7803/targets/image/images/avatar.png'}}"></image>
+          <image class="topicRecord-con-list-avatar" src="{{item.avatar}}"></image>
           <view class="topicRecord-con-list-right">
             <view class="topicRecord-con-list-right-top">
-              <view class="topicRecord-con-list-nick">{{item.problem_user_nick}}</view>
-              <view class="topicRecord-con-list-type">{{item.type_name}}</view>
+              <view class="topicRecord-con-list-nick">{{item.typeName}}</view>
+              <view class="topicRecord-con-list-type {{item.statusTone}}">{{item.statusText}}</view>
             </view>
-            <view class="topicRecord-con-list-time">{{item.time}} 发布 · {{item.num}}人参与</view>
+            <view class="topicRecord-con-list-time">{{item.publishedAt}} 发布 · {{item.views}}次浏览</view>
           </view>
         </view>
-        <view class="topicRecord-con-list-desc"><view>{{item.problem_content}}</view></view>
+        <view class="topicRecord-con-list-desc"><view>{{item.title}}</view></view>
+        <view class="topicRecord-con-list-meta">👍 {{item.likes}} · 💬 {{item.replies}}</view>
+        <view class="topicRecord-con-list-reject" wx:if="{{item.rejectReason}}">驳回原因：{{item.rejectReason}}</view>
       </view>
-      <view class="empty" wx:if="{{!publicData||publicData.length===0}}">--暂无数据--</view>
+      <view class="empty" wx:if="{{loading}}">加载中…</view>
+      <view class="empty" wx:if="{{!loading && error}}">{{error}}</view>
+      <view class="empty" wx:if="{{!loading && !error && (!publicData||publicData.length===0)}}">--暂无数据--</view>
     </block>
     <block wx:else>
-      <view class="topicRecord-con-list" wx:for="{{replyData}}" wx:key="index" bindtap="handleDetails" data-id="{{item.problem_id}}">
-        <view class="topicRecord-con-list-top">
-          <image class="topicRecord-con-list-avatar" src="{{item.reply_user_avatar || 'https://dtm123.com:7803/targets/image/images/avatar.png'}}"></image>
-          <view class="topicRecord-con-list-right">
-            <view class="topicRecord-con-list-right-top">
-              <view class="topicRecord-con-list-nick">{{item.reply_user_nick}}</view>
-              <view class="topicRecord-con-list-type">{{item.type_name}}</view>
-            </view>
-            <view class="topicRecord-con-list-time">回复了你 {{item.time}}</view>
-          </view>
-        </view>
-        <view class="topicRecord-con-list-desc"><view>{{item.problem_content}}</view></view>
-      </view>
-      <view class="empty" wx:if="{{!replyData||replyData.length===0}}">--暂无数据--</view>
+      <view class="empty">回复记录功能即将上线</view>
     </block>
   </view>
 </view>
