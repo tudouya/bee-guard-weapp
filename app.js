@@ -5,6 +5,6 @@ App({
   
   globalData: {
     userInfo: null,
-    apiUrl: 'https://api.bee-guard.com'
+    apiUrl: 'http://bee.tudouya.com'
   }
 })

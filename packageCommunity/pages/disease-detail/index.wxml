@@ -15,12 +15,12 @@
   <!-- 管理员文章（最新3篇） -->
   <view class="card article-card">
     <view class="section-hd">
-      <text class="section-title">文章（{{articles.length}}）</text>
+      <text class="section-title">文章（{{articleCount}}）</text>
     </view>
     <view class="article-list">
       <view class="article-item" wx:for="{{preview}}" wx:key="id" bindtap="openArticle" data-id="{{item.id}}">
         <view class="a-title">{{item.title}}</view>
-        <view class="a-brief">{{item.brief}}</view>
+        <view wx:if="{{item.brief}}" class="a-brief">{{item.brief}}</view>
         <view class="a-meta">{{item.date}} · {{item.views}}阅读</view>
       </view>
     </view>

@@ -3,7 +3,7 @@
     <view class="card">
       <view class="a-title">{{article.title}}</view>
       <view class="a-meta">{{article.date}} · {{article.views}}阅读</view>
-      <view class="a-body">{{article.body}}</view>
+      <rich-text class="a-body" nodes="{{nodes}}"></rich-text>
     </view>
     <view class="card" wx:if="{{related && related.length}}">
       <view class="section-hd">

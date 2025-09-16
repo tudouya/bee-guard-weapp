@@ -3,7 +3,7 @@
 
 const config = {
   // Use https in prod; dev tools can bypass domain checks if enabled.
-  // Local dev without HTTPS
+  // Default API base (dev)
   apiBase: 'http://bee.tudouya.com',
   authPaths: {
     // Exchange wx.login code for session/openid or token

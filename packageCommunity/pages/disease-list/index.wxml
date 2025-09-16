@@ -10,15 +10,18 @@
     <!-- Disease Tab -->
     <block wx:if="{{active==='disease'}}">
       <view class="cells">
-        <view class="cell" wx:for="{{diseaseList}}" wx:key="id" bindtap="openDiseaseDetail" data-id="{{item.id}}">
+        <view class="cell" wx:for="{{diseaseList}}" wx:key="code" bindtap="openDiseaseDetail" data-id="{{item.code}}">
           <view class="cell-main">
             <view class="name">{{item.name}}</view>
-            <view class="brief">{{item.brief}}</view>
-            <view class="symptom">典型症状：{{item.symptom}}</view>
+            <view wx:if="{{item.brief}}" class="brief">{{item.brief}}</view>
+            <view wx:if="{{item.symptom && item.symptom !== '—'}}" class="symptom">典型症状：{{item.symptom}}</view>
           </view>
-          <view class="badge">{{item.count}}篇</view>
+          <view class="badge">{{item.articleCount}}篇</view>
         </view>
       </view>
+      <view class="empty" wx:if="{{!dLoading && dLoaded && (!diseaseList || diseaseList.length===0)}}">暂无内容</view>
+      <view class="loadmore" wx:if="{{dLoading}}">加载中…</view>
+      <view class="nomore" wx:if="{{!dLoading && dLoaded && dNoMore && diseaseList.length>0}}">没有更多了</view>
     </block>
 
     <!-- QA Tab -->

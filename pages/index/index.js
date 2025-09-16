@@ -1,4 +1,5 @@
 var app = getApp();
+const config = require('../../utils/config.js');
 
 Page({
     data: {
@@ -12,17 +13,13 @@ Page({
         this.handleTopicHost();
         this.handleIndustry(); 
         this.handleWarnNum();
-        this.setData({
-            IP: app.globalData.apiUrl
-        });
+        this.setData({ IP: config.apiBase })
     },
     onShow: function() {
         this.handleTopicHost();
         this.handleIndustry();
         this.handleWarnNum();
-        this.setData({
-            IP: app.globalData.apiUrl
-        });
+        this.setData({ IP: config.apiBase })
     },
     handleChange: function() {
         wx.showToast({
