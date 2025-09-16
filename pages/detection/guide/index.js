@@ -8,7 +8,7 @@ Page({
     }
   },
   copyAddress() {
-    const text = '蜜蜂疫病检测中心, 北京市朝阳区xxx路xxx号, 检测部 收, 400-xxx-xxxx';
+    const text = '北京市海淀区圆明园西路二号中国农业科学院蜜蜂研究所, 王强（收）, 电话：13021226630（本电话仅用于接收快递，不接受任何咨询）';
     wx.setClipboardData({
       data: text,
       success: () => {
@@ -21,4 +21,3 @@ Page({
     // TODO: 可回写状态至后端，或返回上一页
   }
 });
-
