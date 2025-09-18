@@ -59,6 +59,13 @@
                     </view>
                     <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
                 </view>
+                <view bindtap="handleRewards" class="my-list-item">
+                    <view class="my-list-item-left">
+                        <image src="https://dtm123.com:7803/targets/image/images/016.png"></image>
+                        <text>我的奖励</text>
+                    </view>
+                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                </view>
                 <view bindtap="handlePaidFlow" class="my-list-item">
                     <view class="my-list-item-left">
                         <image src="https://dtm123.com:7803/targets/image/images/information.png"></image>

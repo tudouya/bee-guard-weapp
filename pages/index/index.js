@@ -13,13 +13,13 @@ Page({
         this.handleTopicHost();
         this.handleIndustry(); 
         this.handleWarnNum();
-        this.setData({ IP: config.apiBase })
+        this.setData({ IP: config.apiBase });
     },
     onShow: function() {
         this.handleTopicHost();
         this.handleIndustry();
         this.handleWarnNum();
-        this.setData({ IP: config.apiBase })
+        this.setData({ IP: config.apiBase });
     },
     handleChange: function() {
         wx.showToast({

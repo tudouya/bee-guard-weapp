@@ -1,0 +1,215 @@
+page {
+  background: #f5f7f5;
+}
+
+.rewards {
+  padding: 24rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.rewards-summary {
+  background: #ffffff;
+  border-radius: 18rpx;
+  padding: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(7, 193, 96, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.rewards-summary-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rewards-summary-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.rewards-summary-refresh {
+  font-size: 24rpx;
+  color: #07c160;
+}
+
+.rewards-summary-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18rpx;
+}
+
+.rewards-summary-item {
+  background: #f6fdf9;
+  border-radius: 14rpx;
+  padding: 16rpx 18rpx;
+}
+
+.rewards-summary-label {
+  font-size: 22rpx;
+  color: #64727c;
+}
+
+.rewards-summary-value {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.rewards-summary-value--highlight {
+  color: #07c160;
+}
+
+.rewards-summary-tip {
+  font-size: 22rpx;
+  color: #f56c6c;
+}
+
+.rewards-tabs {
+  display: flex;
+  gap: 16rpx;
+}
+
+.rewards-tab {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 999rpx;
+  padding: 18rpx 12rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #64727c;
+  position: relative;
+}
+
+.rewards-tab--active {
+  background: #07c160;
+  color: #ffffff;
+  box-shadow: 0 10rpx 20rpx rgba(7, 193, 96, 0.18);
+}
+
+.rewards-tab-dot {
+  position: absolute;
+  top: 12rpx;
+  right: 26rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #ffad0d;
+}
+
+.rewards-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.rewards-loading,
+.rewards-empty {
+  background: #ffffff;
+  border-radius: 18rpx;
+  padding: 48rpx 24rpx;
+  text-align: center;
+  color: #64727c;
+}
+
+.rewards-empty-text { display: block; margin-bottom: 24rpx; }
+
+.rewards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.reward-card {
+  background: #ffffff;
+  border-radius: 18rpx;
+  padding: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(15, 35, 49, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.reward-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reward-card-head-left { display: flex; align-items: center; gap: 12rpx; }
+
+.reward-card-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.reward-card-tag {
+  font-size: 22rpx;
+  color: #07c160;
+  background: rgba(7, 193, 96, 0.1);
+  border-radius: 999rpx;
+  padding: 4rpx 12rpx;
+}
+
+.reward-card-status {
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+}
+
+.reward-card-status-usable { background: rgba(7, 193, 96, 0.1); color: #07c160; }
+.reward-card-status-pending { background: rgba(250, 173, 20, 0.12); color: #faad14; }
+.reward-card-status-used { background: rgba(144, 147, 153, 0.16); color: #909399; }
+.reward-card-status-expired { background: rgba(255, 77, 79, 0.12); color: #ff4d4f; }
+
+.reward-card-amount { font-size: 44rpx; font-weight: 700; color: #07c160; }
+.reward-card-amount-currency { font-size: 28rpx; margin-right: 6rpx; }
+.reward-card-amount-unit { font-size: 24rpx; margin-left: 6rpx; color: #64727c; }
+
+.reward-card-meta {
+  font-size: 24rpx;
+  color: #454f57;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.reward-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.reward-card-btn { min-width: 220rpx; }
+.reward-card-btn--muted {
+  background: #f2f4f5;
+  color: #8a9599;
+}
+
+.reward-card-toggle {
+  font-size: 24rpx;
+  color: #07c160;
+}
+
+.reward-card-extra {
+  border-top: 1rpx dashed #e2e8e4;
+  padding-top: 16rpx;
+  font-size: 24rpx;
+  color: #454f57;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.reward-card-code {
+  color: #07c160;
+  margin-left: 8rpx;
+}

@@ -2,7 +2,7 @@
   "miniprogramRoot": "./",
   "projectname": "bee-guard-weapp",
   "description": "蜜蜂疫病监控平台小程序",
-  "appid": "tour-appid-here",
+  "appid": "wxaa917425daa50a16",
   "compileType": "miniprogram",
   "setting": {
     "es6": true,
@@ -10,13 +10,44 @@
     "minified": true,
     "coverView": true,
     "postcss": true,
-    "checkSiteMap": false
+    "checkSiteMap": false,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
   },
   "packOptions": {
     "ignore": [
-      { "type": "glob", "value": "smart-hive-weapp/**" },
-      { "type": "glob", "value": "PRD/**" },
-      { "type": "glob", "value": "docs/**" }
-    ]
-  }
+      {
+        "value": "smart-hive-weapp/**",
+        "type": "glob"
+      },
+      {
+        "value": "PRD/**",
+        "type": "glob"
+      },
+      {
+        "value": "docs/**",
+        "type": "glob"
+      }
+    ],
+    "include": []
+  },
+  "libVersion": "3.9.3",
+  "simulatorPluginLibVersion": {},
+  "editorSetting": {}
 }

@@ -1,0 +1,99 @@
+<view class="rewards">
+  <view class="rewards-summary">
+    <view class="rewards-summary-head">
+      <text class="rewards-summary-title">奖励概览</text>
+      <view class="rewards-summary-refresh" bindtap="loadSummary">刷新</view>
+    </view>
+    <view class="rewards-summary-metrics">
+      <view class="rewards-summary-item">
+        <text class="rewards-summary-label">待审核</text>
+        <text class="rewards-summary-value">{{summaryLoading ? '--' : summary.pending}}</text>
+      </view>
+      <view class="rewards-summary-item">
+        <text class="rewards-summary-label">可使用</text>
+        <text class="rewards-summary-value rewards-summary-value--highlight">{{summaryLoading ? '--' : summary.usable}}</text>
+      </view>
+      <view class="rewards-summary-item">
+        <text class="rewards-summary-label">已使用</text>
+        <text class="rewards-summary-value">{{summaryLoading ? '--' : summary.used}}</text>
+      </view>
+      <view class="rewards-summary-item">
+        <text class="rewards-summary-label">已过期</text>
+        <text class="rewards-summary-value">{{summaryLoading ? '--' : summary.expired}}</text>
+      </view>
+    </view>
+    <view class="rewards-summary-tip" wx:if="{{summaryError}}">奖励数据更新失败，点击刷新重试</view>
+  </view>
+
+  <view class="rewards-tabs">
+    <view class="rewards-tab {{activeTab === item.value ? 'rewards-tab--active' : ''}}" wx:for="{{tabs}}" wx:key="value" data-status="{{item.value}}" bindtap="handleTabChange">
+      <text>{{item.label}}</text>
+      <view class="rewards-tab-dot" wx:if="{{item.count > 0}}"></view>
+    </view>
+  </view>
+
+  <view class="rewards-body">
+    <view class="rewards-loading" wx:if="{{loading}}">加载中...</view>
+
+    <view class="rewards-empty" wx:elif="{{error}}">
+      <text class="rewards-empty-text">奖励加载失败</text>
+      <view class="u-btn u-btn-primary u-btn--sm" bindtap="handleRetry">重新加载</view>
+    </view>
+
+    <view class="rewards-empty" wx:elif="{{!loading && rewards.length === 0}}">
+      <text class="rewards-empty-text">暂无该状态的奖励</text>
+      <view class="u-btn u-btn-primary u-btn--sm" bindtap="goCommunity">去社区逛逛</view>
+    </view>
+
+    <view class="rewards-list" wx:else>
+      <view class="reward-card" wx:for="{{rewards}}" wx:key="rewardId">
+        <view class="reward-card-head">
+          <view class="reward-card-head-left">
+            <text class="reward-card-name">{{item.rewardName}}</text>
+            <text class="reward-card-tag">{{rewardTypeMap[item.rewardType] || '奖励'}}</text>
+          </view>
+          <view class="reward-card-status reward-card-status-{{item.status}}">{{item.statusText || '--'}}</view>
+        </view>
+
+        <view class="reward-card-amount" wx:if="{{item.amount}}">
+          <text class="reward-card-amount-currency" wx:if="{{item.unit === '元'}}">￥</text>
+          <text class="reward-card-amount-value">{{item.amount}}</text>
+          <text class="reward-card-amount-unit">{{item.unit}}</text>
+        </view>
+
+        <view class="reward-card-meta">
+          <text class="reward-card-meta-row">来源：{{item.source || '—'}}</text>
+          <text class="reward-card-meta-row">平台：{{item.platform || '—'}}</text>
+          <text class="reward-card-meta-row">有效期：{{item.expireAt || '—'}}</text>
+          <text class="reward-card-meta-row" wx:if="{{item.relatedTitle}}">关联：{{item.relatedTitle}}</text>
+          <text class="reward-card-meta-row" wx:if="{{item.remainCount !== null && item.remainCount !== undefined}}">剩余：{{item.remainCount}}</text>
+          <text class="reward-card-meta-row" wx:if="{{item.usedAt}}">使用时间：{{item.usedAt}}</text>
+        </view>
+
+        <view class="reward-card-actions">
+          <view class="u-btn {{item.status === 'usable' ? 'u-btn-primary' : 'u-btn-plain'}} u-btn--md" bindtap="handlePrimaryAction" data-id="{{item.rewardId}}">
+            <text wx:if="{{item.status === 'usable'}}">立即使用</text>
+            <text wx:elif="{{item.status === 'pending'}}">审核中</text>
+            <text wx:elif="{{item.status === 'used'}}">已使用</text>
+            <text wx:else>已过期</text>
+          </view>
+          <view class="reward-card-toggle" bindtap="toggleExpand" data-id="{{item.rewardId}}">
+            {{expandedMap[item.rewardId] ? '收起详情' : '查看详情'}}
+          </view>
+        </view>
+
+        <view class="reward-card-extra" wx:if="{{expandedMap[item.rewardId]}}">
+          <view class="reward-card-extra-line" wx:if="{{item.usageNotes}}">{{item.usageNotes}}</view>
+          <view class="reward-card-extra-line" wx:if="{{item.code}}">
+            券码：
+            <text class="reward-card-code" bindtap="handleCopyCode" data-code="{{item.code}}">{{item.code}}</text>
+          </view>
+          <view class="reward-card-extra-line" wx:if="{{item.extra && item.extra.notice}}">{{item.extra.notice}}</view>
+          <view class="reward-card-extra-line" wx:if="{{item.extra && item.extra.grantReason}}">奖励原因：{{item.extra.grantReason}}</view>
+          <view class="reward-card-extra-line" wx:if="{{item.extra && item.extra.highlight}}">{{item.extra.highlight}}</view>
+          <view class="reward-card-extra-line" wx:if="{{item.extra && item.extra.store}}">兑付门店：{{item.extra.store}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

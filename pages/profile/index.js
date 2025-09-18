@@ -45,6 +45,7 @@ Page({
   handleMyDetectionNumbers(){ wx.navigateTo({ url: '/pages/profile/detectionNumbers/index' }); },
   // 我的检测记录
   handleMyResults(){ wx.navigateTo({ url: '/pages/results/list/index' }); },
+  handleRewards(){ wx.navigateTo({ url: '/pages/profile/rewards/index' }); },
   // 自费检测与审核（跳转检测页，默认自费分段）
   handlePaidFlow(){ wx.switchTab({ url: '/pages/detection/index?mode=paid' }); },
   handleTopicRecord(){ wx.navigateTo({ url: '/pages/profile/topicRecord/index' }); },

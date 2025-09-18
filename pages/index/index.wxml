@@ -100,15 +100,15 @@
                 </view>
             </view>
             <view class="home-fire">
-                <view class="home-fire-hader">
-                    <view class="home-fire-bg"></view>
-                    <view class="home-fire-hader-detail">
-                        <view class="home-fire-hader-con">
-                            <view class="home-fire-left">
-                                <view class="home-fire-labe"></view>
-                                <text class="home-fire-title">防控知识热门</text>
+                <view class="home-section-header home-section-header--inline">
+                    <view class="home-section-header__overlay"></view>
+                    <view class="home-section-header__content">
+                        <view class="home-section-header__left">
+                            <view class="home-section-header__label"></view>
+                            <view class="home-section-header__titles">
+                                <text class="home-section-header__title">防控知识热门</text>
+                                <text class="home-section-header__subtitle" wx:if="{{num}}">{{num}}人正在学习</text>
                             </view>
-                            <text class="home-fire-meta">{{num}}人正在学习</text>
                         </view>
                     </view>
                 </view>
@@ -124,25 +124,30 @@
                     </view>
                 </view>
             </view>
-            <view class="home-info">
-                <div class="home-info-left">
-                    <view class="home-info-labe"></view>
-                    <view class="home-info-con">
-                        <view class="home-info-title">疫情监测快报</view>
-                        <view class="home-info-desc">疫情动态 实时发布</view>
-                    </view>
-                </div>
-                <view bindtap="handleInfo" class="home-info-btn u-btn u-btn-primary u-btn--xs">查看全部</view>
-            </view>
-            <view class="home-industry">
-                <view class="home-industry-content">
-                    <view bindtap="handleIndustryInfo" class="home-industry-list" data-id="{{item.consult_id}}" wx:for="{{infoData}}" wx:key="index">
-                        <view class="home-industry-left">
-                            <view class="home-industry-left-desc">{{item.consult_title}}</view>
-                            <view class="home-industry-left-type">{{item.type_name}}</view>
+            <view class="home-section">
+                <view class="home-section-header home-section-header--inline">
+                    <view class="home-section-header__overlay"></view>
+                    <view class="home-section-header__content">
+                        <view class="home-section-header__left">
+                            <view class="home-section-header__label"></view>
+                            <view class="home-section-header__titles">
+                                <text class="home-section-header__title">疫情监测快报</text>
+                                <text class="home-section-header__subtitle">疫情动态 实时发布</text>
+                            </view>
                         </view>
-                        <image src="{{IP+item.image_url}}" wx:if="{{item.image_url}}"></image>
-                        <image src="https://dtm123.com:7803/targets/image/images/010.png" wx:else></image>
+                        <view class="home-section-header__spacer"></view>
+                    </view>
+                </view>
+                <view class="home-industry">
+                    <view class="home-industry-content">
+                        <view bindtap="handleIndustryInfo" class="home-industry-list" data-id="{{item.consult_id}}" wx:for="{{infoData}}" wx:key="index">
+                            <view class="home-industry-left">
+                                <view class="home-industry-left-desc">{{item.consult_title}}</view>
+                                <view class="home-industry-left-type">{{item.type_name}}</view>
+                            </view>
+                            <image src="{{IP+item.image_url}}" wx:if="{{item.image_url}}"></image>
+                            <image src="https://dtm123.com:7803/targets/image/images/010.png" wx:else></image>
+                        </view>
                     </view>
                 </view>
             </view>

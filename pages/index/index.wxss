@@ -199,6 +199,7 @@ page {
 /* 第一行不需要顶部间距 */
 .home-list-item:nth-child(-n+3) { margin-top: 0; }
 
+
 .home-list-item image {
     height: 88rpx;
     margin-bottom: 10rpx;
@@ -213,49 +214,8 @@ page {
     background: #fff;
     border-radius: 24rpx;
     margin-top: 36rpx;
-}
-
-.home-fire-hader {
-    height: 88rpx;
-    position: relative;
-    border-radius: 16rpx 16rpx 0 0;
     overflow: hidden;
 }
-
-.home-fire-hader>image {
-    display: none;
-}
-
-.home-fire-hader-detail {
-    height: 88rpx;
-    position: absolute;
-    width: 100%;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-}
-
-/* 绿色主题背景替代原黄底图 */
-.home-fire-bg {
-    position: absolute;
-    left: 0; right: 0; top: 0; bottom: 0;
-    z-index: 2;
-    background: linear-gradient(90deg, #07c160 0%, #1bd38c 65%, #eafff3 120%);
-}
-
-/* 叠加图案临时移除，避免 WXSS 解析对布局的影响 */
-
-.home-fire-hader-con {
-    align-items: flex-end;
-    display: flex;
-    justify-content: space-between;
-    padding: 24rpx;
-}
-
-.home-fire-left { display: flex; align-items: center; }
-.home-fire-labe { width: 8rpx; height: 32rpx; background: rgba(255,255,255,0.85); border-radius: 2rpx; }
-.home-fire-title { color: #ffffff; font-size: 32rpx; font-weight: 600; margin-left: 16rpx; }
-.home-fire-meta { font-size: 24rpx; color: rgba(255,255,255,0.9); margin-left: 16rpx; }
 
 .home-fire-con {
     padding: 16rpx 0;
@@ -294,60 +254,85 @@ page {
     font-size: 24rpx;
 }
 
-.home-info {
+.home-section-header {
+    position: relative;
+    height: 88rpx;
+    border-radius: 16rpx 16rpx 0 0;
+    overflow: hidden;
+}
+
+.home-section-header__overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     background: linear-gradient(90deg, #07c160 0%, #1bd38c 65%, #eafff3 120%);
-    border-radius: 16rpx 16rpx 0 0; /* 顶部圆角，底部直角以与列表无缝衔接 */
-    padding: 16rpx;
-    margin-top: 24rpx;
-    margin-bottom: 0;
+    z-index: 1;
 }
 
-.home-info,.home-info-left {
-    align-items: center;
+.home-section-header__content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    padding: 0 24rpx;
 }
 
-.home-info-labe {
+.home-section-header__left {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+}
+
+.home-section-header__label {
+    width: 8rpx;
+    height: 32rpx;
     background: rgba(255,255,255,0.85);
     border-radius: 2rpx;
-    height: 32rpx;
-    width: 8rpx;
 }
 
-.home-info-con {
-    align-items: flex-end;
+.home-section-header__titles {
     display: flex;
+    flex-direction: column;
+    gap: 6rpx;
+    color: #ffffff;
 }
 
-.home-info-title {
-    color: #ffffff;
+.home-section-header__title {
     font-size: 32rpx;
     font-weight: 600;
-    margin: 0 16rpx;
 }
 
-.home-info-desc {
-    color: rgba(255,255,255,0.85);
+.home-section-header__subtitle {
     font-size: 24rpx;
+    color: rgba(255,255,255,0.92);
 }
 
-.home-info-btn {
-    align-items: center;
-    border-radius: 44rpx;
-    display: flex;
-    font-size: 22rpx;
-    height: 44rpx;
-    justify-content: center;
-    width: 120rpx;
-    background: #ffffff;
-    color: #07c160;
-    box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+.home-section-header__action {
+    min-width: 120rpx;
 }
+
+.home-section-header__spacer {
+    flex: 1;
+}
+
+.home-section-header--inline .home-section-header__content {
+    justify-content: flex-start;
+}
+
+.home-section-header--inline .home-section-header__titles {
+    flex-direction: row;
+    align-items: center;
+    gap: 12rpx;
+}
+.home-section { margin-top: 36rpx; }
 
 .home-industry-content {
     background: #fff;
-    border-radius: 0 0 16rpx 16rpx; /* 列表作为下半部分的圆角 */
+    border-radius: 0 0 16rpx 16rpx;
     padding: 20rpx 16rpx;
     margin-top: 0;
 }
