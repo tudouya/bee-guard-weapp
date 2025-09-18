@@ -3,7 +3,7 @@ const epiSvc = require('../../../services/epidemic.js');
 
 function buildOption(region){
   const categories = ['SBV','IAPV','BQCV','AFB','EFB','微孢子虫','白垩病'];
-  // 简单 mock：根据区域名哈希出伪随机数，保持切换有差异
+  // 简单占位：根据区域名哈希出伪随机数，保持切换有差异
   const seed = (region.province+region.city+region.district).split('').reduce((s,c)=>s+c.charCodeAt(0),0);
   const data = categories.map((_,i)=> Math.round((Math.sin(seed+i)+1)*20 + (i%3)*8) );
   return {

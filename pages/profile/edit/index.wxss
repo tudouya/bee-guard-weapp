@@ -1,0 +1,19 @@
+.page { padding: 24rpx 24rpx 32rpx; background: #fff; min-height: 100vh; box-sizing: border-box; }
+.section-title { font-size: 32rpx; font-weight: 700; color: #111; margin: 16rpx 0 20rpx; }
+
+.cell { display: flex; align-items: center; padding: 20rpx 8rpx; border-bottom: 1px solid #f3f3f3; }
+.cell:last-child { border-bottom: none; }
+.cell-label { flex: 0 0 160rpx; color: #333; font-size: 28rpx; }
+.cell-value { flex: 1; display: flex; justify-content: flex-end; align-items: center; }
+.cell-value--text { color: #9aa0a6; font-size: 28rpx; }
+.cell-value--input input { text-align: right; color: #333; font-size: 28rpx; }
+
+.avatar-btn { padding: 0; margin: 0; background: transparent; border: 0; }
+.avatar { width: 96rpx; height: 96rpx; border-radius: 50%; background: #f5f5f5; }
+
+.helper-row { margin: 20rpx 8rpx 0; text-align: right; }
+.helper-link { font-size: 24rpx; color: #07c160; }
+
+.actions { margin-top: 48rpx; display: grid; row-gap: 20rpx; }
+.logout-btn { background: #e74c3c; color: #fff; border: none; }
+

@@ -11,10 +11,10 @@ Page({
   },
   onLoad(options){
     const id = Number(options && options.id || 0);
-    const d = this.mockDetail(id);
+    const d = this.buildDetail(id);
     this.setData({ detail: d });
   },
-  mockDetail(id){
+  buildDetail(id){
     const base = {
       1: {
         title: '北京市发现蜂螨病疫情，加强监控',
@@ -54,4 +54,3 @@ Page({
     return { title: d.title || '疫情通报', path: '/pages/epidemic/detail/index' };
   }
 });
-

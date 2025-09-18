@@ -29,44 +29,7 @@ const SOURCE_TEXT = {
   enterprise: '企业检测'
 };
 
-const MOCK_NUMBERS = [
-  {
-    id: 1,
-    full_code: 'BG-202507-0001',
-    status: 'assigned',
-    source_type: 'enterprise',
-    assigned_at: '2025-07-16T08:00:00Z',
-    used_at: null,
-    remark: '由华北蜂业协会赠送'
-  },
-  {
-    id: 2,
-    full_code: 'BG-202507-0002',
-    status: 'available',
-    source_type: 'self_paid',
-    assigned_at: '2025-07-12T03:00:00Z',
-    used_at: null,
-    remark: '自费 ZF 套餐'
-  },
-  {
-    id: 3,
-    full_code: 'BG-202506-0025',
-    status: 'used',
-    source_type: 'self_paid',
-    assigned_at: '2025-06-20T09:30:00Z',
-    used_at: '2025-06-22T16:40:00Z',
-    remark: '已提交检测'
-  },
-  {
-    id: 4,
-    full_code: 'BG-202505-0010',
-    status: 'expired',
-    source_type: 'gift',
-    assigned_at: '2025-05-01T02:00:00Z',
-    used_at: null,
-    remark: '未在有效期内使用'
-  }
-];
+// 数据来源于后端接口 /api/detection-codes
 
 Page({
   data: {
@@ -135,12 +98,10 @@ Page({
       this.hasLoaded = true;
       this.setData({ loading: false, error: false });
     } catch (err) {
-      console.warn('检测号接口不可用，使用示例数据展示', err);
-      const mock = this.normalizeNumbers(MOCK_NUMBERS);
-      this.applyNormalized(mock, { markMock: true });
-      this.setData({ loading: false, error: false });
+      console.warn('检测号接口异常', err);
+      this.setData({ loading: false, error: true, isEmpty: true });
       if (!silent) {
-        wx.showToast({ title: '已展示示例数据', icon: 'none' });
+        wx.showToast({ title: '加载失败，请稍后重试', icon: 'none' });
       }
     }
   },
@@ -199,9 +160,7 @@ Page({
       lastSyncText,
       error: false
     });
-    if (options.markMock) {
-      this.isMock = true;
-    }
+    // 无模拟标记
   },
 
   buildSyncText(items) {

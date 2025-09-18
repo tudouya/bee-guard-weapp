@@ -36,7 +36,7 @@ Page({
       return;
     }
     if (e.detail.errMsg && e.detail.errMsg.indexOf('fail') !== -1) {
-      wx.showToast({ title: '已取消授权，可使用手机号登录', icon: 'none' });
+      wx.showToast({ title: '已取消授权，您可稍后重试', icon: 'none' });
       return;
     }
     try {
@@ -46,7 +46,7 @@ Page({
         wx.login({ success: resolve, fail: reject });
       });
       const loginCode = loginRes.code;
-      // 2. 向后端换取 session/openid（mock）
+      // 2. 向后端换取 session/openid
       const loginResp = await authSvc.loginByWeChatCode(loginCode);
       // 兼容不同字段命名，优先提取 token 并暂存（供后续 bind-phone 授权用）
       const loginToken = (loginResp && (loginResp.token || loginResp.access_token || (loginResp.data && (loginResp.data.token || loginResp.data.access_token)))) || '';

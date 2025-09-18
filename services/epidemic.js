@@ -1,4 +1,4 @@
-// Mock epidemic services: areas, distribution and trend
+// Epidemic services: areas, distribution and trend (temporary placeholder dataset)
 
 function delay(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -106,4 +106,3 @@ module.exports = {
   getTrend,
   DISEASES
 };
-

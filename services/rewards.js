@@ -1,5 +1,5 @@
 // Rewards service – real API integration
-// Replaces mock with backend endpoints under envelope { code, message, data, meta }
+// Rewards service: backend endpoints under envelope { code, message, data, meta }
 
 const config = require('../utils/config.js');
 const authUtil = require('../utils/auth.js');

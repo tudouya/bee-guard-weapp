@@ -1,5 +1,5 @@
-// Small mock region dataset for demo (province/city/district)
-// Keep minimal footprint for UI stage; replace with full data later.
+// Small static region dataset for demo (province/city/district)
+// Keep minimal footprint for UI stage; replace with backend data later.
 
 const REGION = [
   {
@@ -50,4 +50,3 @@ module.exports = {
   getDistricts,
   getRegionTriple
 };
-

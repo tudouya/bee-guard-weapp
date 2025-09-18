@@ -249,7 +249,7 @@ Page({
     wx.navigateTo({ url: '/pages/results/list/index' });
   },
 
-  // 手机号登录
+  // 登录
   handleLogin: function() {
     wx.navigateTo({ url: '/pages/auth/login/index' });
   },
