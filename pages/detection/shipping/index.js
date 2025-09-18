@@ -77,7 +77,8 @@ Page({
       const payload = {
         detection_number: (form.detectionNumber || '').trim(),
         courier_company: companyOptions[companyIndex],
-        tracking_no: (form.trackingNo || '').trim()
+        tracking_no: (form.trackingNo || '').trim(),
+        phone: (form.phone || '').trim()
       };
       if (form.date) payload.shipped_at = form.date;
       await shippingSvc.createShippingNotification(payload);

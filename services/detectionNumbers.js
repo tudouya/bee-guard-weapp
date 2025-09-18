@@ -5,29 +5,17 @@ async function getUserDetectionNumbers() {
   return await api.get('/api/detection-codes');
 }
 
-// 验证检测号是否有效（需携带手机号 phone）
+// 验证并绑定检测号（需携带手机号 phone）
+// 标准化规则：去除短横线并转为大写，保持与后端邮寄接口一致
 async function validateDetectionNumber(detectionCode, phone) {
-  return await api.post('/api/detection-codes/verify', {
-    detection_code: detectionCode,
+  const normalized = String(detectionCode || '').replace(/-/g, '').toUpperCase();
+  return await api.post('/api/detection-codes/verify-bind', {
+    detection_number: normalized,
     phone
   });
 }
 
-// 使用检测号（标记为已使用）
-async function useDetectionNumber(detectionNumber) {
-  return await api.post('/api/detection-numbers/use', {
-    detection_number: detectionNumber
-  });
-}
-
-// 获取检测号详情
-async function getDetectionNumberDetails(detectionNumber) {
-  return await api.get(`/api/detection-numbers/${encodeURIComponent(detectionNumber)}`);
-}
-
 module.exports = {
   getUserDetectionNumbers,
-  validateDetectionNumber,
-  useDetectionNumber,
-  getDetectionNumberDetails
+  validateDetectionNumber
 };
