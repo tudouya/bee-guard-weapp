@@ -5,7 +5,7 @@
   box-sizing: border-box;
   background: #f3f3f3; 
 }
-.content { padding: 0 16rpx; }
+.content { padding: 8rpx 16rpx 0; }
 
 .pay-card {
   background: #fff;

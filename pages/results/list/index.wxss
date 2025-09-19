@@ -7,8 +7,7 @@
 .search-input { flex: 1; height: 64rpx; padding: 0 12rpx; background: #f7f7f7; border-radius: 8rpx; font-size: 26rpx; }
 /* 移除状态与日期筛选，仅保留搜索框 */
 
-/* 顶部工具栏保留位：后续放搜索/筛选 */
-.header { display: none; }
+/* 顶部工具栏保留位：旧 header 样式已移除 */
 
 .loading { text-align: center; color: #999; padding: 40rpx 0; }
 
@@ -32,6 +31,6 @@
 .block-title { font-size: 26rpx; color: #333; font-weight: 600; margin-bottom: 6rpx; line-height: 36rpx; }
 .pos-tags { display: flex; flex-wrap: wrap; gap: 8rpx; margin-top: 6rpx; }
 .pos-tag { font-size: 22rpx; color: #ff4d4f; background: #fff1f0; border: 1rpx solid #ffa39e; border-radius: 20rpx; padding: 4rpx 10rpx; }
-.item-actions { display: flex; gap: 10rpx; margin-top: 8rpx; }
+/* 清理未使用：.item-actions */
 .load-more { text-align: center; color: #07c160; padding: 16rpx 0; }
 /* 移除“没有更多了”提示样式 */

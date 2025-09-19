@@ -22,14 +22,10 @@
 .like-btn.liked { background: rgba(7,193,96,0.12); }
 .post-actions .metric { color:#999; font-size: 24rpx; }
 
-/* 建议/审核 */
+/* 清理未使用：sec-title/suggest/warn；保留 .panel 通用容器以备后续启用 */
 .panel { background:#fff; border-radius: 24rpx; padding: 16rpx; box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.06); margin-top: 16rpx; }
-.sec-title { font-weight: 700; margin-bottom: 8rpx; color:#333; }
-.suggest { color:#333; font-size: 30rpx; line-height: 1.7; }
-.warn { border: 1rpx dashed #faad14; background: #fffbe6; }
 
-/* 回复列表占位 */
-.reply-title { margin-top: 18rpx; color:#666; font-size: 26rpx; }
+/* 回复列表占位（reply-title 已清理） */
 .reply-card { }
 .r-hd { display:flex; align-items:center; gap: 12rpx; }
 .r-avatar { width: 48rpx; height: 48rpx; border-radius: 50%; background:#f0f0f0; }

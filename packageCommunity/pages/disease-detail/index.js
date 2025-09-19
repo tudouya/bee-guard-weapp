@@ -47,8 +47,5 @@ Page({
   goAsk(){ wx.navigateTo({ url: '/packageCommunity/pages/qa-post/index' }); },
   goShare(){ wx.navigateTo({ url: '/packageCommunity/pages/share-post/index' }); },
   openArticle(e){ const aid = e.currentTarget.dataset.id; if (!aid) return; wx.navigateTo({ url: `/packageCommunity/pages/article-detail/index?id=${aid}&d=${this.data.diseaseId}` }); },
-  // 返回社区统一页（蜂病百科 Tab）
-  goBackToCommunity(){
-    wx.redirectTo({ url: '/packageCommunity/pages/disease-list/index?tab=disease' });
-  }
+  // 顶部返回按钮已移除；保留系统返回导航
 });

@@ -57,7 +57,6 @@
         <textarea class="textarea" placeholder="如：支付时间、使用账户名、其他补充信息" maxlength="300" bindinput="onRemarkInput" value="{{form.remark}}"></textarea>
       </view>
       <view class="actions">
-        <text class="link" bindtap="saveDraft">保存草稿</text>
         <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submitProof">提交审核</button>
       </view>
     </view>

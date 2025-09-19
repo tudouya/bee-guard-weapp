@@ -7,8 +7,7 @@
 
 /* 面板卡片容器 */
 .panel { background:transparent; padding: 0; box-shadow:none; }
-.panel-hd { display:none; }
-.panel-title,.panel-sub { display:none; }
+/* 清理未使用：.panel-hd、.panel-title、.panel-sub */
 
 /* 分类条目：与首页卡片一致留白 */
 .cells { }

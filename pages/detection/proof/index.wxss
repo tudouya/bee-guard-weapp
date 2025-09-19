@@ -5,7 +5,7 @@
   box-sizing: border-box;
   background: #f3f3f3; 
 }
-.content { padding: 0 16rpx; }
+.content { padding: 8rpx 16rpx 0; }
 
 .proof-card {
   background: #fff;
@@ -49,5 +49,4 @@
 .del { position: absolute; top: 6rpx; right: 6rpx; width: 36rpx; height: 36rpx; border-radius: 18rpx; background: rgba(0,0,0,0.5); color: #fff; text-align: center; line-height: 36rpx; font-size: 26rpx; }
 .textarea { width: 100%; min-height: 160rpx; background: #f7f7f7; border-radius: 12rpx; padding: 12rpx; font-size: 28rpx; color: #333; box-sizing: border-box; }
 .actions { display: flex; flex-direction: column; gap: 10rpx; }
-.actions .link { align-self: flex-end; color: #07c160; font-size: 24rpx; }
 .actions button[disabled] { opacity: 0.5; }

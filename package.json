@@ -16,9 +16,7 @@
   ],
   "author": "bee-guard team",
   "license": "MIT",
-  "dependencies": {
-    "@vant/weapp": "^1.10.4"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "repository": {
     "type": "git",

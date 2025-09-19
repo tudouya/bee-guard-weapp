@@ -32,15 +32,7 @@ page {
     display: flex;
 }
 
-.home-warn {
-    position: relative;
-}
-
-.home-warn>image {
-    height: 40rpx;
-    margin: 0 8rpx 0 24rpx;
-    width: 40rpx;
-}
+/* 清理未使用：home-warn 相关样式已下线 */
 
 .home-search {
     align-items: center;
@@ -56,13 +48,7 @@ page {
     flex: 1 1;
 }
 
-.home-search-bgd {
-    height: 51rpx;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 84rpx;
-}
+/* 清理未使用：home-search-bgd 背景装饰已移除 */
 
 .home-search-icon {
     height: 24rpx;
@@ -70,25 +56,13 @@ page {
     width: 24rpx;
 }
 
-.home-warn-num {
-    background: red;
-    border-radius: 24rpx;
-    color: #fff;
-    font-size: 14rpx;
-    padding: 1rpx 6rpx;
-    position: absolute;
-    right: 12rpx;
-    top: -10rpx;
-}
+/* 清理未使用：home-warn-num 角标样式已移除 */
 
 .home-rotation-chart {
     margin: 24rpx 0 32rpx;
 }
 
-.home-rotation-chart>image {
-    height: 280rpx;
-    width: 100%;
-}
+/* 清理未使用：旧轮播图 image 规则 */
 
 /* 品牌绿 Banner（替代旧图） */
 .banner-green {
@@ -178,9 +152,7 @@ page {
 .shield { position: absolute; left: 24rpx; bottom: 24rpx; width: 56rpx; height: 56rpx; background: #fff; border-radius: 14rpx; box-shadow: 0 4rpx 14rpx rgba(0,0,0,0.12); }
 .shield-mark { position: absolute; left: 50%; top: 50%; width: 28rpx; height: 28rpx; transform: translate(-50%,-50%); border-radius: 50%; box-shadow: inset 0 0 0 2rpx #07c160; }
 
-/* 动画 */
-@keyframes wing { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(22deg); } }
-@keyframes bee-fly { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6rpx); } }
+/* 动画（保留 pulse，移除未使用的 wing/bee-fly） */
 @keyframes pulse { 0% { opacity: 0.8; } 100% { opacity: 0; border-color: rgba(255,255,255,0); } }
 
 .home-list,.home-list-item {
@@ -311,9 +283,7 @@ page {
     color: rgba(255,255,255,0.92);
 }
 
-.home-section-header__action {
-    min-width: 120rpx;
-}
+/* 清理未使用：.home-section-header__action */
 
 .home-section-header__spacer {
     flex: 1;

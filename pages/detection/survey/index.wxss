@@ -6,7 +6,7 @@
   box-sizing: border-box;
   background: #f3f3f3; 
 }
-.content { padding: 0 16rpx; }
+.content { padding: 8rpx 16rpx 0; }
 
 .preset-bar { display: flex; flex-wrap: wrap; gap: 12rpx; margin: 8rpx 0 16rpx; }
 .preset-bar .u-btn { padding: 0 20rpx; }
@@ -24,7 +24,6 @@
 
 .form { display: flex; flex-direction: column; gap: 20rpx; }
 .section-title { font-size: 30rpx; color: #333; font-weight: 600; margin: 6rpx 0 8rpx; }
-.divider { height: 1rpx; background: #f0f0f0; margin: 8rpx 0 12rpx; }
 .form-item {}
 .form-label { font-size: 28rpx; color: #333; margin-bottom: 10rpx; }
 .form-label .req { color: #e54d42; margin-right: 8rpx; }
@@ -47,33 +46,13 @@
   color: #333; 
 }
 
-/* 自定义单选/多选：圆形指示器 + 胶囊容器，保持统一大小 */
-.check-chip, .radio-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 10rpx 16rpx;
-  background: #fff;
-  border: 1rpx solid #e6e6e6;
-  border-radius: 9999rpx;
-}
-.check-chip .circle, .radio-chip .circle {
-  width: 28rpx;
-  height: 28rpx;
-  border: 2rpx solid #c8c8c8;
-  border-radius: 50%;
-  margin-right: 10rpx;
-  background: #fff;
-  box-sizing: border-box;
-}
-.check-chip.checked, .radio-chip.checked { border-color: rgba(7,193,96,0.6); background: rgba(7,193,96,0.06); }
-.check-chip.checked .circle, .radio-chip.checked .circle { border-color: #07c160; background: #07c160; }
 .chip-text { font-size: 28rpx; color: #333; }
 .radio-item radio, .checkbox-item checkbox { 
   transform: scale(0.9); 
   margin-right: 10rpx; 
 }
 
-.textarea { width: 100%; min-height: 160rpx; background: #f7f7f7; border-radius: 12rpx; padding: 12rpx; font-size: 28rpx; color: #333; box-sizing: border-box; }
+/* 清理未使用：.divider 与 .textarea */
 
 .rank-list { display: flex; flex-direction: column; gap: 12rpx; }
 .rank-item { display: flex; justify-content: space-between; align-items: center; padding: 10rpx 0; }

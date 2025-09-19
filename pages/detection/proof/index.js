@@ -105,16 +105,6 @@ Page({
     const ok = !!method && tradeNo && tradeNo.length >= 6 && Number(amount) > 0 && hasAnyImage;
     this.setData({ canSubmit: ok });
   },
-  saveDraft() {
-    const key = `proofDraft_${this.data.pkg.id}`;
-    const draft = { form: this.data.form, images: this.data.images };
-    try {
-      wx.setStorageSync(key, draft);
-      wx.showToast({ title: '草稿已保存', icon: 'success' });
-    } catch (e) {
-      wx.showToast({ title: '保存失败', icon: 'none' });
-    }
-  },
   submitProof() {
     if (authUtil.ensureLogin) {
       const self = this;

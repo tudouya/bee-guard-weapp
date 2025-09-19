@@ -71,3 +71,5 @@ changelog.generated.md
  
 # 遗留项目归档（不纳入版本控制）
 smart-hive-weapp/
+
+.serena/

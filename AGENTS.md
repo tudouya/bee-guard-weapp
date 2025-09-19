@@ -18,7 +18,7 @@
 - 改动聚焦：仅为完成当前任务所需而改动文件，不随意重构无关模块或全局结构。
 - 保持一致：遵循全局样式（`app.wxss` 中的 u-btn 系列与色板）与现有代码风格、命名约定与目录组织。
 - 可回滚：对导航与配置的修改（`app.json`、路由）需保持最小侵入，确保可快速回退。
-- 不引入新依赖：除非产品/维护者明确同意；优先使用小程序原生能力与现有依赖（Vant Weapp、ECharts）。
+- 不引入新依赖：除非产品/维护者明确同意；优先使用小程序原生能力与现有依赖（如 ECharts）。
 
 ## 目录与架构约定
 - 主包（TabBar）：保留首页、检测、疫情入口、我的，以及结果查询与认证页面。
@@ -36,8 +36,7 @@
   - 新增页面需在 `app.json`（主包或 `subpackages`）登记。
 - 文案与语言：面向中文用户，保持描述清晰、友好、一致。
 - 组件引用：
-  - 使用 Vant Weapp 时，通过 `usingComponents` 引用 `miniprogram_npm/@vant/weapp` 内的组件。
-  - ECharts：从 `smart-hive-weapp/ec-canvas` 复制 `ec-canvas` 与 `echarts.js` 到目标包（建议图表分包）。
+  - ECharts：从 `smart-hive-weapp/ec-canvas` 复制（或复用现有）`ec-canvas` 与 `echarts.js` 到目标包（建议图表分包）。
 - 样式：
   - 优先使用 `app.wxss` 中的全局工具类（`u-btn`, `u-btn-primary`, `u-btn--md` 等）与色板（`color-primary` 等）。
   - 页面私有样式命名采用短横线命名（kebab-case），避免与全局类冲突。

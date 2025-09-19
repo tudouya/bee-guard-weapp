@@ -188,11 +188,7 @@ page {
   gap: 16rpx;
 }
 
-.reward-card-btn { min-width: 220rpx; }
-.reward-card-btn--muted {
-  background: #f2f4f5;
-  color: #8a9599;
-}
+/* 清理未使用：页面已使用全局 u-btn，不再使用 reward-card-btn 系列 */
 
 .reward-card-toggle {
   font-size: 24rpx;

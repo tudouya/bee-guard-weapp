@@ -5,7 +5,7 @@
   box-sizing: border-box;
   background: #f3f3f3; 
 }
-.content { padding: 0 16rpx; }
+.content { padding: 8rpx 16rpx 0; }
 
 .status-card { background: #fff; border-radius: 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.08); padding: 24rpx 16rpx; }
 .header { margin-bottom: 16rpx; }
@@ -25,4 +25,3 @@
 
 .tip { font-size: 24rpx; color: #999; margin: 12rpx 0 16rpx; }
 .btns { display: flex; gap: 12rpx; }
-

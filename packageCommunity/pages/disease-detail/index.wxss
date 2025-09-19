@@ -10,7 +10,7 @@
 .section { margin-top: 12rpx; }
 .section-hd { display:flex; justify-content:space-between; align-items:center; margin-bottom: 8rpx; }
 .section-title { font-size: 28rpx; color:#333; font-weight: 700; }
-.more { font-size: 24rpx; color:#07c160; }
+/* 清理未使用：.more */
 .article-list { }
 .article-item { padding: 14rpx; border: 1rpx solid #f0f0f0; border-radius: 12rpx; margin-top: 12rpx; box-shadow: 0 1rpx 4rpx rgba(0,0,0,0.04); }
 .article-item:first-child { margin-top: 0; }
@@ -18,5 +18,3 @@
 .a-brief { margin-top: 6rpx; color:#666; font-size: 24rpx; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .a-meta { margin-top: 6rpx; color:#999; font-size: 22rpx; }
 /* 操作区已移除 */
-/* 顶部返回条 */
-.backbar { padding: 12rpx 16rpx 0; }
