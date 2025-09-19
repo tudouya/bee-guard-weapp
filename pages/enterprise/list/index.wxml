@@ -1,0 +1,49 @@
+<view class="enterprise-list">
+  <view class="enterprise-hero">
+    <view class="enterprise-hero__title">合作伙伴企业</view>
+    <view class="enterprise-hero__desc">
+      蜂群健康离不开专业伙伴支持，我们挑选了正在合作的企业，提供检测、防控、设备等一站式服务。
+    </view>
+    <view class="enterprise-hero__tips">
+      <text class="color-primary">实名合作</text>
+      <text> · </text>
+      <text>真实服务覆盖</text>
+      <text> · </text>
+      <text>持续联调评估</text>
+    </view>
+  </view>
+
+  <view wx:if="{{errorMessage}}" class="enterprise-error">
+    <text>{{errorMessage}}</text>
+    <view class="u-btn u-btn-primary u-btn--sm enterprise-error__btn" bindtap="handleRetry">重新加载</view>
+  </view>
+
+  <view wx:if="{{!loading && enterprises.length === 0 && !errorMessage}}" class="enterprise-empty">
+    <image class="enterprise-empty__icon" src="https://dtm123.com:7803/targets/image/images/010.png" mode="aspectFit"></image>
+    <text class="enterprise-empty__text">暂未配置合作企业</text>
+    <view class="enterprise-empty__hint">后台完成配置后将自动展示</view>
+  </view>
+
+  <view wx:if="{{enterprises.length}}" class="enterprise-cards">
+    <view wx:for="{{enterprises}}" wx:key="id" data-id="{{item.id}}" class="enterprise-card" bindtap="handleViewDetail">
+      <view class="enterprise-card__header">
+        <image class="enterprise-card__logo" src="{{item.logo}}" mode="aspectFill" aria-hidden="true"></image>
+        <view class="enterprise-card__text">
+          <view class="enterprise-card__name">{{item.name}}</view>
+          <view class="enterprise-card__coverage">{{item.coverage}}</view>
+        </view>
+      </view>
+      <view class="enterprise-card__summary">{{item.summary}}</view>
+      <view class="enterprise-card__tags" wx:if="{{item.tags && item.tags.length}}">
+        <view class="enterprise-card__tag" wx:for="{{item.tags}}" wx:key="index">{{item}}</view>
+      </view>
+      <view class="enterprise-card__cta">
+        <view class="u-btn u-btn-primary u-btn--sm u-btn--pill">了解详情</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading && enterprises.length}}" class="enterprise-loading">加载中...</view>
+  <view wx:if="{{!hasMore && enterprises.length}}" class="enterprise-footnote">已加载全部企业</view>
+</view>
+

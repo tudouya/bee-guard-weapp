@@ -1,0 +1,249 @@
+page {
+  background: #f3f3f3;
+}
+
+.product-detail {
+  padding: 24rpx 16rpx 64rpx;
+  box-sizing: border-box;
+}
+
+.product-loading-card,
+.product-error {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 48rpx 32rpx;
+  text-align: center;
+  color: #6e757b;
+  margin-bottom: 28rpx;
+}
+
+.product-error__btn {
+  margin: 24rpx auto 0;
+}
+
+.product-banner {
+  position: relative;
+  height: 280rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 12rpx 32rpx rgba(0, 0, 0, 0.08);
+  margin-bottom: 28rpx;
+}
+
+.product-banner__image {
+  width: 100%;
+  height: 100%;
+}
+
+.product-banner__badge {
+  position: absolute;
+  left: 24rpx;
+  top: 24rpx;
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
+  background: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  font-size: 22rpx;
+}
+
+.product-base {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-shadow: 0 12rpx 24rpx rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.product-base__title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #14171a;
+}
+
+.product-base__subtitle {
+  font-size: 26rpx;
+  color: #4c5257;
+  line-height: 1.5;
+}
+
+.product-base__meta {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.product-base__price {
+  font-size: 30rpx;
+  color: #d46b08;
+  font-weight: 600;
+}
+
+.product-base__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+
+.product-base__tag {
+  padding: 8rpx 16rpx;
+  border-radius: 999rpx;
+  background: rgba(7, 193, 96, 0.12);
+  color: #07c160;
+  font-size: 22rpx;
+}
+
+.product-section {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 12rpx 24rpx rgba(0, 0, 0, 0.04);
+}
+
+.product-section__title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #14171a;
+  margin-bottom: 20rpx;
+}
+
+.product-section__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.product-section__chip {
+  padding: 10rpx 18rpx;
+  border-radius: 999rpx;
+  background: #f2f5f7;
+  font-size: 24rpx;
+  color: #4c5257;
+}
+
+.product-list-text {
+  font-size: 26rpx;
+  color: #34393d;
+  line-height: 1.6;
+  margin-bottom: 12rpx;
+}
+
+.product-list-text:last-child {
+  margin-bottom: 0;
+}
+
+.product-step {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+  align-items: flex-start;
+}
+
+.product-step:last-child {
+  margin-bottom: 0;
+}
+
+.product-step__index {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 16rpx;
+  background: rgba(7, 193, 96, 0.15);
+  color: #07c160;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-step__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.product-step__title {
+  font-size: 28rpx;
+  color: #14171a;
+  font-weight: 600;
+}
+
+.product-step__desc {
+  font-size: 26rpx;
+  color: #4c5257;
+  line-height: 1.6;
+}
+
+.product-faq {
+  background: #f7faf9;
+  border-radius: 20rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.product-faq:last-child {
+  margin-bottom: 0;
+}
+
+.product-faq__q {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #14171a;
+  margin-bottom: 8rpx;
+}
+
+.product-faq__a {
+  font-size: 26rpx;
+  color: #4c5257;
+  line-height: 1.6;
+}
+
+.product-contact {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-shadow: 0 12rpx 24rpx rgba(0, 0, 0, 0.04);
+  margin-bottom: 24rpx;
+}
+
+.product-contact__meta {
+  font-size: 26rpx;
+  color: #34393d;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.product-contact__name {
+  font-weight: 600;
+  color: #14171a;
+}
+
+.product-contact__actions {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+  margin: 24rpx 0 12rpx;
+}
+
+.product-contact__hint {
+  font-size: 22rpx;
+  color: #8f9498;
+  line-height: 1.6;
+}
+
+.product-contact--platform {
+  background: linear-gradient(135deg, #07c160 0%, #1bd38c 70%, #eafff3 100%);
+  color: #ffffff;
+}
+
+.product-contact--platform .product-contact__hint {
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8rpx;
+}
+

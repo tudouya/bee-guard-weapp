@@ -1,0 +1,90 @@
+<view class="product-detail">
+  <view wx:if="{{loading}}" class="product-loading-card">产品信息加载中...</view>
+
+  <view wx:if="{{errorMessage && !loading}}" class="product-error">
+    <text>{{errorMessage}}</text>
+    <view class="u-btn u-btn-primary u-btn--sm product-error__btn" bindtap="handleRetry">重新加载</view>
+  </view>
+
+  <view wx:if="{{!loading && detail}}">
+    <view class="product-banner">
+      <image class="product-banner__image" src="{{detail.banner}}" mode="aspectFill"></image>
+      <view class="product-banner__badge">{{detail.source==='enterprise' ? (detail.sourceLabel || '企业推荐') : '平台精选'}}</view>
+    </view>
+
+    <view class="product-base">
+      <view class="product-base__title">{{detail.name}}</view>
+      <view class="product-base__subtitle">{{detail.subtitle}}</view>
+      <view class="product-base__meta">
+        <text class="product-base__price">{{detail.priceRange}}</text>
+        <view class="u-btn u-btn-primary u-btn--xs u-btn--pill" bindtap="handleCopyPrice">复制价格</view>
+      </view>
+      <view class="product-base__tags" wx:if="{{detail.tags && detail.tags.length}}">
+        <view class="product-base__tag" wx:for="{{detail.tags}}" wx:key="index">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="product-section" wx:if="{{detail.recommendedFor && detail.recommendedFor.length}}">
+      <view class="product-section__title">适用场景</view>
+      <view class="product-section__chips">
+        <view class="product-section__chip" wx:for="{{detail.recommendedFor}}" wx:key="index">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="product-section" wx:if="{{detail.highlights && detail.highlights.length}}">
+      <view class="product-section__title">服务亮点</view>
+      <view class="product-list-text" wx:for="{{detail.highlights}}" wx:key="index">• {{item}}</view>
+    </view>
+
+    <view class="product-section" wx:if="{{detail.composition && detail.composition.length}}">
+      <view class="product-section__title">套餐组成 / 核心成分</view>
+      <view class="product-list-text" wx:for="{{detail.composition}}" wx:key="index">• {{item}}</view>
+    </view>
+
+    <view class="product-section" wx:if="{{detail.usageSteps && detail.usageSteps.length}}">
+      <view class="product-section__title">使用方案</view>
+      <view class="product-step" wx:for="{{detail.usageSteps}}" wx:key="index">
+        <view class="product-step__index">{{index + 1}}</view>
+        <view class="product-step__body">
+          <view class="product-step__title">{{item.title}}</view>
+          <view class="product-step__desc">{{item.detail}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="product-section" wx:if="{{detail.notice && detail.notice.length}}">
+      <view class="product-section__title">注意事项</view>
+      <view class="product-list-text" wx:for="{{detail.notice}}" wx:key="index">• {{item}}</view>
+    </view>
+
+    <view class="product-section" wx:if="{{detail.faq && detail.faq.length}}">
+      <view class="product-section__title">常见问答</view>
+      <view class="product-faq" wx:for="{{detail.faq}}" wx:key="index">
+        <view class="product-faq__q">Q：{{item.q}}</view>
+        <view class="product-faq__a">A：{{item.a}}</view>
+      </view>
+    </view>
+
+    <view class="product-contact" wx:if="{{detail.enterprise}}">
+      <view class="product-section__title">合作企业联系</view>
+      <view class="product-contact__meta">
+        <view class="product-contact__name">{{detail.enterprise.name || detail.sourceLabel}}</view>
+        <view wx:if="{{detail.enterprise.phone}}">电话：{{detail.enterprise.phone}}</view>
+        <view wx:if="{{detail.enterprise.wechat}}">微信：{{detail.enterprise.wechat}}</view>
+        <view wx:if="{{detail.enterprise.link}}">官网：{{detail.enterprise.link}}</view>
+      </view>
+      <view class="product-contact__actions">
+        <view wx:if="{{detail.enterprise.phone}}" class="u-btn u-btn-primary u-btn--sm u-btn--pill" bindtap="handleCallEnterprise">电话咨询</view>
+        <view wx:if="{{detail.enterprise.wechat}}" class="u-btn u-btn-primary u-btn--sm u-btn--pill" bindtap="handleCopyWechat">复制微信</view>
+        <view wx:if="{{detail.enterprise.link}}" class="u-btn u-btn-primary u-btn--sm u-btn--pill" bindtap="handleCopyLink">复制官网链接</view>
+      </view>
+      <view class="product-contact__hint">如需定制化服务，可通过上述联系人预约专属顾问。</view>
+    </view>
+
+    <view class="product-contact product-contact--platform" wx:if="{{!detail.enterprise}}">
+      <view class="product-section__title">平台客服</view>
+      <view class="product-contact__hint">平台推荐商品由官方严选提供，具体发货、售后信息将在正式接入后同步。您也可在“我的-客服咨询”中联系我们。</view>
+    </view>
+  </view>
+</view>
+

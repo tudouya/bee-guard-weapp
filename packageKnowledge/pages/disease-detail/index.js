@@ -49,7 +49,8 @@ Page({
     });
   },
   openProducts() {
-    wx.showToast({ title: '企业/平台产品链接开发中', icon: 'none' });
+    const scene = this.data && this.data.title ? encodeURIComponent(this.data.title) : '';
+    const url = scene ? `/pages/product/list/index?scene=${scene}` : '/pages/product/list/index';
+    wx.navigateTo({ url });
   }
 });
-

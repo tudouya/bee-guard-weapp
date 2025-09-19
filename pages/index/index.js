@@ -42,11 +42,11 @@ Page({
     },
     // 新增：企业展示
     handleEnterprise: function() {
-        wx.showToast({ title: '功能开发中', icon: 'none' });
+        wx.navigateTo({ url: '/pages/enterprise/list/index' });
     },
     // 新增：产品推荐
     handleProduct: function() {
-        wx.showToast({ title: '功能开发中', icon: 'none' });
+        wx.navigateTo({ url: '/pages/product/list/index' });
     },
     // 新增：答疑解惑（跳转社区三标签页并默认激活“蜂农提问”）
     handleQna: function() {

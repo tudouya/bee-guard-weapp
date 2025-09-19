@@ -1,0 +1,63 @@
+<view class="enterprise-detail">
+  <view wx:if="{{loading}}" class="enterprise-loading-card">企业信息加载中...</view>
+
+  <view wx:if="{{errorMessage && !loading}}" class="enterprise-error">
+    <text>{{errorMessage}}</text>
+    <view class="u-btn u-btn-primary u-btn--sm enterprise-error__btn" bindtap="handleRetry">重新加载</view>
+  </view>
+
+  <view wx:if="{{!loading && detail}}">
+    <view class="enterprise-header">
+      <image class="enterprise-header__logo" src="{{detail.logo}}" mode="aspectFill" aria-hidden="true"></image>
+      <view class="enterprise-header__meta">
+        <view class="enterprise-header__name">{{detail.name}}</view>
+        <view class="enterprise-header__coverage">{{detail.coverage}}</view>
+        <view class="enterprise-header__tags" wx:if="{{detail.tags && detail.tags.length}}">
+          <view class="enterprise-header__tag" wx:for="{{detail.tags}}" wx:key="index">{{item}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="enterprise-section">
+      <view class="enterprise-section__title">企业简介</view>
+      <view class="enterprise-section__content">{{detail.summary}}</view>
+    </view>
+
+    <view class="enterprise-section" wx:if="{{detail.services && detail.services.length}}">
+      <view class="enterprise-section__title">服务能力</view>
+      <view class="enterprise-service" wx:for="{{detail.services}}" wx:key="index">
+        <view class="enterprise-service__title">{{item.title}}</view>
+        <view class="enterprise-service__desc">{{item.desc}}</view>
+      </view>
+    </view>
+
+    <view class="enterprise-section" wx:if="{{detail.highlights && detail.highlights.length}}">
+      <view class="enterprise-section__title">合作亮点</view>
+      <view class="enterprise-list-text" wx:for="{{detail.highlights}}" wx:key="index">• {{item}}</view>
+    </view>
+
+    <view class="enterprise-section" wx:if="{{detail.certifications && detail.certifications.length}}">
+      <view class="enterprise-section__title">认证资质</view>
+      <view class="enterprise-certifications">
+        <view class="enterprise-certifications__item" wx:for="{{detail.certifications}}" wx:key="index">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="enterprise-contact" wx:if="{{detail.contact}}">
+      <view class="enterprise-section__title">联系合作</view>
+      <view class="enterprise-contact__meta">
+        <view wx:if="{{detail.contact.manager}}">业务经理：{{detail.contact.manager}}</view>
+        <view wx:if="{{detail.contact.phone}}">联系电话：{{detail.contact.phone}}</view>
+        <view wx:if="{{detail.contact.wechat}}">企业微信：{{detail.contact.wechat}}</view>
+        <view wx:if="{{detail.contact.link}}">官网链接：{{detail.contact.link}}</view>
+      </view>
+      <view class="enterprise-contact__actions">
+        <view wx:if="{{detail.contact.phone}}" class="u-btn u-btn-primary u-btn--sm u-btn--pill" bindtap="handleCallPhone">电话咨询</view>
+        <view wx:if="{{detail.contact.wechat}}" class="u-btn u-btn-primary u-btn--sm u-btn--pill" bindtap="handleCopyWechat">复制微信</view>
+        <view wx:if="{{detail.contact.link}}" class="u-btn u-btn-primary u-btn--sm u-btn--pill" bindtap="handleCopyLink">复制官网链接</view>
+      </view>
+      <view class="enterprise-contact__hint">本联系方式仅用于合作沟通，请勿泄露于非授权渠道。</view>
+    </view>
+  </view>
+</view>
+

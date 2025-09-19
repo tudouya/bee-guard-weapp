@@ -1,0 +1,56 @@
+<view class="product-list">
+  <view class="product-hero">
+    <view class="product-hero__title">检测后，别忘了做好防控</view>
+    <view class="product-hero__desc">
+      这里汇集了平台精选与合作企业的防控产品、检测套餐、数字化工具，助你快速响应蜂群健康需求。
+    </view>
+    <view wx:if="{{scene}}" class="product-hero__scene">针对：{{scene}}</view>
+  </view>
+
+  <view class="product-filter">
+    <view class="product-filter__label">推荐来源</view>
+    <view class="product-filter__tags">
+      <view class="product-filter__tag {{currentSource==='all' ? 'product-filter__tag--active' : ''}}" data-source="all" bindtap="handleFilterChange">全部</view>
+      <view class="product-filter__tag {{currentSource==='enterprise' ? 'product-filter__tag--active' : ''}}" data-source="enterprise" bindtap="handleFilterChange">企业推荐</view>
+      <view class="product-filter__tag {{currentSource==='platform' ? 'product-filter__tag--active' : ''}}" data-source="platform" bindtap="handleFilterChange">平台精选</view>
+    </view>
+  </view>
+
+  <view wx:if="{{errorMessage}}" class="product-error">
+    <text>{{errorMessage}}</text>
+    <view class="u-btn u-btn-primary u-btn--sm product-error__btn" bindtap="handleRetry">重新加载</view>
+  </view>
+
+  <view wx:if="{{!loading && products.length === 0 && !errorMessage}}" class="product-empty">
+    <image class="product-empty__icon" src="https://dtm123.com:7803/targets/image/images/010.png" mode="aspectFit"></image>
+    <text class="product-empty__text">暂未找到符合条件的推荐</text>
+    <view class="product-empty__hint">试试切换来源或联系平台获取定制方案</view>
+  </view>
+
+  <view wx:if="{{products.length}}" class="product-cards">
+    <view class="product-card" wx:for="{{products}}" wx:key="id" data-id="{{item.id}}" bindtap="handleViewDetail">
+      <view class="product-card__banner">
+        <image class="product-card__image" src="{{item.banner}}" mode="aspectFill" aria-hidden="true"></image>
+        <view class="product-card__badge">{{item.source==='enterprise' ? item.sourceLabel || '企业推荐' : '平台推荐'}}</view>
+      </view>
+      <view class="product-card__body">
+        <view class="product-card__title">{{item.name}}</view>
+        <view class="product-card__subtitle">{{item.subtitle}}</view>
+        <view class="product-card__meta">
+          <text class="product-card__price">{{item.priceRange}}</text>
+          <text class="product-card__range" wx:if="{{item.recommendedFor && item.recommendedFor.length}}">适用于：{{item.recommendedFor.slice(0,2).join('、')}}</text>
+        </view>
+        <view class="product-card__tags" wx:if="{{item.tags && item.tags.length}}">
+          <view class="product-card__tag" wx:for="{{item.tags}}" wx:key="index">{{item}}</view>
+        </view>
+      </view>
+      <view class="product-card__cta">
+        <view class="u-btn u-btn-primary u-btn--sm u-btn--pill">查看详情</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading && products.length}}" class="product-footnote product-footnote--loading">加载中...</view>
+  <view wx:if="{{!hasMore && products.length}}" class="product-footnote">已加载全部推荐</view>
+</view>
+

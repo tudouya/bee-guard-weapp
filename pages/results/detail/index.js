@@ -93,8 +93,8 @@ Page({
       wx.setClipboardData({ data: r.url, success: () => wx.showToast({ title: '链接已复制', icon: 'success' }) });
       return;
     }
-    if (r.targetType === 'internal' && r.productId) {
-      wx.showToast({ title: '产品详情即将上线', icon: 'none' });
+    if ((r.targetType === 'internal' && r.productId) || r.productId) {
+      wx.navigateTo({ url: `/pages/product/detail/index?id=${encodeURIComponent(r.productId)}` });
       return;
     }
     wx.showToast({ title: r.productName ? '暂无更多信息' : '暂无推荐', icon: 'none' });
