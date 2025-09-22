@@ -16,9 +16,7 @@ Page({
       { key: 'review', status: 'doing' },
       { key: 'generate', status: 'todo' },
       { key: 'notify', status: 'todo' }
-    ],
-    _pollTimer: null,
-    _pollCount: 0
+    ]
   },
   onLoad(options) {
     const orderId = options.orderId || '';
@@ -28,15 +26,12 @@ Page({
     this.setData({ orderId, appId, submitTime });
     if (orderId) {
       this.fetchOrder();
-      this.startPolling();
     } else {
       // 旧兼容：price 由来源页传入
       const price = options.price || '';
       this.setData({ price });
     }
   },
-  onUnload() { this.clearPolling(); },
-  onHide() { this.clearPolling(); },
   async fetchOrder() {
     try {
       const oid = this.data.orderId;
@@ -47,12 +42,8 @@ Page({
       const steps = this.computeSteps(status);
       const statusText = this.mapStatusText(status);
       this.setData({ price, steps, statusText, detectionPrefix: detection_prefix || '', detectionCode: detection_code || '' });
-      // 若已通过，停止轮询
-      if (status === 'paid' || status === 'failed' || status === 'refunded') {
-        this.clearPolling();
-      }
     } catch (e) {
-      // 非致命，保留轮询机会
+      // 非致命，可提醒用户稍后手动刷新
     }
   },
   computeSteps(status) {
@@ -79,25 +70,6 @@ Page({
     if (status === 'failed') return '审核未通过';
     if (status === 'refunded') return '已退款';
     return '待审核';
-  },
-  startPolling() {
-    this.clearPolling();
-    const timer = setInterval(() => {
-      const cnt = this.data._pollCount + 1;
-      this.setData({ _pollCount: cnt });
-      this.fetchOrder();
-      if (cnt >= 12) { // ~12 次，约1-2分钟（视工具前台时间片）
-        this.clearPolling();
-      }
-    }, 8000);
-    this.setData({ _pollTimer: timer });
-  },
-  clearPolling() {
-    const t = this.data._pollTimer;
-    if (t) {
-      clearInterval(t);
-      this.setData({ _pollTimer: null });
-    }
   },
   goHome() {
     wx.switchTab({ url: '/pages/index/index' });

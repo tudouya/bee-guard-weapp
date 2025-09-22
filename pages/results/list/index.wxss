@@ -18,8 +18,11 @@
 .item { background: #fff; border-radius: 16rpx; box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.06); padding: 16rpx; }
 .item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8rpx; }
 /* 移除来源徽标增强，恢复简洁头部 */
-.ids { display: flex; gap: 16rpx; align-items: center; }
-.sid, .did { font-size: 28rpx; color: #333; font-weight: 600; line-height: 40rpx; }
+.ids { display: flex; flex-direction: column; gap: 8rpx; align-items: flex-start; }
+.id-row { display: flex; gap: 12rpx; align-items: flex-start; width: 100%; }
+.id-label { font-size: 26rpx; color: #666; line-height: 36rpx; }
+.id-value { flex: 1; font-size: 28rpx; color: #333; font-weight: 600; line-height: 36rpx; word-break: break-all; }
+.id-value--pending { color: #999; font-weight: 400; }
 .status { font-size: 22rpx; padding: 4rpx 10rpx; border-radius: 20rpx; }
 .status-completed { background: #e8f5e8; color: #52c41a; }
 .status-processing { background: #fff7e6; color: #faad14; }

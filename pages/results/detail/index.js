@@ -102,9 +102,5 @@ Page({
   goGuide() {
     const detectId = (this.data.detail && this.data.detail.detectionId) || '';
     wx.navigateTo({ url: `/pages/detection/guide/index?detectId=${encodeURIComponent(detectId)}` });
-  },
-  goProgress() {
-    const appId = (this.data.detail && this.data.detail.detectionId) || '';
-    wx.navigateTo({ url: `/pages/detection/status/index?appId=${encodeURIComponent(appId)}&price=0` });
   }
 });

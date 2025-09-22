@@ -3,12 +3,12 @@
     <view class="card">
       <view class="header">
         <text class="title">检测结果详情</text>
-        <text class="subtitle">编号：{{detail && detail.detectionId || '—'}}</text>
+        <text class="subtitle">检测码：{{detail && detail.detectionId || '—'}}</text>
       </view>
 
       <view class="section">
         <view class="section-title">基础信息</view>
-        <view class="row"><text>样品编号：</text><text>{{meta.sampleNo || '—'}}</text></view>
+        <view class="row"><text>样品编号：</text><text class="row-value {{meta.sampleNo ? '' : 'row-value--pending'}}">{{meta.sampleNo || '待录入'}}</text></view>
         <view class="row"><text>姓名：</text><text>{{meta.contactName || '—'}}</text></view>
         <view class="row"><text>取样时间：</text><text>{{meta.sampleTime || '—'}}</text></view>
         <view class="row"><text>地址：</text><text class="ellipsis">{{meta.address || '—'}}</text></view>
@@ -17,7 +17,7 @@
         <view class="row"><text>状态：</text><text class="status status-{{detail && detail.status}}">{{detail && detail.statusText || '—'}}</text></view>
       </view>
 
-      <view class="section">
+      <view class="section" wx:if="{{detail && detail.status === 'completed'}}">
         <view class="section-title">结果矩阵</view>
         <view class="summary-line">阳性合计：<text class="pos-num">{{positiveCount}}</text></view>
         <view class="pos-tags" wx:if="{{positives && positives.length}}">
@@ -43,8 +43,14 @@
             </view>
           </scroll-view>
         </block>
-        <view class="result-block" wx:if="{{!results || !results.length}}">
-          <text class="muted">检测尚未完成，结果生成后将显示在此处。</text>
+      </view>
+
+      <view class="section pending-tip" wx:if="{{!(detail && detail.status === 'completed')}}">
+        <view class="section-title">检测进度</view>
+        <view class="pending-box">
+          <text class="pending-title">检测进行中</text>
+          <text class="pending-text">实验室正在处理样品，完成后将第一时间通过小程序通知您。</text>
+          <button wx:if="{{detail && detail.status === 'pending'}}" class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="goGuide">查看邮寄说明</button>
         </view>
       </view>
 
@@ -58,11 +64,6 @@
         </view>
       </view>
 
-      <!-- 操作区：邮寄说明 / 审核进度 -->
-      <view class="section action-section">
-        <button wx:if="{{detail && detail.status==='pending'}}" class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="goGuide">查看邮寄说明</button>
-        <button wx:else class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="goProgress">查看审核进度</button>
-      </view>
     </view>
   </view>
 </view>
