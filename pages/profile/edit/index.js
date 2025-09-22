@@ -6,7 +6,7 @@ Page({
   data: {
     loading: true,
     saving: false,
-    defaultAvatar: 'https://dtm123.com:7803/targets/image/images/avatar.png',
+    defaultAvatar: '/images/profile-avatar-default.png',
     avatarUrl: '', // 当前展示用（可能为本地临时图或线上地址）
     avatarLocal: '', // 选择的本地临时图
     nickname: '',
@@ -34,7 +34,7 @@ Page({
       let phone = prof.phone || '';
       try { const a = authUtil.getAuth && authUtil.getAuth(); if (!phone && a && a.phone) phone = a.phone; } catch (e) {}
       this.setData({
-        avatarUrl: avatar || '',
+        avatarUrl: avatar || this.data.defaultAvatar,
         nickname: nickname || '',
         phoneMasked: this.maskPhone(phone),
         loading: false
@@ -56,24 +56,6 @@ Page({
   onNicknameInput(e){
     this.setData({ nickname: e.detail.value });
   },
-  getFromWeChat(){
-    try {
-      wx.getUserProfile({
-        desc: '用于完善头像昵称',
-        success: (res) => {
-          const ui = (res && res.userInfo) || {};
-          // 头像：后端禁止外链，仍需通过 chooseAvatar 选择并上传；此处仅预填昵称
-          if (ui.nickName) this.setData({ nickname: ui.nickName });
-          if (ui.avatarUrl) {
-            this.setData({ avatarUrl: this.data.avatarUrl || ui.avatarUrl });
-            wx.showToast({ title: '已填入微信昵称，头像请点上方更换', icon: 'none' });
-          }
-        }
-      });
-    } catch (e) {
-      wx.showToast({ title: '获取失败，请手动填写', icon: 'none' });
-    }
-  },
   async onSave(){
     if (this.data.saving) return;
     const nickname = (this.data.nickname || '').trim();
@@ -84,9 +66,9 @@ Page({
       // 如使用了本地临时图，先上传换成稳定 URL，并回传相对路径 avatar
       if (this.data.avatarLocal) {
         const up = await api.upload(this.data.avatarLocal, '/api/uploads', { scene: 'avatar' });
-        const previewUrl = (up && (up.url || up.preview || '')) || this.data.avatarUrl;
-        const path = (up && (up.path || up.relative || '')) || '';
-        if (previewUrl) this.setData({ avatarUrl: previewUrl });
+          const previewUrl = (up && (up.url || up.preview || '')) || this.data.avatarUrl;
+          const path = (up && (up.path || up.relative || '')) || '';
+          if (previewUrl) this.setData({ avatarUrl: previewUrl });
         if (path) payload.avatar = path; // 后端建议传相对路径
       }
       const saved = await userSvc.updateProfile(payload);

@@ -26,7 +26,7 @@ Page({
     try { cached = wx.getStorageSync('user_profile') || null; } catch (e) {}
     const phoneRaw = (cached && cached.phone) || (auth && auth.phone) || '';
     const phoneMasked = this.maskPhone(phoneRaw);
-    const avatarDefault = 'https://dtm123.com:7803/targets/image/images/avatar.png';
+    const avatarDefault = '/images/profile-avatar-default.png';
     const nickDefault = loggedIn ? (phoneMasked || '已登录用户') : '游客';
     const avatarDefaultForState = loggedIn ? (cached && cached.avatar) || '' : '';
     const initial = {
@@ -80,8 +80,6 @@ Page({
   // 我的检测记录
   handleMyResults(){ wx.navigateTo({ url: '/pages/results/list/index' }); },
   handleRewards(){ wx.navigateTo({ url: '/pages/profile/rewards/index' }); },
-  // 自费检测与审核（跳转检测页，默认自费分段）
-  handlePaidFlow(){ wx.switchTab({ url: '/pages/detection/index?mode=paid' }); },
   handleTopicRecord(){ wx.navigateTo({ url: '/pages/profile/topicRecord/index' }); },
   // 邮寄指南
   handleGuide(){ wx.navigateTo({ url: '/pages/detection/guide/index' }); },

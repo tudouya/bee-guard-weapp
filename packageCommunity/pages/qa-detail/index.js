@@ -1,7 +1,7 @@
 const community = require('../../../services/community');
 const authUtil = require('../../../utils/auth.js');
 
-const DEFAULT_AVATAR = 'https://dtm123.com:7803/targets/image/images/010.png';
+const DEFAULT_AVATAR = '/images/profile-avatar-default.png';
 
 function ensureDeviceId(){
   try {

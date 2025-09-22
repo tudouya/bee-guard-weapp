@@ -6,7 +6,7 @@ const MOCK_PRODUCTS = [
     id: 'PROD-001',
     name: '蜂卫士防疫组合包',
     subtitle: '针对 SBV/AFB 监测和应急处理的一站式方案',
-    banner: 'https://dtm123.com:7803/targets/image/images/004.png',
+    banner: '/images/home-feature-detection.png',
     recommendedFor: ['囊状幼虫病 (SBV)', '美洲幼虫腐臭病 (AFB)'],
     source: 'enterprise',
     sourceLabel: '蜂卫士生物科技',
@@ -41,7 +41,7 @@ const MOCK_PRODUCTS = [
     id: 'PROD-002',
     name: '蜜康蜂产品品质检测包',
     subtitle: '支持蜂蜜、蜂蜜膏等多品类品质检测与安全评估',
-    banner: 'https://dtm123.com:7803/targets/image/images/013.png',
+    banner: '/images/home-feature-epidemic.png',
     recommendedFor: ['蜂产品品质检测', '出厂批次复检'],
     source: 'enterprise',
     sourceLabel: '蜜康检测中心',
@@ -70,7 +70,7 @@ const MOCK_PRODUCTS = [
     id: 'PROD-003',
     name: '蜂盾智慧守护 SaaS',
     subtitle: '蜂场数字化监测平台，实时掌握蜂群健康',
-    banner: 'https://dtm123.com:7803/targets/image/images/015.png',
+    banner: '/images/home-feature-knowledge.png',
     recommendedFor: ['蜂场数字化管理', '蜂群活力监测'],
     source: 'enterprise',
     sourceLabel: '蜂盾科技',
@@ -96,7 +96,7 @@ const MOCK_PRODUCTS = [
     id: 'PROD-004',
     name: '平台推荐 | 蜂场基础消杀套包',
     subtitle: '平台精选消毒剂与工具包，适用于蜂场日常消杀',
-    banner: 'https://dtm123.com:7803/targets/image/images/010.png',
+    banner: '/images/common/placeholder-card.png',
     recommendedFor: ['蜂具消毒', '蜂场日常保洁'],
     source: 'platform',
     sourceLabel: '蜜蜂疫病监控平台',
@@ -157,4 +157,3 @@ module.exports = {
   listRecommendedProducts,
   getProductDetail
 };
-

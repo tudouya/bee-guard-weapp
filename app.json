@@ -44,14 +44,14 @@
       {
         "pagePath": "pages/detection/index",
         "text": "检测",
-        "iconPath": "images/tabbar/device.png",
-        "selectedIconPath": "images/tabbar/device-click.png"
+        "iconPath": "images/tabbar/detection.png",
+        "selectedIconPath": "images/tabbar/detection-click.png"
       },
       {
         "pagePath": "pages/epidemic/index",
         "text": "疫情",
-        "iconPath": "images/tabbar/topic.png",
-        "selectedIconPath": "images/tabbar/topic-click.png"
+        "iconPath": "images/tabbar/loimia.png",
+        "selectedIconPath": "images/tabbar/loimia-click.png"
       },
       {
         "pagePath": "pages/profile/index",

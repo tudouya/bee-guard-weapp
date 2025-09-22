@@ -5,17 +5,17 @@
         <view class="my-con-header">
             <view bindtap="handleInfo" class="my-con-header-left">
                 <image class="my-con-header-avatar" src="{{userInfo.user_avatar}}" wx:if="{{userInfo.user_avatar}}"></image>
-                <image class="my-con-header-avatar" src="https://dtm123.com:7803/targets/image/images/avatar.png" wx:else></image>
+                <image class="my-con-header-avatar" src="/images/profile-avatar-default.png" wx:else></image>
                 <view class="my-con-header-con">
                     <view class="my-con-header-con-top">
                         <view class="my-header-con-nick">{{userInfo.user_nick}}</view>
-                        <image src="https://dtm123.com:7803/targets/image/images/right.png"></image>
+                        <image src="/images/profile-icon-arrow.png"></image>
                     </view>
                     <view class="my-header-con-phone" wx:if="{{userInfo.user_phone}}">{{userInfo.user_phone}}</view>
                     <view class="my-header-con-phone" wx:else>--</view>
                 </view>
             </view>
-            <image bindtap="handleInfo" class="my-header-con-top-set" src="https://dtm123.com:7803/targets/image/images/set.png"></image>
+            <image bindtap="handleInfo" class="my-header-con-top-set" src="/images/profile-icon-settings.png"></image>
         </view>
         <view class="my-brief" id="data-board">
             <view class="my-brief-con">
@@ -47,59 +47,45 @@
             <view class="my-list">
                 <view bindtap="handleMyDetectionNumbers" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="https://dtm123.com:7803/targets/image/images/warn.png"></image>
+                        <image src="/images/profile-icon-detection.png"></image>
                         <text>我的检测号</text>
                     </view>
-                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
                 </view>
                 <view bindtap="handleMyResults" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="https://dtm123.com:7803/targets/image/images/warn.png"></image>
+                        <image src="/images/profile-icon-detection-record.png"></image>
                         <text>我的检测记录</text>
                     </view>
-                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
                 </view>
                 <view bindtap="handleRewards" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="https://dtm123.com:7803/targets/image/images/016.png"></image>
+                        <image src="/images/profile-icon-reward.png"></image>
                         <text>我的奖励</text>
                     </view>
-                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
-                </view>
-                <view bindtap="handlePaidFlow" class="my-list-item">
-                    <view class="my-list-item-left">
-                        <image src="https://dtm123.com:7803/targets/image/images/information.png"></image>
-                        <text>自费检测与审核</text>
-                    </view>
-                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
                 </view>
                 <view bindtap="handleTopicRecord" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="https://dtm123.com:7803/targets/image/images/topic.png"></image>
-                        <text>话题发布/回复</text>
+                        <image src="/images/profile-icon-topic.png"></image>
+                        <text>我的话题</text>
                     </view>
-                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
                 </view>
                 <view bindtap="handleGuide" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="https://dtm123.com:7803/targets/image/images/information.png"></image>
+                        <image src="/images/profile-icon-mailing.png"></image>
                         <text>邮寄指南</text>
                     </view>
-                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
                 </view>
                 <view bindtap="handleKnowledge" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="https://dtm123.com:7803/targets/image/images/topic.png"></image>
-                        <text>知识库与社区</text>
+                        <image src="/images/profile-icon-knowledge.png"></image>
+                        <text>知识库</text>
                     </view>
-                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
-                </view>
-                <view bindtap="handleWarrant" class="my-list-item">
-                    <view class="my-list-item-left">
-                        <image src="https://dtm123.com:7803/targets/image/images/0020.png"></image>
-                        <text>消息授权</text>
-                    </view>
-                    <image class="my-list-item-right" src="https://dtm123.com:7803/targets/image/images/right2.png"></image>
+                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
                 </view>
             </view>
         </view>

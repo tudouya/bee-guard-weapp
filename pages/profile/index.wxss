@@ -12,7 +12,7 @@ page{background:#f3f3f3}
 .my-con-header-con-top image{height:26rpx;margin-left:12rpx;width:26rpx}
 .my-header-con-phone{color:#333;font-size:24rpx;font-weight:600}
 .my-header-con-top-set{height:38rpx;margin-top:54rpx;width:38rpx}
-.my-brief{margin-bottom:16rpx;padding:0 24rpx}
+.my-brief{margin-bottom:24rpx;padding:0 24rpx}
 .my-brief-con{background:#fff;border-radius:24rpx}
 .my-brief-title{color:#333;font-size:28rpx;font-weight:600;padding:18rpx 32rpx 0}
 .my-title{align-items:center;background:#fff;border-radius:24rpx;display:flex;justify-content:space-around;padding:34rpx 0 36rpx}

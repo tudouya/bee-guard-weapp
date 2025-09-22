@@ -4,7 +4,7 @@
         <view class="home-detail">
             <view class="home-header">
                 <view class="home-search">
-                    <image class="home-search-icon" src="https://dtm123.com:7803/targets/image/images/search.png"></image>
+                    <image class="home-search-icon" src="/images/common/search.png"></image>
                     <input disabled bindtap="handleChange" placeholder="搜索热门新闻"></input>
                 </view>
             </view>
@@ -74,28 +74,28 @@
             </view>
             <view class="home-list">
                 <view bindtap="handleDetection" class="home-list-item">
-                    <image src="https://dtm123.com:7803/targets/image/images/004.png"></image>
+                    <image src="/images/home-feature-detection.png"></image>
                     <text>样品检测</text>
                 </view>
                 <view bindtap="handleEpidemic" class="home-list-item">
-                    <image src="https://dtm123.com:7803/targets/image/images/013.png"></image>
+                    <image src="/images/home-feature-epidemic.png"></image>
                     <text>疫情通报</text>
                 </view>
                 <view bindtap="handleKnowledge" class="home-list-item">
-                    <image src="https://dtm123.com:7803/targets/image/images/015.png"></image>
+                    <image src="/images/home-feature-knowledge.png"></image>
                     <text>防控知识</text>
                 </view>
                 <!-- 新增三个功能板块：企业展示、产品推荐、答疑解惑（图标复用） -->
                 <view bindtap="handleEnterprise" class="home-list-item">
-                    <image src="https://dtm123.com:7803/targets/image/images/004.png"></image>
+                    <image src="/images/home-feature-enterprise.png"></image>
                     <text>企业展示</text>
                 </view>
                 <view bindtap="handleProduct" class="home-list-item">
-                    <image src="https://dtm123.com:7803/targets/image/images/013.png"></image>
+                    <image src="/images/home-feature-product.png"></image>
                     <text>产品推荐</text>
                 </view>
                 <view bindtap="handleQna" class="home-list-item">
-                    <image src="https://dtm123.com:7803/targets/image/images/015.png"></image>
+                    <image src="/images/home-feature-qna.png"></image>
                     <text>答疑解惑</text>
                 </view>
             </view>
@@ -114,12 +114,12 @@
                 </view>
                 <view class="home-fire-con">
                     <view bindtap="handleTopicFireInfo" class="home-fire-con-list" data-id="{{item.problem_id}}" wx:for="{{topicHost}}" wx:key="index">
-                        <image class="home-fire-con-list-num" src="https://dtm123.com:7803/targets/image/images/1.png" wx:if="{{index===0}}"></image>
-                        <image class="home-fire-con-list-num" src="https://dtm123.com:7803/targets/image/images/2.png" wx:if="{{index===1}}"></image>
-                        <image class="home-fire-con-list-num" src="https://dtm123.com:7803/targets/image/images/3.png" wx:if="{{index===2}}"></image>
-                        <image class="home-fire-con-list-num" src="https://dtm123.com:7803/targets/image/images/4.png" wx:if="{{index===3}}"></image>
+                        <image class="home-fire-con-list-num" src="/images/home/rank-1.png" wx:if="{{index===0}}"></image>
+                        <image class="home-fire-con-list-num" src="/images/home/rank-2.png" wx:if="{{index===1}}"></image>
+                        <image class="home-fire-con-list-num" src="/images/home/rank-3.png" wx:if="{{index===2}}"></image>
+                        <image class="home-fire-con-list-num" src="/images/home/rank-4.png" wx:if="{{index===3}}"></image>
                         <view class="home-fire-con-list-title">{{item.problem_content}}</view>
-                        <image class="home-fire-con-list-fire" src="https://dtm123.com:7803/targets/image/images/fire.png"></image>
+                        <image class="home-fire-con-list-fire" src="/images/home/rank-fire.png"></image>
                         <view class="home-fire-con-list-com">{{item.num}} · 关注</view>
                     </view>
                 </view>
@@ -146,7 +146,7 @@
                                 <view class="home-industry-left-type">{{item.type_name}}</view>
                             </view>
                             <image src="{{IP+item.image_url}}" wx:if="{{item.image_url}}"></image>
-                            <image src="https://dtm123.com:7803/targets/image/images/010.png" wx:else></image>
+                            <image src="/images/common/placeholder-card.png" wx:else></image>
                         </view>
                     </view>
                 </view>

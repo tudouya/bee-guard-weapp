@@ -29,7 +29,7 @@
       <!-- 搜索与筛选占位（可按需启用） -->
       <view class="search">
         <view class="search-box">
-          <image class="ico" src="https://dtm123.com:7803/targets/image/images/search.png"></image>
+          <image class="ico" src="/images/common/search.png"></image>
           <input class="ipt" placeholder="搜索热门话题" disabled />
         </view>
       </view>
@@ -72,7 +72,7 @@
     <block wx:elif="{{active==='share'}}">
       <view class="search">
         <view class="search-box">
-          <image class="ico" src="https://dtm123.com:7803/targets/image/images/search.png"></image>
+          <image class="ico" src="/images/common/search.png"></image>
           <input class="ipt" placeholder="搜索热门话题" disabled />
         </view>
       </view>

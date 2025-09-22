@@ -1,7 +1,7 @@
 const authUtil = require('../../../utils/auth.js');
 const community = require('../../../services/community.js');
 
-const DEFAULT_AVATAR = 'https://dtm123.com:7803/targets/image/images/avatar.png';
+const DEFAULT_AVATAR = '/images/profile-avatar-default.png';
 
 function normalizeStatus(status) {
   switch (status) {

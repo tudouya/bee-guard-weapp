@@ -1,7 +1,9 @@
 <view class="page">
   <view class="top">
     <view class="logo-wrap">
-      <view class="logo">🐝</view>
+      <view class="logo">
+        <image class="logo-img" src="/images/profile-avatar-default.png" mode="aspectFill"></image>
+      </view>
     </view>
     <text class="app-name">蜜蜂疫病监控平台</text>
     <text class="subtitle">使用微信手机号一键登录，查看您的检测记录</text>

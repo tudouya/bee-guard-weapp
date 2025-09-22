@@ -6,7 +6,7 @@
 const knowledge = require('../../../services/knowledge');
 const community = require('../../../services/community');
 
-const DEFAULT_AVATAR = 'https://dtm123.com:7803/targets/image/images/010.png';
+const DEFAULT_AVATAR = '/images/profile-avatar-default.png';
 
 function normalizePost(item = {}, fallbackType = 'question') {
   const author = item.author || {};

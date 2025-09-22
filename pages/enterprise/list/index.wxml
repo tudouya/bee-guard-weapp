@@ -19,7 +19,7 @@
   </view>
 
   <view wx:if="{{!loading && enterprises.length === 0 && !errorMessage}}" class="enterprise-empty">
-    <image class="enterprise-empty__icon" src="https://dtm123.com:7803/targets/image/images/010.png" mode="aspectFit"></image>
+    <image class="enterprise-empty__icon" src="/images/common/placeholder-card.png" mode="aspectFit"></image>
     <text class="enterprise-empty__text">暂未配置合作企业</text>
     <view class="enterprise-empty__hint">后台完成配置后将自动展示</view>
   </view>
@@ -46,4 +46,3 @@
   <view wx:if="{{loading && enterprises.length}}" class="enterprise-loading">加载中...</view>
   <view wx:if="{{!hasMore && enterprises.length}}" class="enterprise-footnote">已加载全部企业</view>
 </view>
-
