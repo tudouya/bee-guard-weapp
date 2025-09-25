@@ -46,8 +46,33 @@ async function getResults({ page = 1, pageSize = 10, status } = {}) {
   return { list: data, total: meta.total || data.length, hasMore: !!meta.has_more };
 }
 
-async function getDetail(id) {
-  const url = config.apiBase + `/api/detections/${encodeURIComponent(id)}`;
+async function getDetail(params) {
+  let id;
+  let detectionNumber;
+
+  if (typeof params === 'number' || typeof params === 'string') {
+    id = params;
+  } else if (params && typeof params === 'object') {
+    id = params.id;
+    detectionNumber = params.detectionNumber;
+  }
+
+  if (detectionNumber) {
+    detectionNumber = String(detectionNumber).trim();
+  }
+
+  if (id === undefined || id === null || id === '') {
+    id = detectionNumber ? 0 : undefined;
+  }
+
+  const numericId = Number(id);
+  if (!Number.isInteger(numericId) || numericId < 0) {
+    throw new Error('invalid detection id');
+  }
+
+  const url = config.apiBase + buildUrl(`/api/detections/${encodeURIComponent(numericId)}`, {
+    detectionNumber
+  });
   const res = await request({ url, method: 'GET', auth: true });
   return res || null;
 }

@@ -10,18 +10,28 @@ Page({
     positiveCount: 0,
     positives: []
   },
-  onLoad(options) {
-    const id = Number(options.id || 0);
-    if (!id) {
+  onLoad(options = {}) {
+    const rawDetectionNumber = options.detectionNumber ? String(options.detectionNumber) : '';
+    const detectionNumber = rawDetectionNumber.trim();
+    const parsedId = options.id !== undefined ? Number(options.id) : NaN;
+    const hasValidId = Number.isInteger(parsedId) && parsedId > 0;
+
+    if (detectionNumber) {
+      this.loadDetail({ id: hasValidId ? parsedId : 0, detectionNumber });
+      return;
+    }
+
+    if (!hasValidId) {
       wx.showToast({ title: '参数错误', icon: 'none' });
       setTimeout(() => wx.navigateBack({ delta: 1 }), 600);
       return;
     }
-    this.loadDetail(id);
+
+    this.loadDetail({ id: parsedId });
   },
-  async loadDetail(id) {
+  async loadDetail(params) {
     try {
-      const detail = await resultsSvc.getDetail(id);
+      const detail = await resultsSvc.getDetail(params);
       const recs = Array.isArray(detail.recommendations) ? detail.recommendations.slice(0, 2) : [];
       const { tables, meta, positiveCount, positives } = this.buildTables(detail);
       this.setData({ detail, results: detail.results || [], recs, tables, meta, positiveCount, positives });
