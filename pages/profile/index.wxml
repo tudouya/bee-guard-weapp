@@ -9,6 +9,7 @@
                 <view class="my-con-header-con">
                     <view class="my-con-header-con-top">
                         <view class="my-header-con-nick">{{userInfo.user_nick}}</view>
+                        <view class="my-header-role" wx:if="{{userRoleLabel}}">{{userRoleLabel}}</view>
                         <image src="/images/profile-icon-arrow.png"></image>
                     </view>
                     <view class="my-header-con-phone" wx:if="{{userInfo.user_phone}}">{{userInfo.user_phone}}</view>

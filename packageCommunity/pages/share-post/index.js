@@ -91,8 +91,8 @@ Page({
       wx.showToast({ title: '标题至少4个字', icon: 'none' });
       return;
     }
-    if (content.length < 20) {
-      wx.showToast({ title: '内容至少20个字', icon: 'none' });
+    if (!content) {
+      wx.showToast({ title: '请填写内容', icon: 'none' });
       return;
     }
     const imageIds = (this.data.images || [])

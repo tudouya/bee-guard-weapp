@@ -10,6 +10,9 @@ function setAuth(auth) {
     if (auth.expiresAt !== undefined) {
       wx.setStorageSync('auth_expires', auth.expiresAt || '');
     }
+    if (auth.role !== undefined) {
+      wx.setStorageSync('auth_role', auth.role || '');
+    }
   } catch (e) {}
 }
 
@@ -18,9 +21,10 @@ function getAuth() {
     const token = wx.getStorageSync('auth_token');
     const phone = wx.getStorageSync('auth_phone');
     const expiresAt = wx.getStorageSync('auth_expires');
-    return { token, phone, expiresAt };
+    const role = wx.getStorageSync('auth_role');
+    return { token, phone, expiresAt, role };
   } catch (e) {
-    return { token: '', phone: '', expiresAt: '' };
+    return { token: '', phone: '', expiresAt: '', role: '' };
   }
 }
 
@@ -29,6 +33,7 @@ function clearAuth() {
     wx.removeStorageSync('auth_token');
     wx.removeStorageSync('auth_phone');
     wx.removeStorageSync('auth_expires');
+    wx.removeStorageSync('auth_role');
   } catch (e) {}
 }
 

@@ -8,6 +8,8 @@
 .h-main { flex: 1; padding: 0 12rpx; }
 .row { display:flex; align-items:center; gap: 12rpx; }
 .nickname { font-size: 28rpx; color:#333; font-weight: 700; }
+.role-tag { font-size: 22rpx; color:#07c160; background: rgba(7,193,96,0.16); padding: 4rpx 12rpx; border-radius: 999rpx; }
+.role-tag-sm { font-size: 20rpx; padding: 2rpx 10rpx; }
 .tag { font-size: 22rpx; color:#ff8f1f; background: #fff5e6; padding: 4rpx 10rpx; border-radius: 999rpx; }
 .date { margin-top: 4rpx; color:#999; font-size: 22rpx; }
 .h-aside { color:#999; font-size: 22rpx; white-space: nowrap; }

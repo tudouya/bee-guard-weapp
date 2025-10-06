@@ -7,9 +7,22 @@ const knowledge = require('../../../services/knowledge');
 const community = require('../../../services/community');
 
 const DEFAULT_AVATAR = '/images/profile-avatar-default.png';
+const ROLE_LABELS = {
+  farmer: '蜂农',
+  enterprise_admin: '企业管理员',
+  super_admin: '平台管理员'
+};
+
+function resolveRoleLabel(role = '') {
+  const key = typeof role === 'string' ? role.trim().toLowerCase() : '';
+  if (!key) return '';
+  if (ROLE_LABELS[key]) return ROLE_LABELS[key];
+  return role;
+}
 
 function normalizePost(item = {}, fallbackType = 'question') {
   const author = item.author || {};
+  const authorRole = author.role || '';
   return {
     id: item.id,
     type: item.type || fallbackType,
@@ -17,6 +30,8 @@ function normalizePost(item = {}, fallbackType = 'question') {
     excerpt: item.excerpt || '',
     authorName: author.nickname || '蜂友',
     avatar: author.avatar || DEFAULT_AVATAR,
+    authorRole,
+    authorRoleLabel: resolveRoleLabel(authorRole),
     category: item.category || (fallbackType === 'question' ? '问题咨询' : '经验分享'),
     diseaseName: item.disease && item.disease.name || '',
     diseaseCode: item.disease && item.disease.code || '',

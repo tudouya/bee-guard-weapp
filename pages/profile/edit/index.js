@@ -73,7 +73,21 @@ Page({
       }
       const saved = await userSvc.updateProfile(payload);
       // 写入缓存，便于“我的”页立即显示
-      try { wx.setStorageSync('user_profile', saved || { avatar: this.data.avatarUrl, nickname, phone: this.data.phoneMasked }); } catch (e) {}
+      try {
+        let current = {};
+        try { current = wx.getStorageSync('user_profile') || {}; } catch (err) {}
+        const role = (saved && saved.role) || (current && current.role) || '';
+        const stored = (saved && typeof saved === 'object') ? Object.assign({}, saved) : {
+          avatar: this.data.avatarUrl,
+          nickname,
+          phone: this.data.phoneMasked
+        };
+        if (role) stored.role = role;
+        wx.setStorageSync('user_profile', stored);
+        if (role) {
+          authUtil.setAuth({ role });
+        }
+      } catch (e) {}
       wx.showToast({ title: '已保存', icon: 'success' });
       setTimeout(()=> wx.navigateBack({ fail: ()=> wx.switchTab({ url: '/pages/profile/index' }) }), 350);
     } catch (e) {

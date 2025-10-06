@@ -14,6 +14,7 @@
           <view class="h-main">
             <view class="row">
               <text class="nickname">{{item.authorName}}</text>
+              <text class="role-tag" wx:if="{{item.authorRoleLabel}}">{{item.authorRoleLabel}}</text>
               <text class="tag">{{item.category}}</text>
             </view>
             <text class="date">{{item.publishedAt}}</text>
@@ -37,12 +38,13 @@
           <image class="r-avatar" src="{{item.avatar}}"></image>
           <view class="r-meta">
             <text class="r-name">{{item.authorName}}</text>
+            <text class="role-tag role-tag-sm" wx:if="{{item.authorRoleLabel}}">{{item.authorRoleLabel}}</text>
             <text class="r-date">{{item.publishedAt}}</text>
           </view>
         </view>
         <view class="r-text">{{item.content}}</view>
         <view class="r-children" wx:if="{{item.children && item.children.length}}">
-          <view class="r-bubble" wx:for="{{item.children}}" wx:for-item="child" wx:key="id">{{child.authorName}}：{{child.content}}</view>
+          <view class="r-bubble" wx:for="{{item.children}}" wx:for-item="child" wx:key="id">{{child.authorRoleLabel ? child.authorRoleLabel + ' · ' : ''}}{{child.authorName}}：{{child.content}}</view>
         </view>
       </view>
       <view class="empty" wx:if="{{replyError}}">{{replyError}}</view>

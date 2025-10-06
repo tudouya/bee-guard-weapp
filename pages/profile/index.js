@@ -8,7 +8,8 @@ Page({
     hiveNum: 0,
     deviceNum: 0,
     postNum: 0,
-    bannerHeight: 300
+    bannerHeight: 300,
+    userRoleLabel: ''
   },
   onLoad() {
     this.initUserInfo();
@@ -26,20 +27,23 @@ Page({
     try { cached = wx.getStorageSync('user_profile') || null; } catch (e) {}
     const phoneRaw = (cached && cached.phone) || (auth && auth.phone) || '';
     const phoneMasked = this.maskPhone(phoneRaw);
+    const roleRaw = loggedIn ? ((cached && cached.role) || (auth && auth.role) || '') : '';
+    const roleLabel = this.mapRole(roleRaw);
     const avatarDefault = '/images/profile-avatar-default.png';
     const nickDefault = loggedIn ? (phoneMasked || '已登录用户') : '游客';
-    const avatarDefaultForState = loggedIn ? (cached && cached.avatar) || '' : '';
     const initial = {
       user_nick: (cached && cached.nickname) || nickDefault,
       user_avatar: this.validHttp((cached && cached.avatar)) ? cached.avatar : avatarDefault,
-      user_phone: loggedIn ? phoneRaw : ''
+      user_phone: loggedIn ? phoneRaw : '',
+      user_role: roleRaw
     };
     this.setData({
       userInfo: initial,
       projectNum: 3,
       hiveNum: 12,
       deviceNum: 48,
-      postNum: 5
+      postNum: 5,
+      userRoleLabel: roleLabel
     });
     if (!loggedIn) return;
     // 后台刷新
@@ -50,9 +54,16 @@ Page({
       const masked = this.maskPhone(ph);
       const nick = nn.length ? nn : (masked || '已登录用户');
       const avatar = this.validHttp(av) ? av : avatarDefault;
-      const next = { user_nick: nick, user_avatar: avatar, user_phone: ph };
-      this.setData({ userInfo: next });
-      try { wx.setStorageSync('user_profile', { avatar, nickname: nn, phone: ph }); } catch (e) {}
+      const role = (p && typeof p.role === 'string') ? p.role : roleRaw;
+      const roleLabelNext = this.mapRole(role);
+      const next = { user_nick: nick, user_avatar: avatar, user_phone: ph, user_role: role };
+      this.setData({ userInfo: next, userRoleLabel: roleLabelNext });
+      try {
+        wx.setStorageSync('user_profile', { avatar, nickname: nn, phone: ph, role });
+      } catch (e) {}
+      try {
+        authUtil.setAuth({ phone: ph, role });
+      } catch (e) {}
     }).catch(()=>{
       // 忽略错误，维持当前展示
     });
@@ -64,6 +75,17 @@ Page({
   },
   validHttp(u){
     return typeof u === 'string' && /^(https?:)\/\//i.test(u);
+  },
+  mapRole(role){
+    const mapping = {
+      farmer: '蜂农',
+      enterprise_admin: '企业管理员',
+      super_admin: '平台管理员'
+    };
+    const key = typeof role === 'string' ? role.trim().toLowerCase() : '';
+    if (!key) return '';
+    if (mapping[key]) return mapping[key];
+    return role;
   },
   handleInfo(){
     if (authUtil && authUtil.ensureLogin) {

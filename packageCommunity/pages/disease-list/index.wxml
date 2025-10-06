@@ -48,6 +48,7 @@
             <view class="cell-main">
               <view class="row-head">
                 <text class="nickname">{{item.authorName}}</text>
+                <text class="role-tag" wx:if="{{item.authorRoleLabel}}">{{item.authorRoleLabel}}</text>
                 <text class="tag">{{item.category || '问题咨询'}}</text>
               </view>
               <view class="date">{{item.publishedAt || '刚刚'}}</view>
@@ -91,6 +92,7 @@
             <view class="cell-main">
               <view class="row-head">
                 <text class="nickname">{{item.authorName}}</text>
+                <text class="role-tag" wx:if="{{item.authorRoleLabel}}">{{item.authorRoleLabel}}</text>
                 <text class="tag">{{item.category || '经验分享'}}</text>
               </view>
               <view class="date">{{item.publishedAt || '刚刚'}}</view>

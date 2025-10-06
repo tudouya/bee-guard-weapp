@@ -2,6 +2,18 @@ const community = require('../../../services/community');
 const authUtil = require('../../../utils/auth.js');
 
 const DEFAULT_AVATAR = '/images/profile-avatar-default.png';
+const ROLE_LABELS = {
+  farmer: '蜂农',
+  enterprise_admin: '企业管理员',
+  super_admin: '平台管理员'
+};
+
+function mapRole(role) {
+  const key = typeof role === 'string' ? role.trim().toLowerCase() : '';
+  if (!key) return '';
+  if (ROLE_LABELS[key]) return ROLE_LABELS[key];
+  return role;
+}
 
 function ensureDeviceId(){
   try {
@@ -18,21 +30,28 @@ function ensureDeviceId(){
 function normalizeReply(item) {
   if (!item || typeof item !== 'object') return null;
   const author = item.author || {};
+  const authorRole = author.role || '';
+  const authorRoleLabel = mapRole(authorRole);
   return {
     id: item.id,
     content: item.content || '',
     replyType: item.reply_type || 'farmer',
     authorName: author.nickname || '蜂友',
     avatar: author.avatar || DEFAULT_AVATAR,
+    authorRole,
+    authorRoleLabel,
     publishedAt: item.published_at || '',
     children: Array.isArray(item.children)
       ? item.children.map((child) => {
         const cauthor = child.author || {};
+        const cRole = cauthor.role || '';
         return {
           id: child.id,
           content: child.content || '',
           authorName: cauthor.nickname || '蜂友',
           avatar: cauthor.avatar || DEFAULT_AVATAR,
+          authorRole: cRole,
+          authorRoleLabel: mapRole(cRole),
           publishedAt: child.published_at || ''
         };
       })
@@ -77,6 +96,7 @@ Page({
       if (!detail || !detail.id) throw new Error('内容不存在');
       const author = detail.author || {};
       const disease = detail.disease || {};
+      const authorRole = author.role || '';
       const item = {
         id: detail.id,
         title: detail.title || '无标题',
@@ -85,6 +105,8 @@ Page({
         images: Array.isArray(detail.images) ? detail.images : [],
         authorName: author.nickname || '蜂友',
         avatar: author.avatar || DEFAULT_AVATAR,
+        authorRole,
+        authorRoleLabel: mapRole(authorRole),
         category: detail.category || '问题咨询',
         diseaseName: disease.name || '',
         publishedAt: detail.published_at || '',

@@ -1,6 +1,23 @@
 const authSvc = require('../../../services/auth.js');
 const authUtil = require('../../../utils/auth.js');
 
+function extractRole(payload) {
+  if (!payload || typeof payload !== 'object') return '';
+  const candidates = [
+    payload.role,
+    payload.user && payload.user.role,
+    payload.data && payload.data.role,
+    payload.data && payload.data.user && payload.data.user.role
+  ];
+  for (let i = 0; i < candidates.length; i += 1) {
+    const val = candidates[i];
+    if (typeof val === 'string' && val) {
+      return val;
+    }
+  }
+  return '';
+}
+
 Page({
   data: {
     loading: false,
@@ -51,11 +68,16 @@ Page({
       // 兼容不同字段命名，优先提取 token 并暂存（供后续 bind-phone 授权用）
       const loginToken = (loginResp && (loginResp.token || loginResp.access_token || (loginResp.data && (loginResp.data.token || loginResp.data.access_token)))) || '';
       const loginPhone = (loginResp && (loginResp.phone || (loginResp.data && loginResp.data.phone))) || '';
-      const session = loginResp && (loginResp.session || loginResp.sessionKey || loginResp.session_key) || '';
-      if (loginToken) {
-        authUtil.setAuth({ token: loginToken, phone: loginPhone, expiresAt: loginResp.expiresAt || '' });
-      } else if (loginPhone) {
-        authUtil.setAuth({ phone: loginPhone });
+      const session = loginResp && (loginResp.session || loginResp.sessionKey || loginResp.session_key || (loginResp.data && (loginResp.data.session || loginResp.data.session_key))) || '';
+      const loginExpiresAt = (loginResp && (loginResp.expiresAt || loginResp.expired_at || (loginResp.data && (loginResp.data.expiresAt || loginResp.data.expired_at)))) || '';
+      const loginRole = extractRole(loginResp);
+      const initialAuth = {};
+      if (loginToken) initialAuth.token = loginToken;
+      if (loginPhone) initialAuth.phone = loginPhone;
+      if (loginExpiresAt) initialAuth.expiresAt = loginExpiresAt;
+      if (loginRole) initialAuth.role = loginRole;
+      if (Object.keys(initialAuth).length > 0) {
+        authUtil.setAuth(initialAuth);
       }
       // 3. 获取手机号 code（新版 API 返回 code）
       const phoneCode = e.detail.code;
@@ -64,9 +86,15 @@ Page({
       const token = (bindResp && (bindResp.token || (bindResp.data && bindResp.data.token))) || '';
       const phone = (bindResp && (bindResp.phone || (bindResp.data && bindResp.data.phone))) || '';
       const expiresAt = (bindResp && (bindResp.expiresAt || (bindResp.data && bindResp.data.expiresAt))) || '';
-      if (token) authUtil.setAuth({ token });
-      if (phone) authUtil.setAuth({ phone });
-      if (expiresAt) authUtil.setAuth({ expiresAt });
+      const role = extractRole(bindResp) || loginRole;
+      const finalAuth = {};
+      if (token) finalAuth.token = token;
+      if (phone) finalAuth.phone = phone;
+      if (expiresAt) finalAuth.expiresAt = expiresAt;
+      if (role) finalAuth.role = role;
+      if (Object.keys(finalAuth).length > 0) {
+        authUtil.setAuth(finalAuth);
+      }
       wx.showToast({ title: '登录成功', icon: 'success', duration: 400 });
       setTimeout(() => {
         // 统一返回到发起页，保持可回退

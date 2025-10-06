@@ -117,8 +117,8 @@ function createPost(payload = {}) {
   if (!title || title.length < 4) {
     return Promise.reject(new Error('标题至少4个字符'));
   }
-  if (!content || content.length < 20) {
-    return Promise.reject(new Error('正文至少20个字符'));
+  if (!content) {
+    return Promise.reject(new Error('正文不能为空'));
   }
   const body = Object.assign({}, payload);
   if (Array.isArray(body.images) && body.images.length > 3) {
@@ -170,4 +170,3 @@ module.exports = {
   likePost,
   unlikePost
 };
-
