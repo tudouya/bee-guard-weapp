@@ -28,20 +28,21 @@
 .pos-num { color: #ff4d4f; font-weight: 600; }
 .pos-tags { display: flex; flex-wrap: wrap; gap: 10rpx; margin: 10rpx 0 8rpx; }
 .pos-tag { font-size: 22rpx; color: #ff4d4f; background: #fff1f0; border: 1rpx solid #ffa39e; border-radius: 20rpx; padding: 4rpx 10rpx; }
-.group-title { font-size: 26rpx; color: #666; margin: 14rpx 0 10rpx; }
-.legend { display: flex; align-items: center; gap: 12rpx; margin: 10rpx 0 8rpx; }
-.legend-label { font-size: 24rpx; color: #999; }
-.table-scroll { width: 100%; overflow-x: auto; margin-bottom: 12rpx; }
-.table-row { display: flex; }
-.table-head { background: #fafafa; border: 1rpx solid #eee; border-bottom: 0; border-radius: 10rpx 10rpx 0 0; }
-.cell { min-width: 140rpx; padding: 14rpx 10rpx; border: 1rpx solid #eee; border-left: 0; text-align: center; font-size: 26rpx; color: #333; }
-.table-row .cell:first-child { border-left: 1rpx solid #eee; }
-.cell--head { font-size: 24rpx; color: #666; font-weight: 600; }
-.level-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 56rpx; padding: 4rpx 10rpx; border-radius: 20rpx; font-size: 22rpx; line-height: 1; }
+.group-tabs { display: flex; background: #f5f6f8; border-radius: 999rpx; padding: 6rpx; margin: 18rpx 0 12rpx; }
+.group-tab { flex: 1; text-align: center; font-size: 24rpx; color: #666; padding: 10rpx 0; border-radius: 999rpx; transition: all 0.2s ease; }
+.group-tab--active { background: #fff; color: #1677ff; font-weight: 600; box-shadow: 0 4rpx 10rpx rgba(22,119,255,0.15); }
+.group-list { border: 1rpx solid #eef0f2; border-radius: 14rpx; overflow: hidden; background: #fff; }
+.group-row { display: flex; align-items: center; justify-content: space-between; padding: 18rpx 20rpx; }
+.group-row + .group-row { border-top: 1rpx solid #f0f0f0; }
+.group-name { flex: 1; font-size: 28rpx; color: #333; line-height: 1.4; padding-right: 16rpx; word-break: break-all; }
+.level-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 80rpx; padding: 8rpx 18rpx; border-radius: 999rpx; font-size: 24rpx; line-height: 1; }
 .level-weak { background: #fff7e6; color: #fa8c16; border: 1rpx solid #ffd591; }
 .level-medium { background: #fff2e8; color: #fa541c; border: 1rpx solid #ffbb96; }
 .level-strong { background: #fff1f0; color: #ff4d4f; border: 1rpx solid #ffa39e; }
 .level-null { background: #f5f5f5; color: #999; border: 1rpx solid #e8e8e8; }
+.level-present { background: #eafff3; color: #07c160; border: 1rpx solid rgba(7,193,96,0.35); }
+.level-absent { background: #f5f5f5; color: #999; border: 1rpx solid #e8e8e8; }
+.level-unknown { background: #fff7e6; color: #faad14; border: 1rpx solid #ffd591; }
 
 .promo-box { 
   background: rgba(7,193,96,0.06);

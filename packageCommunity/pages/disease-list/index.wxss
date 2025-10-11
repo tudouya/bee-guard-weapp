@@ -11,12 +11,11 @@
 
 /* 分类条目：与首页卡片一致留白 */
 .cells { }
-.cell { display:flex; align-items:flex-start; justify-content:space-between; padding: 16rpx; background:#fff; border-radius: 16rpx; margin-top: 12rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06); }
+.cell { display:flex; align-items:center; justify-content:space-between; padding: 16rpx; background:#fff; border-radius: 16rpx; margin-top: 12rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06); }
 .cell:first-child { margin-top: 0; }
 .cell-main { flex:1; padding-right: 12rpx; }
 .name { font-size: 30rpx; font-weight: 700; color:#333; }
-.brief { margin-top: 6rpx; color:#666; font-size: 24rpx; }
-.symptom { margin-top: 6rpx; color:#999; font-size: 22rpx; }
+.ename { margin-top: 4rpx; color:#999; font-size: 24rpx; }
 .badge { padding: 6rpx 14rpx; font-size: 22rpx; color:#07c160; background: rgba(7,193,96,0.12); border-radius: 999rpx; white-space: nowrap; }
 
 /* QA/Share 专用样式整合 */

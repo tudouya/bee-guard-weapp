@@ -3,7 +3,7 @@ const shippingSvc = require('../../../services/shipping.js');
 
 Page({
   data: {
-    companyOptions: ['顺丰', '圆通', '京东快递', '中通', '申通', '中国邮政', '其他'],
+    companyOptions: ['顺丰', 'EMS', '京东快递'],
     companyIndex: -1,
     submitting: false,
     form: {
@@ -103,5 +103,10 @@ Page({
     } finally {
       this.setData({ submitting: false });
     }
+  },
+  goGuide() {
+    const detectId = (this.data.form && this.data.form.detectionNumber) ? this.data.form.detectionNumber.trim() : '';
+    const url = detectId ? `/pages/detection/guide/index?detectId=${encodeURIComponent(detectId)}` : '/pages/detection/guide/index';
+    wx.navigateTo({ url });
   }
 });

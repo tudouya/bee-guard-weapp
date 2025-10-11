@@ -20,11 +20,11 @@
         </view>
         <view class="my-brief" id="data-board">
             <view class="my-brief-con">
-                <view class="my-brief-title">数据看板</view>
+                <view class="my-brief-title">远程监控</view>
                 <view class="my-title my-board">
                     <view class="my-title-list">
                         <text>{{projectNum?projectNum:0}}</text>
-                        <text>项目</text>
+                        <text>蜂场编号</text>
                     </view>
                     <view class="my-title-line"></view>
                     <view class="my-title-list">

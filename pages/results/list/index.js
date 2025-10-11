@@ -81,5 +81,15 @@ Page({
     } else {
       wx.navigateTo({ url: `/pages/detection/status/index?appId=${encodeURIComponent(item.detectionId)}&price=0` });
     }
+  },
+  copyDetectionId(e) {
+    const detectionId = e.currentTarget.dataset.detection;
+    if (!detectionId) return;
+    wx.setClipboardData({
+      data: String(detectionId),
+      success() {
+        wx.showToast({ title: '检测号已复制', icon: 'success' });
+      }
+    });
   }
 });

@@ -13,8 +13,7 @@
         <view class="cell" wx:for="{{diseaseList}}" wx:key="code" bindtap="openDiseaseDetail" data-id="{{item.code}}">
           <view class="cell-main">
             <view class="name">{{item.name}}</view>
-            <view wx:if="{{item.brief}}" class="brief">{{item.brief}}</view>
-            <view wx:if="{{item.symptom && item.symptom !== '—'}}" class="symptom">典型症状：{{item.symptom}}</view>
+            <view class="ename" wx:if="{{item.code}}">{{item.code}}</view>
           </view>
           <view class="badge">{{item.articleCount}}篇</view>
         </view>

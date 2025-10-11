@@ -23,25 +23,26 @@
         <view class="pos-tags" wx:if="{{positives && positives.length}}">
           <text class="pos-tag" wx:for="{{positives}}" wx:key="{{item}}">{{item}}</text>
         </view>
-        <view class="legend">
-          <text class="legend-label">强度图例：</text>
-          <text class="level-badge level-weak">弱</text>
-          <text class="level-badge level-medium">中</text>
-          <text class="level-badge level-strong">强</text>
-          <text class="level-badge level-null">空</text>
+        <view class="group-tabs" wx:if="{{tables && tables.length > 1}}">
+          <view
+            class="group-tab {{activeGroup === item.key ? 'group-tab--active' : ''}}"
+            wx:for="{{tables}}"
+            wx:key="key"
+            data-key="{{item.key}}"
+            bindtap="switchGroup"
+          >
+            {{item.title}}
+          </view>
         </view>
-        <block wx:for="{{tables}}" wx:key="{{item.key}}">
-          <view class="group-title">{{item.title}}</view>
-          <scroll-view scroll-x="true" class="table-scroll">
-            <view class="table-row table-head">
-              <view class="cell cell--head" wx:for="{{item.headers}}" wx:key="{{item}}">{{item}}</view>
-            </view>
-            <view class="table-row">
-              <view class="cell" wx:for="{{item.cells}}" wx:key="{{item.code}}">
-                <text class="level-badge level-{{item.level || 'null'}}">{{item.levelText}}</text>
+        <block wx:for="{{tables}}" wx:key="key">
+          <view wx:if="{{activeGroup === item.key}}">
+            <view class="group-list">
+              <view class="group-row" wx:for="{{item.items}}" wx:key="code">
+                <text class="group-name">{{item.displayName}}</text>
+                <text class="level-badge level-{{item.badge}}">{{item.badgeText}}</text>
               </view>
             </view>
-          </scroll-view>
+          </view>
         </block>
       </view>
 

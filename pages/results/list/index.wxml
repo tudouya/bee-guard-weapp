@@ -20,8 +20,15 @@
         <view class="item-head">
           <view class="ids">
             <view class="id-row">
-              <text class="id-label">检测码：</text>
-              <text class="id-value">{{item.detectionId}}</text>
+              <view class="id-label-group">
+                <text class="id-label">检测码：</text>
+                <text class="id-value">{{item.detectionId}}</text>
+              </view>
+              <button
+                class="u-btn u-btn-primary u-btn--xs u-btn--pill id-copy-btn"
+                catchtap="copyDetectionId"
+                data-detection="{{item.detectionId}}"
+              >复制检测号</button>
             </view>
             <view class="id-row">
               <text class="id-label">样品编号：</text>

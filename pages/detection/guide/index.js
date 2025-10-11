@@ -8,7 +8,7 @@ Page({
     }
   },
   copyAddress() {
-    const text = '北京市海淀区圆明园西路二号中国农业科学院蜜蜂研究所, 王强（收）, 电话：13021226630（本电话仅用于接收快递，不接受任何咨询）';
+    const text = '北京市海淀区圆明园西路二号中国农业科学院蜜蜂研究所\n王强（收）\n电话：13021226630';
     wx.setClipboardData({
       data: text,
       success: () => {

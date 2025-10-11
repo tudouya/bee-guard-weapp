@@ -8,7 +8,8 @@
 
       <!-- 说明提示 -->
       <view class="tip">
-        <text>请填写您的检测号、手机号与快递信息，以便我们在样品寄出后及时匹配与更新状态。</text>
+        <text class="tip-text">请填写您的检测号、手机号与快递信息，以便我们在样品寄出后及时匹配与更新状态。</text>
+        <view class="tip-link" bindtap="goGuide">查看邮寄说明</view>
       </view>
 
       <!-- 表单区 -->

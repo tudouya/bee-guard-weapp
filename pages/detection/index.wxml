@@ -2,13 +2,13 @@
   <view class="content">
     
     
-    <!-- Tabs：有检测号 | 自费检测 -->
+    <!-- Tabs：有检测号 | 无检测号 -->
     <view class="tabs">
       <view class="tab-item {{activeMode==='code' ? 'active' : ''}}" data-mode="code" bindtap="switchMode">
         <text>有检测号</text>
       </view>
       <view class="tab-item {{activeMode==='paid' ? 'active' : ''}}" data-mode="paid" bindtap="switchMode">
-        <text>自费检测</text>
+        <text>无检测号</text>
       </view>
     </view>
 

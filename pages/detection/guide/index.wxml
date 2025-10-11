@@ -46,7 +46,8 @@
           <view class="item-title">• 邮寄地址</view>
           <view class="item-text">北京市海淀区圆明园西路二号中国农业科学院蜜蜂研究所</view>
           <view class="item-text">王强（收）</view>
-          <view class="item-text">电话：13021226630（本电话仅用于接收快递，不接受任何咨询）</view>
+          <view class="item-text">电话：13021226630</view>
+          <view class="item-note">本电话仅用于接收快递，不接受任何咨询</view>
           <button class="u-btn u-btn-primary u-btn--sm copy-btn" bindtap="copyAddress">复制地址</button>
         </view>
       </view>
@@ -55,4 +56,3 @@
     </view>
   </view>
 </view>
-
