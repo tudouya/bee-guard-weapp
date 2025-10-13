@@ -23,9 +23,12 @@ Page({
     this.setData({ loading: true, errorMessage: '' });
     try {
       const detail = await enterpriseService.getEnterpriseDetail(id);
-      this.setData({ detail, loading: false });
-      if (detail && detail.name) {
-        wx.setNavigationBarTitle({ title: detail.name });
+      const normalized = Object.assign({}, detail, {
+        logo: detail && detail.logo ? detail.logo : '/images/common/placeholder-card.png'
+      });
+      this.setData({ detail: normalized, loading: false });
+      if (normalized && normalized.name) {
+        wx.setNavigationBarTitle({ title: normalized.name });
       }
     } catch (error) {
       const message = (error && error.message) || '企业详情加载失败';
@@ -67,4 +70,3 @@ Page({
     });
   }
 });
-

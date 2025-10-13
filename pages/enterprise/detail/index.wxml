@@ -11,35 +11,33 @@
       <image class="enterprise-header__logo" src="{{detail.logo}}" mode="aspectFill" aria-hidden="true"></image>
       <view class="enterprise-header__meta">
         <view class="enterprise-header__name">{{detail.name}}</view>
-        <view class="enterprise-header__coverage">{{detail.coverage}}</view>
-        <view class="enterprise-header__tags" wx:if="{{detail.tags && detail.tags.length}}">
-          <view class="enterprise-header__tag" wx:for="{{detail.tags}}" wx:key="index">{{item}}</view>
-        </view>
       </view>
     </view>
 
     <view class="enterprise-section">
       <view class="enterprise-section__title">企业简介</view>
-      <view class="enterprise-section__content">{{detail.summary}}</view>
-    </view>
-
-    <view class="enterprise-section" wx:if="{{detail.services && detail.services.length}}">
-      <view class="enterprise-section__title">服务能力</view>
-      <view class="enterprise-service" wx:for="{{detail.services}}" wx:key="index">
-        <view class="enterprise-service__title">{{item.title}}</view>
-        <view class="enterprise-service__desc">{{item.desc}}</view>
-      </view>
-    </view>
-
-    <view class="enterprise-section" wx:if="{{detail.highlights && detail.highlights.length}}">
-      <view class="enterprise-section__title">合作亮点</view>
-      <view class="enterprise-list-text" wx:for="{{detail.highlights}}" wx:key="index">• {{item}}</view>
+      <view class="enterprise-section__content">{{detail.summary || '暂无企业简介'}}</view>
     </view>
 
     <view class="enterprise-section" wx:if="{{detail.certifications && detail.certifications.length}}">
       <view class="enterprise-section__title">认证资质</view>
       <view class="enterprise-certifications">
         <view class="enterprise-certifications__item" wx:for="{{detail.certifications}}" wx:key="index">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="enterprise-section" wx:if="{{detail.services && detail.services.length}}">
+      <view class="enterprise-section__title">服务产品</view>
+      <view class="enterprise-service" wx:for="{{detail.services}}" wx:key="index">
+        <view class="enterprise-service__bullet">{{index + 1}}.</view>
+        <view class="enterprise-service__text">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="enterprise-section" wx:if="{{detail.promotions && detail.promotions.length}}">
+      <view class="enterprise-section__title">优惠活动</view>
+      <view class="enterprise-promotions">
+        <view class="enterprise-promotions__item" wx:for="{{detail.promotions}}" wx:key="index">{{item}}</view>
       </view>
     </view>
 
@@ -60,4 +58,3 @@
     </view>
   </view>
 </view>
-

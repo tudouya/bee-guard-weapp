@@ -52,25 +52,6 @@ page {
   color: #14171a;
 }
 
-.enterprise-header__coverage {
-  font-size: 24rpx;
-  color: #6e757b;
-}
-
-.enterprise-header__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12rpx;
-}
-
-.enterprise-header__tag {
-  padding: 10rpx 18rpx;
-  background: rgba(7, 193, 96, 0.12);
-  color: #07c160;
-  border-radius: 999rpx;
-  font-size: 22rpx;
-}
-
 .enterprise-section {
   background: #ffffff;
   border-radius: 24rpx;
@@ -94,37 +75,29 @@ page {
 
 .enterprise-service {
   border-radius: 20rpx;
-  padding: 20rpx 24rpx;
+  padding: 16rpx 20rpx;
   background: #f7faf9;
-  margin-bottom: 16rpx;
+  margin-bottom: 12rpx;
+  display: flex;
+  gap: 16rpx;
 }
 
 .enterprise-service:last-child {
   margin-bottom: 0;
 }
 
-.enterprise-service__title {
-  font-size: 28rpx;
+.enterprise-service__bullet {
+  font-size: 26rpx;
   font-weight: 600;
-  color: #14171a;
-  margin-bottom: 8rpx;
+  color: #07c160;
+  line-height: 1.6;
 }
 
-.enterprise-service__desc {
+.enterprise-service__text {
+  flex: 1;
   font-size: 26rpx;
   line-height: 1.6;
-  color: #4c5257;
-}
-
-.enterprise-list-text {
-  font-size: 26rpx;
   color: #34393d;
-  line-height: 1.6;
-  margin-bottom: 12rpx;
-}
-
-.enterprise-list-text:last-child {
-  margin-bottom: 0;
 }
 
 .enterprise-certifications {
@@ -139,6 +112,21 @@ page {
   border-radius: 999rpx;
   font-size: 24rpx;
   color: #4c5257;
+}
+
+.enterprise-promotions {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.enterprise-promotions__item {
+  padding: 16rpx 20rpx;
+  background: rgba(255, 198, 120, 0.18);
+  border-radius: 16rpx;
+  font-size: 26rpx;
+  color: #ff7f00;
+  line-height: 1.6;
 }
 
 .enterprise-contact {
@@ -168,4 +156,3 @@ page {
   font-size: 22rpx;
   color: #8f9498;
 }
-

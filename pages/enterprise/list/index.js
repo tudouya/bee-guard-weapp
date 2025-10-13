@@ -27,15 +27,33 @@ Page({
     const nextPage = reset ? 1 : this.data.page + 1;
     this.setData({ loading: true, errorMessage: '' });
     try {
-      const { list, meta } = await enterpriseService.listFeaturedEnterprises({
+      const { list, meta } = await enterpriseService.listEnterprises({
         page: nextPage,
         per_page: this.data.perPage
       });
-      const enterprises = reset ? list : this.data.enterprises.concat(list);
+      const normalized = Array.isArray(list)
+        ? list.map((item) => {
+            const certificationTags = Array.isArray(item && item.certifications)
+              ? item.certifications
+                  .map((tag) => {
+                    if (typeof tag === 'string') return tag.trim();
+                    if (tag === undefined || tag === null) return '';
+                    return String(tag).trim();
+                  })
+                  .filter((tag) => !!tag)
+                  .slice(0, 3)
+              : [];
+            return Object.assign({}, item, {
+              logo: item && item.logo ? item.logo : '/images/common/placeholder-card.png',
+              certificationTags
+            });
+          })
+        : [];
+      const enterprises = reset ? normalized : this.data.enterprises.concat(normalized);
       this.setData({
         enterprises,
         page: nextPage,
-        hasMore: !!(meta && meta.has_more),
+        hasMore: !!(meta && typeof meta.has_more !== 'undefined' ? meta.has_more : (meta.page || 1) < (meta.total_pages || 1)),
         loading: false
       });
     } catch (error) {
@@ -57,4 +75,3 @@ Page({
     wx.navigateTo({ url: `/pages/enterprise/detail/index?id=${id}` });
   }
 });
-

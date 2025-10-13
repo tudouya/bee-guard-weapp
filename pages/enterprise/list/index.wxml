@@ -26,21 +26,16 @@
 
   <view wx:if="{{enterprises.length}}" class="enterprise-cards">
     <view wx:for="{{enterprises}}" wx:key="id" data-id="{{item.id}}" class="enterprise-card" bindtap="handleViewDetail">
-      <view class="enterprise-card__header">
-        <image class="enterprise-card__logo" src="{{item.logo}}" mode="aspectFill" aria-hidden="true"></image>
-        <view class="enterprise-card__text">
-          <view class="enterprise-card__name">{{item.name}}</view>
-          <view class="enterprise-card__coverage">{{item.coverage}}</view>
+        <view class="enterprise-card__header">
+          <image class="enterprise-card__logo" src="{{item.logo}}" mode="aspectFill" aria-hidden="true"></image>
+          <view class="enterprise-card__text">
+            <view class="enterprise-card__name">{{item.name}}</view>
+            <view wx:if="{{item.certificationTags && item.certificationTags.length}}" class="enterprise-card__qualifications">
+              <view wx:for="{{item.certificationTags}}" wx:key="index" class="enterprise-card__tag">{{item}}</view>
+            </view>
+          </view>
         </view>
       </view>
-      <view class="enterprise-card__summary">{{item.summary}}</view>
-      <view class="enterprise-card__tags" wx:if="{{item.tags && item.tags.length}}">
-        <view class="enterprise-card__tag" wx:for="{{item.tags}}" wx:key="index">{{item}}</view>
-      </view>
-      <view class="enterprise-card__cta">
-        <view class="u-btn u-btn-primary u-btn--sm u-btn--pill">了解详情</view>
-      </view>
-    </view>
   </view>
 
   <view wx:if="{{loading && enterprises.length}}" class="enterprise-loading">加载中...</view>
