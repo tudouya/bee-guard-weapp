@@ -7,7 +7,37 @@ Page({
         topicHost: [],
         infoData: [],
         num: 0,
-        recordNum: 0
+        recordNum: 0,
+        bannerSlides: [
+            {
+                id: 'platform',
+                title: '中国蜜蜂疫病监控平台',
+                subtitle: '检测·监测·防控一站式服务',
+                badge: '安心守护',
+                gradient: 'gradient-platform'
+            },
+            {
+                id: 'research',
+                title: '中国农业科学院蜜蜂研究所',
+                subtitle: '科研赋能 · 权威背书',
+                badge: '科研协同',
+                gradient: 'gradient-research'
+            },
+            {
+                id: 'project',
+                title: '农业农村部动物疫病监测与防治项目',
+                subtitle: '国家级防控体系保障',
+                badge: '国家项目',
+                gradient: 'gradient-project'
+            },
+            {
+                id: 'support',
+                title: '支持单位：山西恒达联合药业有限公司',
+                subtitle: '产业合作 · 健康养蜂',
+                badge: '协同支持',
+                gradient: 'gradient-support'
+            }
+        ]
     },
     onLoad: function(n) {
         this.handleTopicHost();

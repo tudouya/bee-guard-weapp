@@ -62,17 +62,34 @@ page {
     margin: 24rpx 0 32rpx;
 }
 
-/* 清理未使用：旧轮播图 image 规则 */
-
-/* 品牌绿 Banner（替代旧图） */
-.banner-green {
-    position: relative;
+.home-banner-swiper {
     height: 280rpx;
+    width: 100%;
+}
+
+.banner-card {
+    position: relative;
+    height: 100%;
     width: 100%;
     border-radius: 16rpx;
     overflow: hidden;
-    background: linear-gradient(135deg, #07c160 0%, #06a552 70%, #eafff3 100%);
     box-shadow: 0 8rpx 24rpx rgba(7, 193, 96, 0.18);
+}
+
+.gradient-platform {
+    background: linear-gradient(135deg, #07c160 0%, #06a552 70%, #eafff3 100%);
+}
+
+.gradient-research {
+    background: linear-gradient(135deg, #07c160 0%, #0fb372 45%, #2db7f5 100%);
+}
+
+.gradient-project {
+    background: linear-gradient(135deg, #06a552 0%, #1cce8b 40%, #2db7f5 100%);
+}
+
+.gradient-support {
+    background: linear-gradient(135deg, #07c160 0%, #32d894 48%, rgba(255, 255, 255, 0.92) 100%);
 }
 
 .banner-texts {
@@ -124,7 +141,7 @@ page {
 }
 
 /* 本地蜜蜂插画图片（右上角） */
-.banner-bee { position: absolute; right: 36rpx; top: 28rpx; width: 140rpx; z-index: 2; opacity: 0.95; pointer-events: none; }
+.banner-bee { position: absolute; right: 36rpx; top: 88rpx; width: 140rpx; z-index: 2; opacity: 0.95; pointer-events: none; }
 
 /* 雷达波纹（多处分布） */
 .radar { position: absolute; width: 120rpx; height: 120rpx; }

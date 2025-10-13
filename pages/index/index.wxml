@@ -9,68 +9,74 @@
                 </view>
             </view>
             <view class="home-rotation-chart">
-                <view class="banner-green">
-                    <view class="banner-texts">
-                        <text class="banner-title">蜜蜂疫病监控平台</text>
-                        <text class="banner-sub">检测 · 疫情 · 防控 · 知识</text>
-                    </view>
-                    <view class="banner-badge">安心守护</view>
-                    <!-- 插画层：雷达 + 图表 + 盾牌 + 本地蜜蜂插画 -->
-                    <view class="banner-graphics">
-                        <!-- 雷达监控波纹（多处分布） -->
-                        <view class="radar radar-a">
-                            <view class="ring r1"></view>
-                            <view class="ring r2"></view>
-                            <view class="ring r3"></view>
-                            <view class="radar-dot"></view>
-                        </view>
-                        <view class="radar radar-b">
-                            <view class="ring r1"></view>
-                            <view class="ring r2"></view>
-                            <view class="ring r3"></view>
-                            <view class="radar-dot"></view>
-                        </view>
-                        <view class="radar radar-c">
-                            <view class="ring r1"></view>
-                            <view class="ring r2"></view>
-                            <view class="ring r3"></view>
-                            <view class="radar-dot"></view>
-                        </view>
-                        <!-- 简易柱状图趋势 -->
-                        <view class="chart">
-                            <view class="bar b1"></view>
-                            <view class="bar b2"></view>
-                            <view class="bar b3"></view>
-                            <view class="bar b4"></view>
-                        </view>
-                        <!-- 盾牌防控图标 -->
-                        <view class="shield">
-                            <view class="shield-mark"></view>
-                        </view>
-                        <!-- 额外雷达点位（底部随机分布） -->
-                        <view class="radar radar-d">
-                            <view class="ring r1"></view>
-                            <view class="ring r2"></view>
-                            <view class="ring r3"></view>
-                            <view class="radar-dot"></view>
-                        </view>
-                        <view class="radar radar-e">
-                            <view class="ring r1"></view>
-                            <view class="ring r2"></view>
-                            <view class="ring r3"></view>
-                            <view class="radar-dot"></view>
-                        </view>
-                        <!-- 底部居中雷达点位 -->
-                        <view class="radar radar-f">
-                            <view class="ring r1"></view>
-                            <view class="ring r2"></view>
-                            <view class="ring r3"></view>
-                            <view class="radar-dot"></view>
-                        </view>
-                        <!-- 本地蜜蜂插画图片（替代 CSS 蜜蜂） -->
-                        <image class="banner-bee" src="/images/banner_bee.png" mode="widthFix" aria-hidden="true"></image>
-                    </view>
-                </view>
+                <swiper class="home-banner-swiper" indicator-dots="true" autoplay="true" circular="true" interval="5000" duration="800" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#ffffff">
+                    <block wx:for="{{bannerSlides}}" wx:key="id">
+                        <swiper-item>
+                            <view class="banner-card {{item.gradient}}">
+                                <view class="banner-texts">
+                                    <text class="banner-title">{{item.title}}</text>
+                                    <text class="banner-sub">{{item.subtitle}}</text>
+                                </view>
+                                <view class="banner-badge">{{item.badge}}</view>
+                                <!-- 插画层：雷达 + 图表 + 盾牌 + 本地蜜蜂插画 -->
+                                <view class="banner-graphics">
+                                    <!-- 雷达监控波纹（多处分布） -->
+                                    <view class="radar radar-a">
+                                        <view class="ring r1"></view>
+                                        <view class="ring r2"></view>
+                                        <view class="ring r3"></view>
+                                        <view class="radar-dot"></view>
+                                    </view>
+                                    <view class="radar radar-b">
+                                        <view class="ring r1"></view>
+                                        <view class="ring r2"></view>
+                                        <view class="ring r3"></view>
+                                        <view class="radar-dot"></view>
+                                    </view>
+                                    <view class="radar radar-c">
+                                        <view class="ring r1"></view>
+                                        <view class="ring r2"></view>
+                                        <view class="ring r3"></view>
+                                        <view class="radar-dot"></view>
+                                    </view>
+                                    <!-- 简易柱状图趋势 -->
+                                    <view class="chart">
+                                        <view class="bar b1"></view>
+                                        <view class="bar b2"></view>
+                                        <view class="bar b3"></view>
+                                        <view class="bar b4"></view>
+                                    </view>
+                                    <!-- 盾牌防控图标 -->
+                                    <view class="shield">
+                                        <view class="shield-mark"></view>
+                                    </view>
+                                    <!-- 额外雷达点位（底部随机分布） -->
+                                    <view class="radar radar-d">
+                                        <view class="ring r1"></view>
+                                        <view class="ring r2"></view>
+                                        <view class="ring r3"></view>
+                                        <view class="radar-dot"></view>
+                                    </view>
+                                    <view class="radar radar-e">
+                                        <view class="ring r1"></view>
+                                        <view class="ring r2"></view>
+                                        <view class="ring r3"></view>
+                                        <view class="radar-dot"></view>
+                                    </view>
+                                    <!-- 底部居中雷达点位 -->
+                                    <view class="radar radar-f">
+                                        <view class="ring r1"></view>
+                                        <view class="ring r2"></view>
+                                        <view class="ring r3"></view>
+                                        <view class="radar-dot"></view>
+                                    </view>
+                                    <!-- 本地蜜蜂插画图片（替代 CSS 蜜蜂） -->
+                                    <image class="banner-bee" src="/images/banner_bee.png" mode="widthFix" aria-hidden="true"></image>
+                                </view>
+                            </view>
+                        </swiper-item>
+                    </block>
+                </swiper>
             </view>
             <view class="home-list">
                 <view bindtap="handleDetection" class="home-list-item">
