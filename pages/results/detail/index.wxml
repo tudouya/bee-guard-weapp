@@ -19,10 +19,6 @@
 
       <view class="section" wx:if="{{detail && detail.status === 'completed'}}">
         <view class="section-title">结果矩阵</view>
-        <view class="summary-line">阳性合计：<text class="pos-num">{{positiveCount}}</text></view>
-        <view class="pos-tags" wx:if="{{positives && positives.length}}">
-          <text class="pos-tag" wx:for="{{positives}}" wx:key="{{item}}">{{item}}</text>
-        </view>
         <view class="group-tabs" wx:if="{{tables && tables.length > 1}}">
           <view
             class="group-tab {{activeGroup === item.key ? 'group-tab--active' : ''}}"

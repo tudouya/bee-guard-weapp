@@ -7,8 +7,6 @@ Page({
     recs: [],
     tables: [],
     meta: {},
-    positiveCount: 0,
-    positives: [],
     activeGroup: ''
   },
   onLoad(options = {}) {
@@ -34,9 +32,9 @@ Page({
     try {
       const detail = await resultsSvc.getDetail(params);
       const recs = Array.isArray(detail.recommendations) ? detail.recommendations : [];
-      const { tables, meta, positiveCount, positives } = this.buildTables(detail);
+      const { tables, meta } = this.buildTables(detail);
       const activeGroup = tables.length ? tables[0].key : '';
-      this.setData({ detail, results: detail.results || [], recs, tables, meta, positiveCount, positives, activeGroup });
+      this.setData({ detail, results: detail.results || [], recs, tables, meta, activeGroup });
     } catch (e) {
       const code = e && e.statusCode;
       if (code === 404) {
@@ -142,9 +140,7 @@ Page({
     };
     return {
       tables,
-      meta,
-      positiveCount: detail.positiveCount || 0,
-      positives: Array.isArray(detail.positives) ? detail.positives : []
+      meta
     };
   },
   switchGroup(e) {

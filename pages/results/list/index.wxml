@@ -41,16 +41,8 @@
         <!-- 基本信息 -->
         <view class="meta">
           <text class="meta-row">提交时间：{{item.submitTime || '—'}}</text>
-          <text class="meta-row">阳性数：{{item.positiveCount || 0}}</text>
         </view>
 
-        <!-- 阳性病原标签 -->
-        <view class="block" wx:if="{{item.positives && item.positives.length}}">
-          <text class="block-title">阳性病原</text>
-          <view class="pos-tags">
-            <text class="pos-tag" wx:for="{{item.positives}}" wx:key="{{item}}">{{item}}</text>
-          </view>
-        </view>
       </view>
       <view class="load-more" wx:if="{{hasMore}}" bindtap="loadMore">加载更多</view>
     </view>
