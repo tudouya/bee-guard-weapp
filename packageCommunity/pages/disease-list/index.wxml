@@ -33,10 +33,13 @@
         </view>
       </view>
       <view class="chips">
-        <view class="chip active">全部</view>
-        <view class="chip">蜂群动态</view>
-        <view class="chip">其它</view>
-        <view class="chip">问题咨询</view>
+        <view
+          class="chip {{qaActiveCategory === item.value ? 'active' : ''}}"
+          wx:for="{{qaCategories}}"
+          wx:key="value"
+          data-value="{{item.value}}"
+          bindtap="onQaCategoryChange"
+        >{{item.label}}</view>
       </view>
       <view class="panel">
         <view class="cells">
@@ -77,10 +80,13 @@
         </view>
       </view>
       <view class="chips">
-        <view class="chip active">全部</view>
-        <view class="chip">蜂群动态</view>
-        <view class="chip">其它</view>
-        <view class="chip">问题咨询</view>
+        <view
+          class="chip {{shareActiveCategory === item.value ? 'active' : ''}}"
+          wx:for="{{shareCategories}}"
+          wx:key="value"
+          data-value="{{item.value}}"
+          bindtap="onShareCategoryChange"
+        >{{item.label}}</view>
       </view>
       <view class="panel">
         <view class="cells">

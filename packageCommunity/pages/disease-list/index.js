@@ -13,6 +13,16 @@ const ROLE_LABELS = {
   super_admin: '平台管理员'
 };
 
+const COMMUNITY_CATEGORIES = [
+  { label: '全部', value: '' },
+  { label: '健康养殖', value: '健康养殖' },
+  { label: '疫病防控', value: '疫病防控' },
+  { label: '蜜蜂产品', value: '蜜蜂产品' },
+  { label: '蜜蜂育种', value: '蜜蜂育种' },
+  { label: '蜜蜂授粉', value: '蜜蜂授粉' },
+  { label: '市场信息', value: '市场信息' }
+];
+
 function resolveRoleLabel(role = '') {
   const key = typeof role === 'string' ? role.trim().toLowerCase() : '';
   if (!key) return '';
@@ -48,7 +58,7 @@ Page({
     // 疾病百科列表（对接接口）
     diseaseList: [],
     dPage: 1,
-    dPerPage: 10,
+    dPerPage: 25,
     dTotalPages: 1,
     dLoading: false,
     dNoMore: false,
@@ -63,6 +73,8 @@ Page({
     qaLoaded: false,
     qaError: '',
     qaSort: 'latest',
+    qaCategories: COMMUNITY_CATEGORIES,
+    qaActiveCategory: '',
     // 经验分享列表（分页加载）
     shareList: [],
     sharePage: 1,
@@ -73,6 +85,8 @@ Page({
     shareLoaded: false,
     shareError: '',
     shareSort: 'latest',
+    shareCategories: COMMUNITY_CATEGORIES,
+    shareActiveCategory: '',
     // 每个 Tab 的滚动位置
     scrollPositions: { disease: 0, qa: 0, share: 0 }
   },
@@ -165,6 +179,28 @@ Page({
       this.setData({ dLoading: false });
     }
   },
+  onQaCategoryChange(e){
+    let value = e && e.currentTarget ? e.currentTarget.dataset.value : undefined;
+    if (typeof value === 'undefined') value = '';
+    if (value === this.data.qaActiveCategory) return;
+    this.resetQaState();
+    const scrollPositions = Object.assign({}, this.data.scrollPositions, { qa: 0 });
+    this.setData({ qaActiveCategory: value, scrollPositions }, () => {
+      wx.pageScrollTo({ scrollTop: 0, duration: 0 });
+      this.fetchQaList({ reset: true });
+    });
+  },
+  onShareCategoryChange(e){
+    let value = e && e.currentTarget ? e.currentTarget.dataset.value : undefined;
+    if (typeof value === 'undefined') value = '';
+    if (value === this.data.shareActiveCategory) return;
+    this.resetShareState();
+    const scrollPositions = Object.assign({}, this.data.scrollPositions, { share: 0 });
+    this.setData({ shareActiveCategory: value, scrollPositions }, () => {
+      wx.pageScrollTo({ scrollTop: 0, duration: 0 });
+      this.fetchShareList({ reset: true });
+    });
+  },
   resetQaState(){
     this.setData({
       qaList: [],
@@ -195,7 +231,8 @@ Page({
         type: 'question',
         page: nextPage,
         per_page: this.data.qaPerPage,
-        sort: this.data.qaSort
+        sort: this.data.qaSort,
+        category: this.data.qaActiveCategory || undefined
       });
       const cleaned = (list || []).map((item) => normalizePost(item, 'question'));
       const currentList = reset ? [] : (this.data.qaList || []);
@@ -230,7 +267,8 @@ Page({
         type: 'experience',
         page: nextPage,
         per_page: this.data.sharePerPage,
-        sort: this.data.shareSort
+        sort: this.data.shareSort,
+        category: this.data.shareActiveCategory || undefined
       });
       const cleaned = (list || []).map((item) => normalizePost(item, 'experience'));
       const currentList = reset ? [] : (this.data.shareList || []);
