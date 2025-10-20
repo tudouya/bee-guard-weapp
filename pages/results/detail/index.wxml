@@ -19,6 +19,7 @@
 
       <view class="section" wx:if="{{detail && detail.status === 'completed'}}">
         <view class="section-title">结果矩阵</view>
+        <view class="summary-line">阳性合计：<text class="pos-num">{{positiveCount}}</text>（病原体 {{positivePathogenCount}} 项 · 虫害 {{positivePestCount}} 项）</view>
         <view class="group-tabs" wx:if="{{tables && tables.length > 1}}">
           <view
             class="group-tab {{activeGroup === item.key ? 'group-tab--active' : ''}}"

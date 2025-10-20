@@ -23,8 +23,25 @@ Page({
     this.setData({ loading: true, errorMessage: '' });
     try {
       const detail = await enterpriseService.getEnterpriseDetail(id);
+      const promotionLines = (() => {
+        if (!detail || !detail.promotions) return [];
+        if (Array.isArray(detail.promotions)) {
+          return detail.promotions
+            .filter((item) => typeof item === 'string' && item.trim())
+            .map((item) => item.trim());
+        }
+        if (typeof detail.promotions === 'string') {
+          return detail.promotions
+            .split(/\r?\n/)
+            .map((line) => line.trim())
+            .filter(Boolean);
+        }
+        return [];
+      })();
+
       const normalized = Object.assign({}, detail, {
-        logo: detail && detail.logo ? detail.logo : '/images/common/placeholder-card.png'
+        logo: detail && detail.logo ? detail.logo : '/images/common/placeholder-card.png',
+        promotionLines
       });
       this.setData({ detail: normalized, loading: false });
       if (normalized && normalized.name) {

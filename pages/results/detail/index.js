@@ -7,6 +7,9 @@ Page({
     recs: [],
     tables: [],
     meta: {},
+    positiveCount: 0,
+    positivePathogenCount: 0,
+    positivePestCount: 0,
     activeGroup: ''
   },
   onLoad(options = {}) {
@@ -32,9 +35,19 @@ Page({
     try {
       const detail = await resultsSvc.getDetail(params);
       const recs = Array.isArray(detail.recommendations) ? detail.recommendations : [];
-      const { tables, meta } = this.buildTables(detail);
+      const { tables, meta, positiveCount, positivePathogenCount, positivePestCount } = this.buildTables(detail);
       const activeGroup = tables.length ? tables[0].key : '';
-      this.setData({ detail, results: detail.results || [], recs, tables, meta, activeGroup });
+      this.setData({
+        detail,
+        results: detail.results || [],
+        recs,
+        tables,
+        meta,
+        positiveCount,
+        positivePathogenCount,
+        positivePestCount,
+        activeGroup
+      });
     } catch (e) {
       const code = e && e.statusCode;
       if (code === 404) {
@@ -71,6 +84,8 @@ Page({
       dna_bacteria_fungi: '细菌、真菌',
       pests: '虫害'
     };
+    let positivePathogenCount = 0;
+    let positivePestCount = 0;
     function pathogenCellFor(code) {
       const r = byCode[code] || { code, name: code, level: null, levelText: '', positive: false };
       let lt = r.levelText;
@@ -86,6 +101,9 @@ Page({
       const displayName = r.name && r.code && r.name !== r.code
         ? `${r.name} (${r.code})`
         : (r.name || r.code || code);
+      if (positive) {
+        positivePathogenCount += 1;
+      }
       return {
         code: r.code || code,
         name: r.name || code,
@@ -99,6 +117,9 @@ Page({
       const level = present ? 'present' : 'absent';
       const lt = present ? '有' : '无';
       const cname = (entry && entry.name) || PEST_LABELS[code] || code;
+      if (present) {
+        positivePestCount += 1;
+      }
       return {
         code: entry && entry.code ? entry.code : code,
         name: cname,
@@ -138,9 +159,13 @@ Page({
       sampleTime: detail.sampleTime || '',
       address: detail.address || ''
     };
+    const positiveCount = positivePathogenCount + positivePestCount;
     return {
       tables,
-      meta
+      meta,
+      positiveCount,
+      positivePathogenCount,
+      positivePestCount
     };
   },
   switchGroup(e) {

@@ -39,14 +39,29 @@ Page({
     this.fetchDetail(this.data.productId);
   },
 
+  getPrimaryContact() {
+    const detail = this.data.detail;
+    if (!detail) return {};
+    if (detail.contact && typeof detail.contact === 'object') {
+      const { phone, wechat, website } = detail.contact;
+      if (phone || wechat || website) return detail.contact;
+    }
+    if (detail.enterprise && detail.enterprise.contact) {
+      return detail.enterprise.contact;
+    }
+    return {};
+  },
+
   handleCallEnterprise() {
-    const phone = this.data.detail && this.data.detail.enterprise && this.data.detail.enterprise.phone;
+    const contact = this.getPrimaryContact();
+    const phone = contact && contact.phone;
     if (!phone) return;
     wx.makePhoneCall({ phoneNumber: phone });
   },
 
   handleCopyWechat() {
-    const wechat = this.data.detail && this.data.detail.enterprise && this.data.detail.enterprise.wechat;
+    const contact = this.getPrimaryContact();
+    const wechat = contact && contact.wechat;
     if (!wechat) return;
     wx.setClipboardData({
       data: wechat,
@@ -57,10 +72,11 @@ Page({
   },
 
   handleCopyLink() {
-    const link = this.data.detail && this.data.detail.enterprise && this.data.detail.enterprise.link;
-    if (!link) return;
+    const contact = this.getPrimaryContact();
+    const website = contact && (contact.website || contact.link);
+    if (!website) return;
     wx.setClipboardData({
-      data: link,
+      data: website,
       success() {
         wx.showToast({ title: '官网链接已复制', icon: 'success' });
       }
@@ -78,4 +94,3 @@ Page({
     });
   }
 });
-

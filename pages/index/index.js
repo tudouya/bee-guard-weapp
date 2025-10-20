@@ -29,13 +29,6 @@ Page({
                 subtitle: '国家级防控体系保障',
                 badge: '国家项目',
                 gradient: 'gradient-project'
-            },
-            {
-                id: 'support',
-                title: '支持单位：山西恒达联合药业有限公司',
-                subtitle: '产业合作 · 健康养蜂',
-                badge: '协同支持',
-                gradient: 'gradient-support'
             }
         ]
     },

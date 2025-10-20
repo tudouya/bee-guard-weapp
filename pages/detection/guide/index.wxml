@@ -42,6 +42,9 @@
           <view class="item-title">• 快递方式</view>
           <view class="item-text">请务必选择“顺丰快递”或“京东快递”寄送。</view>
         </view>
+        <view class="section-block section-block--highlight">
+          <view class="item-text item-text--highlight">特别说明：请务必在包裹中加一个纸条标注检测号、注册手机号及联系人姓名地址。</view>
+        </view>
         <view class="address-card">
           <view class="item-title">• 邮寄地址</view>
           <view class="item-text">北京市海淀区圆明园西路二号中国农业科学院蜜蜂研究所</view>

@@ -21,8 +21,9 @@
 
     <view class="enterprise-section" wx:if="{{detail.certifications && detail.certifications.length}}">
       <view class="enterprise-section__title">认证资质</view>
-      <view class="enterprise-certifications">
-        <view class="enterprise-certifications__item" wx:for="{{detail.certifications}}" wx:key="index">{{item}}</view>
+      <view class="enterprise-service enterprise-qualification" wx:for="{{detail.certifications}}" wx:key="index">
+        <view class="enterprise-service__bullet enterprise-qualification__bullet">{{index + 1}}.</view>
+        <view class="enterprise-service__text enterprise-qualification__text">{{item}}</view>
       </view>
     </view>
 
@@ -34,10 +35,12 @@
       </view>
     </view>
 
-    <view class="enterprise-section" wx:if="{{detail.promotions && detail.promotions.length}}">
+    <view class="enterprise-section" wx:if="{{detail.promotionLines && detail.promotionLines.length}}">
       <view class="enterprise-section__title">优惠活动</view>
-      <view class="enterprise-promotions">
-        <view class="enterprise-promotions__item" wx:for="{{detail.promotions}}" wx:key="index">{{item}}</view>
+      <view class="enterprise-promotion-card">
+        <view class="enterprise-promotion-card__content">
+          <view class="enterprise-promotion-card__line" wx:for="{{detail.promotionLines}}" wx:key="index">{{item}}</view>
+        </view>
       </view>
     </view>
 
