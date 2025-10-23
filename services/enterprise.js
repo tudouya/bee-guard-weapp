@@ -2,9 +2,23 @@
 
 const config = require('../utils/config.js');
 
+const PLACEHOLDER_LOGO = '/images/common/placeholder-card.png';
+
 function getBaseUrl() {
   const base = (config && config.apiBase) || '';
   return base.replace(/\/+$/, '');
+}
+
+function resolveLogoUrl(url) {
+  if (!url || typeof url !== 'string') return PLACEHOLDER_LOGO;
+  const trimmed = url.trim();
+  if (!trimmed) return PLACEHOLDER_LOGO;
+  if (/^data:/i.test(trimmed)) return trimmed;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (trimmed.startsWith('//')) return 'https:' + trimmed;
+  const base = getBaseUrl();
+  if (!base) return trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+  return trimmed.startsWith('/') ? `${base}${trimmed}` : `${base}/${trimmed}`;
 }
 
 function buildQuery(params = {}) {
@@ -56,10 +70,21 @@ function request({ path, query }) {
   });
 }
 
+function normalizeEnterprise(item) {
+  if (!item || typeof item !== 'object') return item;
+  const logoSource = item.logo || item.logoUrl || item.enterpriseLogo || '';
+  return Object.assign({}, item, {
+    logo: resolveLogoUrl(logoSource)
+  });
+}
+
 function listEnterprises({ page = 1, per_page = 10 } = {}) {
   if (per_page > 50) per_page = 50;
   return request({ path: '/api/enterprises', query: { page, per_page } })
-    .then(({ data, meta }) => ({ list: Array.isArray(data) ? data : [], meta: meta || {} }));
+    .then(({ data, meta }) => ({
+      list: Array.isArray(data) ? data.map(normalizeEnterprise) : [],
+      meta: meta || {}
+    }));
 }
 
 function getEnterpriseDetail(id) {
@@ -67,7 +92,7 @@ function getEnterpriseDetail(id) {
     return Promise.reject(new Error('缺少企业 ID'));
   }
   return request({ path: `/api/enterprises/${id}` })
-    .then(({ data }) => data || {});
+    .then(({ data }) => normalizeEnterprise(data || {}));
 }
 
 module.exports = {
