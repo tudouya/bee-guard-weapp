@@ -1,11 +1,15 @@
 const productService = require('../../../services/product.js');
 
+const PLACEHOLDER_IMAGE = '/images/common/placeholder-card.png';
+
 Page({
   data: {
     detail: null,
     loading: true,
     errorMessage: '',
-    productId: ''
+    productId: '',
+    displayImages: [],
+    activeImageIndex: 0
   },
 
   onLoad(options = {}) {
@@ -23,7 +27,23 @@ Page({
     this.setData({ loading: true, errorMessage: '' });
     try {
       const detail = await productService.getProductDetail(id);
-      this.setData({ detail, loading: false });
+      const homepageImages = Array.isArray(detail && detail.homepage && detail.homepage.images)
+        ? detail.homepage.images.filter(item => !!item)
+        : [];
+      const images = Array.isArray(detail && detail.images) ? detail.images.filter(item => !!item) : [];
+      const displayImages = images.length
+        ? images
+        : homepageImages.length
+          ? homepageImages
+          : detail && detail.banner
+            ? [detail.banner]
+            : [PLACEHOLDER_IMAGE];
+      this.setData({
+        detail,
+        loading: false,
+        displayImages,
+        activeImageIndex: 0
+      });
       if (detail && detail.name) {
         wx.setNavigationBarTitle({ title: detail.name });
       }
@@ -37,6 +57,13 @@ Page({
   handleRetry() {
     if (!this.data.productId) return;
     this.fetchDetail(this.data.productId);
+  },
+
+  handleImageChange(event) {
+    const detail = event && event.detail;
+    const current = detail && typeof detail.current === 'number' ? detail.current : 0;
+    if (current === this.data.activeImageIndex) return;
+    this.setData({ activeImageIndex: current });
   },
 
   getPrimaryContact() {

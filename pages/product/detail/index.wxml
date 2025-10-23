@@ -7,9 +7,22 @@
   </view>
 
   <view wx:if="{{!loading && detail}}">
-    <view class="product-banner">
-      <image class="product-banner__image" src="{{detail.banner}}" mode="aspectFill"></image>
+    <view class="product-banner" wx:if="{{displayImages && displayImages.length}}">
+      <swiper
+        class="product-banner__swiper"
+        indicator-dots="{{displayImages.length > 1}}"
+        circular="{{displayImages.length > 1}}"
+        autoplay="{{displayImages.length > 1}}"
+        interval="5000"
+        current="{{activeImageIndex}}"
+        bindchange="handleImageChange"
+      >
+        <swiper-item wx:for="{{displayImages}}" wx:key="*this">
+          <image class="product-banner__image" src="{{item}}" mode="aspectFill"></image>
+        </swiper-item>
+      </swiper>
       <view class="product-banner__badge">{{detail.source==='enterprise' ? (detail.sourceLabel || '企业推荐') : '平台精选'}}</view>
+      <view class="product-banner__counter" wx:if="{{displayImages.length > 1}}">{{activeImageIndex + 1}} / {{displayImages.length}}</view>
     </view>
 
     <view class="product-base">
@@ -19,8 +32,9 @@
         <text class="product-base__price">{{detail.priceRange}}</text>
         <view class="u-btn u-btn-primary u-btn--xs u-btn--pill" bindtap="handleCopyPrice">复制价格</view>
       </view>
-      <view class="product-base__tags" wx:if="{{detail.tags && detail.tags.length}}">
-        <view class="product-base__tag" wx:for="{{detail.tags}}" wx:key="index">{{item}}</view>
+      <view class="product-base__meta" wx:if="{{detail.registrationNo}}">
+        <text class="product-base__label">注册证号</text>
+        <text class="product-base__value">{{detail.registrationNo}}</text>
       </view>
     </view>
 
@@ -32,7 +46,7 @@
     </view>
 
     <view class="product-section" wx:if="{{detail.highlights && detail.highlights.length}}">
-      <view class="product-section__title">服务亮点</view>
+      <view class="product-section__title">产品亮点</view>
       <view class="product-list-text" wx:for="{{detail.highlights}}" wx:key="index">• {{item}}</view>
     </view>
 
@@ -66,9 +80,9 @@
     </view>
 
     <view class="product-contact" wx:if="{{detail.contact}}">
-      <view class="product-section__title">{{detail.contact.company ? detail.contact.company + ' 联系方式' : '联系渠道'}}</view>
+      <view class="product-section__title">联系方式</view>
       <view class="product-contact__meta">
-        <view wx:if="{{detail.contact.company}}" class="product-contact__name">{{detail.contact.company}}</view>
+        <view wx:if="{{detail.contact.company}}" class="product-contact__name">企业名称：{{detail.contact.company}}</view>
         <view wx:if="{{detail.contact.phone}}">电话：{{detail.contact.phone}}</view>
         <view wx:if="{{detail.contact.wechat}}">微信：{{detail.contact.wechat}}</view>
         <view wx:if="{{detail.contact.website}}">官网：{{detail.contact.website}}</view>
@@ -79,12 +93,6 @@
         <view wx:if="{{detail.contact.website}}" class="u-btn u-btn-primary u-btn--sm u-btn--pill" bindtap="handleCopyLink">复制官网链接</view>
       </view>
       <view class="product-contact__hint">如需定制化服务，可通过以上方式联系获取详细方案。</view>
-    </view>
-
-    <view class="product-section" wx:if="{{detail.enterprise && (detail.enterprise.name || detail.enterprise.intro)}}">
-      <view class="product-section__title">合作企业</view>
-      <view wx:if="{{detail.enterprise.name}}" class="product-contact__name">{{detail.enterprise.name}}</view>
-      <view class="product-list-text" wx:if="{{detail.enterprise.intro}}">{{detail.enterprise.intro}}</view>
     </view>
 
     <view class="product-contact product-contact--platform" wx:if="{{!detail.contact}}">

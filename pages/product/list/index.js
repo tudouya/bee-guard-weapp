@@ -8,8 +8,7 @@ Page({
     hasMore: true,
     loading: false,
     errorMessage: '',
-    scene: '',
-    currentSource: 'all'
+    scene: ''
   },
 
   onLoad(options) {
@@ -36,8 +35,7 @@ Page({
       const { list, meta } = await productService.listRecommendedProducts({
         page: nextPage,
         per_page: this.data.perPage,
-        scene: this.data.scene,
-        source: this.data.currentSource === 'all' ? undefined : this.data.currentSource
+        scene: this.data.scene
       });
       const products = reset ? list : this.data.products.concat(list);
       this.setData({
@@ -59,18 +57,9 @@ Page({
     this.loadProducts({ reset: true });
   },
 
-  handleFilterChange(event) {
-    const { source } = event.currentTarget.dataset;
-    if (!source || source === this.data.currentSource) return;
-    this.setData({ currentSource: source }, () => {
-      this.loadProducts({ reset: true });
-    });
-  },
-
   handleViewDetail(event) {
     const { id } = event.currentTarget.dataset;
     if (!id) return;
     wx.navigateTo({ url: `/pages/product/detail/index?id=${id}` });
   }
 });
-

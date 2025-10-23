@@ -1,19 +1,10 @@
 <view class="product-list">
   <view class="product-hero">
-    <view class="product-hero__title">检测后，别忘了做好防控</view>
+    <view class="product-hero__title">蜂业好物推荐</view>
     <view class="product-hero__desc">
-      这里汇集了平台精选与合作企业的防控产品、检测套餐、数字化工具，助你快速响应蜂群健康需求。
+      平台甄选权威防控产品、蜂具与数字化服务，帮助蜂农快速匹配蜂场所需。
     </view>
     <view wx:if="{{scene}}" class="product-hero__scene">针对：{{scene}}</view>
-  </view>
-
-  <view class="product-filter">
-    <view class="product-filter__label">推荐来源</view>
-    <view class="product-filter__tags">
-      <view class="product-filter__tag {{currentSource==='all' ? 'product-filter__tag--active' : ''}}" data-source="all" bindtap="handleFilterChange">全部</view>
-      <view class="product-filter__tag {{currentSource==='enterprise' ? 'product-filter__tag--active' : ''}}" data-source="enterprise" bindtap="handleFilterChange">企业推荐</view>
-      <view class="product-filter__tag {{currentSource==='platform' ? 'product-filter__tag--active' : ''}}" data-source="platform" bindtap="handleFilterChange">平台精选</view>
-    </view>
   </view>
 
   <view wx:if="{{errorMessage}}" class="product-error">
@@ -37,15 +28,8 @@
         <view class="product-card__title">{{item.name}}</view>
         <view class="product-card__subtitle">{{item.subtitle}}</view>
         <view class="product-card__meta">
-          <text class="product-card__price">{{item.priceRange}}</text>
-          <text class="product-card__range" wx:if="{{item.recommendedFor && item.recommendedFor.length}}">适用于：{{item.recommendedFor.slice(0,2).join('、')}}</text>
+          <text class="product-card__price">产品价格：{{item.priceRange}}</text>
         </view>
-        <view class="product-card__tags" wx:if="{{item.tags && item.tags.length}}">
-          <view class="product-card__tag" wx:for="{{item.tags}}" wx:key="index">{{item}}</view>
-        </view>
-      </view>
-      <view class="product-card__cta">
-        <view class="u-btn u-btn-primary u-btn--sm u-btn--pill">查看详情</view>
       </view>
     </view>
   </view>

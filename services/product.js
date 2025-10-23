@@ -33,37 +33,70 @@ function parseMedia(raw) {
 
 function normalizeBaseProduct(item) {
   if (!item || typeof item !== 'object') return null;
-  const images = ensureArray(item.images).map(resolveUrl);
-  const contact = item.contact && typeof item.contact === 'object' ? item.contact : {};
-  const source = item.source || 'platform';
-  const highlights = ensureArray(item.highlights);
-  const price = item.price || item.priceRange || '';
-  const sourceLabel = contact.company || item.sourceLabel || (source === 'platform' ? '平台推荐' : '企业推荐');
+  const homepage = item.homepage && typeof item.homepage === 'object' ? item.homepage : {};
+  const homepageImages = ensureArray(homepage.images).map(resolveUrl);
+  const mediaImages = ensureArray(item.media && item.media.images).map(resolveUrl);
+  let images = ensureArray(item.images).map(resolveUrl);
+  if (!images.length) images = mediaImages;
+  if (!images.length) images = homepageImages;
+
+  const rawContact = item.contact && typeof item.contact === 'object' ? item.contact : {};
+  const homepageContact = homepage && typeof homepage.contact === 'object'
+    ? homepage.contact
+    : {
+        company: homepage.contactCompany || homepage.contact_company || '',
+        phone: homepage.contactPhone || homepage.contact_phone || '',
+        wechat: homepage.contactWechat || homepage.contact_wechat || '',
+        website: homepage.contactWebsite || homepage.contact_website || ''
+      };
+  const mergedContactSource = Object.assign({}, homepageContact, rawContact);
   const normalizedContact = {
-    company: contact.company || '',
-    phone: contact.phone || '',
-    wechat: contact.wechat || '',
-    website: contact.website || ''
+    company: mergedContactSource.company || '',
+    phone: mergedContactSource.phone || '',
+    wechat: mergedContactSource.wechat || '',
+    website: mergedContactSource.website || ''
   };
   const hasContact = Object.values(normalizedContact).some(value => typeof value === 'string' && value.trim());
+
+  const source = item.source || homepage.source || 'platform';
+  let highlights = ensureArray(item.highlights);
+  if (!highlights.length) {
+    highlights = ensureArray(homepage.highlights);
+  }
+  const price = item.price || item.priceRange || homepage.price || homepage.priceRange || '';
+  let recommendedFor = ensureArray(item.applicableScene || item.recommendedFor);
+  if (!recommendedFor.length) {
+    recommendedFor = ensureArray(homepage.applicableScene || homepage.recommendedFor);
+  }
+  let notice = ensureArray(item.cautions || item.notice);
+  if (!notice.length) {
+    notice = ensureArray(homepage.cautions || homepage.notice);
+  }
+  const sourceLabel = normalizedContact.company || item.sourceLabel || homepage.sourceLabel || (source === 'platform' ? '平台推荐' : '企业推荐');
+  const registrationNo = item.registrationNo || item.registration_no || homepage.registrationNo || homepage.registration_no || '';
+  const sortOrder = typeof item.sortOrder === 'number'
+    ? item.sortOrder
+    : typeof homepage.sortOrder === 'number'
+      ? homepage.sortOrder
+      : Number.MAX_SAFE_INTEGER;
 
   return {
     id: item.productId || item.id || '',
     name: item.productName || item.name || '',
-    subtitle: item.brief || item.subtitle || '',
+    subtitle: item.brief || item.subtitle || (homepage.subtitle || ''),
     banner: images.length ? images[0] : PLACEHOLDER_IMAGE,
     images,
     source,
     sourceLabel,
     priceRange: price || '价格面议',
-    recommendedFor: ensureArray(item.applicableScene || item.recommendedFor),
+    recommendedFor,
     tags: highlights.slice(0, 4),
     highlights,
-    notice: ensureArray(item.cautions || item.notice),
-    registrationNo: item.registrationNo || '',
-    targetType: item.targetType || '',
-    url: item.url || '',
-    sortOrder: typeof item.sortOrder === 'number' ? item.sortOrder : Number.MAX_SAFE_INTEGER,
+    notice,
+    registrationNo,
+    targetType: item.targetType || homepage.targetType || '',
+    url: item.url || homepage.url || '',
+    sortOrder,
     contact: hasContact ? normalizedContact : null
   };
 }
@@ -156,6 +189,14 @@ async function getProductDetail(id) {
     throw new Error('未找到产品信息');
   }
 
+  const homepageRaw = detailRaw.homepage && typeof detailRaw.homepage === 'object' ? detailRaw.homepage : null;
+  const homepageImages = homepageRaw ? ensureArray(homepageRaw.images).map(resolveUrl) : [];
+  const normalizedHomepage = homepageRaw
+    ? Object.assign({}, homepageRaw, {
+        images: homepageImages
+      })
+    : null;
+
   const base = normalizeBaseProduct(detailRaw) || {};
   const media = parseMedia(detailRaw.media);
   const merged = mergeMediaFields(base, media);
@@ -179,6 +220,36 @@ async function getProductDetail(id) {
         }
       : null
   });
+
+  if (normalizedHomepage) {
+    detail.homepage = normalizedHomepage;
+    if ((!detail.images || detail.images.length === 0) && normalizedHomepage.images && normalizedHomepage.images.length) {
+      detail.images = normalizedHomepage.images;
+    }
+    if ((!detail.banner || detail.banner === PLACEHOLDER_IMAGE) && normalizedHomepage.images && normalizedHomepage.images[0]) {
+      detail.banner = normalizedHomepage.images[0];
+    }
+    const homepageScenes = ensureArray(normalizedHomepage.applicableScene || normalizedHomepage.recommendedFor);
+    if ((!detail.recommendedFor || detail.recommendedFor.length === 0) && homepageScenes.length) {
+      detail.recommendedFor = homepageScenes;
+    }
+    const homepageHighlights = ensureArray(normalizedHomepage.highlights);
+    if ((!detail.highlights || detail.highlights.length === 0) && homepageHighlights.length) {
+      detail.highlights = homepageHighlights;
+      detail.tags = detail.highlights.slice(0, 4);
+    }
+    const homepageNotice = ensureArray(normalizedHomepage.cautions || normalizedHomepage.notice);
+    if ((!detail.notice || detail.notice.length === 0) && homepageNotice.length) {
+      detail.notice = homepageNotice;
+    }
+    if (!detail.priceRange || detail.priceRange === '价格面议') {
+      const homepagePrice = normalizedHomepage.price || normalizedHomepage.priceRange;
+      if (homepagePrice) detail.priceRange = homepagePrice;
+    }
+    if (!detail.registrationNo && normalizedHomepage.registrationNo) {
+      detail.registrationNo = normalizedHomepage.registrationNo;
+    }
+  }
 
   const mergedContact = detail.contact || {};
   const contactHasInfo = mergedContact && Object.values(mergedContact).some(value => typeof value === 'string' && value.trim());
