@@ -18,11 +18,20 @@
 
 .data-list { background: #fff; border-radius: 16rpx; padding: 16rpx; box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.06); }
 
-.list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12rpx; }
+.list-header { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 12rpx; }
 
 .list-title { font-size: 30rpx; font-weight: 700; color: #333; }
 
-.list-more { font-size: 24rpx; color: #07c160; }
+.list-body {
+  padding: 24rpx 0;
+  text-align: center;
+}
+
+.loading-text,
+.empty-text {
+  font-size: 24rpx;
+  color: #999;
+}
 
 .news-item { display: flex; justify-content: space-between; align-items: center; padding: 18rpx 0; border-bottom: 1rpx solid #f0f0f0; }
 

@@ -1,4 +1,6 @@
 {
   "usingComponents": {},
-  "navigationBarTitleText": "疫情数据"
+  "navigationBarTitleText": "疫情数据",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 80
 }

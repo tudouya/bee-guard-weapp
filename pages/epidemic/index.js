@@ -1,44 +1,89 @@
+const epidemicSvc = require('../../services/epidemic.js');
+
 Page({
   data: {
-    newsList: [
-      {
-        id: 1,
-        title: '北京市发现蜂螨病疫情，加强监控',
-        date: '2024-09-08',
-        level: 'high',
-        levelText: '高风险'
-      },
-      {
-        id: 2,
-        title: '山东省蜂群疫情防控工作取得阶段性成果',
-        date: '2024-09-07',
-        level: 'medium',
-        levelText: '中风险'
-      },
-      {
-        id: 3,
-        title: '全国蜂群健康检测网络建设稳步推进',
-        date: '2024-09-06',
-        level: 'low',
-        levelText: '低风险'
-      }
-    ]
+    loading: false,
+    loadingMore: false,
+    bulletins: [],
+    error: '',
+    page: 1,
+    hasMore: true
   },
 
-  onLoad: function (options) {
-    
+  onLoad() {
+    this.loadBulletins({ refresh: true });
   },
 
-  viewMap: function() {
+  onPullDownRefresh() {
+    this.loadBulletins({ refresh: true, stopRefresh: true });
+  },
+
+  onReachBottom() {
+    if (this.data.loadingMore || !this.data.hasMore) {
+      return;
+    }
+    this.loadBulletins({ loadMore: true });
+  },
+
+  loadBulletins({ refresh = false, loadMore = false, stopRefresh = false } = {}) {
+    const stateUpdates = {};
+
+    if (refresh) {
+      stateUpdates.loading = true;
+      stateUpdates.loadingMore = false;
+      stateUpdates.error = '';
+      stateUpdates.page = 1;
+      stateUpdates.hasMore = true;
+    } else if (loadMore) {
+      stateUpdates.loadingMore = true;
+      stateUpdates.error = '';
+    } else {
+      stateUpdates.loading = true;
+      stateUpdates.error = '';
+    }
+
+    this.setData(stateUpdates);
+
+    const nextPage = loadMore ? this.data.page + 1 : refresh ? 1 : this.data.page || 1;
+
+    epidemicSvc.fetchBulletins({ page: nextPage })
+      .then(({ list, meta }) => {
+        const currentList = loadMore ? (this.data.bulletins || []) : [];
+        const merged = loadMore ? currentList.concat(list || []) : (list || []);
+
+        const hasMore = meta ? Boolean(meta.has_more) : (list && list.length > 0);
+
+        this.setData({
+          bulletins: merged,
+          loading: false,
+          loadingMore: false,
+          page: nextPage,
+          hasMore
+        });
+      })
+      .catch((err) => {
+        const message = (err && err.message) ? err.message : '加载通报失败';
+        this.setData({
+          error: message,
+          loading: false,
+          loadingMore: false
+        });
+        wx.showToast({ title: message, icon: 'none' });
+      })
+      .finally(() => {
+        if (stopRefresh) {
+          wx.stopPullDownRefresh();
+        }
+      });
+  },
+
+  viewMap() {
     wx.navigateTo({ url: '/packageCharts/pages/epidemic-map/index' });
   },
 
-  viewMoreNews: function() {
-    wx.navigateTo({ url: '/packageCharts/pages/epidemic-trend/index' });
-  },
-
-  viewNewsDetail: function(e) {
+  viewNewsDetail(e) {
     const id = e.currentTarget.dataset.id;
+    if (!id) return;
     wx.navigateTo({ url: `/pages/epidemic/detail/index?id=${id}` });
   }
 });

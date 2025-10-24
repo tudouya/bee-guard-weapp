@@ -27,15 +27,22 @@
     <view class="data-list">
       <view class="list-header">
         <text class="list-title">最新疫情通报</text>
-        <text class="list-more" bindtap="viewMoreNews">更多</text>
       </view>
-      <view class="news-item" wx:for="{{newsList}}" wx:key="id" bindtap="viewNewsDetail" data-id="{{item.id}}">
-        <view class="news-content">
-          <text class="news-title">{{item.title}}</text>
-          <text class="news-date">{{item.date}}</text>
+      <view class="list-body" wx:if="{{loading}}">
+        <text class="loading-text">加载中...</text>
+      </view>
+      <view class="list-body" wx:elif="{{!loading && bulletins.length === 0}}">
+        <text class="empty-text">暂无疫情通报</text>
+      </view>
+      <block wx:else>
+        <view class="news-item" wx:for="{{bulletins}}" wx:key="id" bindtap="viewNewsDetail" data-id="{{item.id}}">
+          <view class="news-content">
+            <text class="news-title">{{item.title}}</text>
+            <text class="news-date">{{item.publishedAt || ''}}</text>
+          </view>
+          <view class="news-level level-{{item.riskLevel || 'low'}}">{{item.riskLevelText || ''}}</view>
         </view>
-        <view class="news-level level-{{item.level}}">{{item.levelText}}</view>
-      </view>
+      </block>
     </view>
   </view>
 </view>

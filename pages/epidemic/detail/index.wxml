@@ -1,27 +1,32 @@
-<view class="container">
-  <view class="content">
-    <view class="card">
-      <view class="header">
-        <text class="title">{{detail.title || '—'}}</text>
-        <view class="meta">
-          <text class="date">{{detail.date || ''}}</text>
-          <text class="level level-{{detail.level || 'low'}}">{{detail.levelText || ''}}</text>
+<view class="page-container">
+  <view class="article-card">
+    <view class="loading" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+    <block wx:else>
+      <view class="article-header">
+        <text class="article-tag">疫情通报</text>
+        <text class="article-title">{{detail.title || '疫情通报'}}</text>
+        <view class="article-meta">
+          <text class="meta-item" wx:if="{{detail.publishedAtText}}">{{detail.publishedAtText}}</text>
+          <text class="meta-item" wx:elif="{{detail.publishedAt}}">{{detail.publishedAt}}</text>
+          <text class="meta-divider" wx:if="{{(detail.publishedAtText || detail.publishedAt) && detail.sourceText}}">·</text>
+          <text class="meta-item" wx:if="{{detail.sourceText}}">来源 {{detail.sourceText}}</text>
+        </view>
+        <view class="article-badges">
+          <text class="badge level-badge level-{{detail.riskLevel || 'low'}}" wx:if="{{detail.riskLevelText}}">{{detail.riskLevelText}}</text>
+          <text class="badge region-badge" wx:if="{{detail.regionText}}">{{detail.regionText}}</text>
         </view>
       </view>
 
-      <view class="section" wx:if="{{detail.region}}">
-        <text class="label">涉及地区</text>
-        <text class="value">{{detail.region}}</text>
+      <view class="article-summary" wx:if="{{detail.summary}}">
+        <text class="summary-label">摘要</text>
+        <text class="summary-text">{{detail.summary}}</text>
       </view>
 
-      <view class="section">
-        <view class="content-text" wx:for="{{detail.paragraphs}}" wx:key="index">{{item}}</view>
+      <view class="article-body">
+        <rich-text class="article-html" nodes="{{detail.contentNodes}}"></rich-text>
       </view>
-
-      <view class="actions">
-        <button class="u-btn u-btn-primary u-btn--sm" bindtap="viewMap">查看地图</button>
-        <button class="u-btn u-btn-primary u-btn--sm" open-type="share">分享</button>
-      </view>
-    </view>
+    </block>
   </view>
 </view>

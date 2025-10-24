@@ -1,7 +1,98 @@
-// Epidemic services: areas, distribution and trend (temporary placeholder dataset)
+// Epidemic services: 对接后台通报 API + 保留地图/趋势的临时数据。
+
+const api = require('../utils/api');
 
 function delay(ms) {
-  return new Promise((r) => setTimeout(r, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function buildQuery(params = {}) {
+  const segments = [];
+  Object.keys(params).forEach((key) => {
+    const value = params[key];
+    if (value === undefined || value === null || value === '') return;
+    segments.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+  });
+  return segments.join('&');
+}
+
+function normalizeRegion(region) {
+  if (!region || typeof region !== 'object') {
+    return {
+      provinceCode: null,
+      provinceName: null,
+      cityCode: null,
+      cityName: null,
+      districtCode: null,
+      districtName: null
+    };
+  }
+  return {
+    provinceCode: region.provinceCode || null,
+    provinceName: region.provinceName || null,
+    cityCode: region.cityCode || null,
+    cityName: region.cityName || null,
+    districtCode: region.districtCode || null,
+    districtName: region.districtName || null
+  };
+}
+
+function buildRegionText(region = {}) {
+  const names = [region.provinceName, region.cityName, region.districtName].filter(Boolean);
+  if (!names.length) return '';
+  return names.join(' ');
+}
+
+function normalizeBulletin(item = {}) {
+  const region = normalizeRegion(item.region);
+  return {
+    id: item.id,
+    title: item.title || '',
+    summary: item.summary || '',
+    content: item.content || '',
+    riskLevel: item.riskLevel || item.risk_level || 'low',
+    riskLevelText: item.riskLevelText || item.risk_level_text || '',
+    region,
+    regionText: buildRegionText(region),
+    publishedAt: item.publishedAt || item.published_at || '',
+    source: item.source || '',
+    attachments: Array.isArray(item.attachments) ? item.attachments : []
+  };
+}
+
+function fetchBulletins({ page = 1, perPage = 5, provinceCode, cityCode, districtCode, riskLevel } = {}) {
+  const query = buildQuery({
+    page,
+    per_page: perPage,
+    province_code: provinceCode,
+    city_code: cityCode,
+    district_code: districtCode,
+    risk_level: riskLevel
+  });
+
+  const url = '/api/epidemic/bulletins' + (query ? `?${query}` : '');
+
+  return api.get(url).then((res) => {
+    const payload = (res && typeof res === 'object' && !Array.isArray(res))
+      ? res
+      : { data: Array.isArray(res) ? res : [], meta: {} };
+
+    const listSource = Array.isArray(payload.data) ? payload.data : [];
+    const list = listSource.map(normalizeBulletin);
+    const meta = payload.meta || {};
+    return { list, meta };
+  });
+}
+
+function fetchBulletinDetail(id) {
+  if (!id) return Promise.reject(new Error('缺少通报 ID'));
+  const url = `/api/epidemic/bulletins/${id}`;
+  return api.get(url).then((res) => {
+    const data = (res && typeof res === 'object' && !Array.isArray(res))
+      ? (res.data ?? res)
+      : res;
+    return normalizeBulletin(data);
+  });
 }
 
 // minimal area dataset
@@ -101,6 +192,8 @@ function getTrend({ provinceName = '', cityName = '', districtName = '', disease
 }
 
 module.exports = {
+  fetchBulletins,
+  fetchBulletinDetail,
   getAreas,
   getDistribution,
   getTrend,
