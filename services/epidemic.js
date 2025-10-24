@@ -43,6 +43,29 @@ function buildRegionText(region = {}) {
   return names.join(' ');
 }
 
+function pickArray(source) {
+  if (Array.isArray(source)) return source;
+  if (source && Array.isArray(source.data)) return source.data;
+  if (source && typeof source === 'object') {
+    if (Array.isArray(source.list)) return source.list;
+    if (Array.isArray(source.items)) return source.items;
+  }
+  return [];
+}
+
+function pickObject(source) {
+  if (!source || typeof source !== 'object' || Array.isArray(source)) {
+    return {};
+  }
+  if (source.success === true && source.data && typeof source.data === 'object') {
+    return source.data;
+  }
+  if (source.data && typeof source.data === 'object' && !Array.isArray(source.data)) {
+    return source.data;
+  }
+  return source;
+}
+
 function normalizeBulletin(item = {}) {
   const region = normalizeRegion(item.region);
   return {
@@ -84,6 +107,30 @@ function fetchBulletins({ page = 1, perPage = 5, provinceCode, cityCode, distric
   });
 }
 
+function normalizeRegionOption(item = {}) {
+  return {
+    code: item.code || item.regionCode || item.provinceCode || item.districtCode || item.id || '',
+    name: item.name || item.regionName || item.provinceName || item.districtName || item.label || ''
+  };
+}
+
+function fetchProvinces() {
+  return api.get('/api/regions/provinces').then((res) => {
+    const list = pickArray(res);
+    return list.map(normalizeRegionOption).filter((item) => item.code && item.name);
+  });
+}
+
+function fetchProvinceDistricts(provinceCode) {
+  if (!provinceCode) return Promise.resolve([]);
+  const encoded = encodeURIComponent(provinceCode);
+  const url = `/api/regions/provinces/${encoded}/districts`;
+  return api.get(url).then((res) => {
+    const list = pickArray(res);
+    return list.map(normalizeRegionOption).filter((item) => item.code && item.name);
+  });
+}
+
 function fetchBulletinDetail(id) {
   if (!id) return Promise.reject(new Error('缺少通报 ID'));
   const url = `/api/epidemic/bulletins/${id}`;
@@ -95,44 +142,63 @@ function fetchBulletinDetail(id) {
   });
 }
 
-// minimal area dataset
-const AREAS = {
-  provinces: [
-    { code: '110000', name: '北京市' },
-    { code: '310000', name: '上海市' },
-    { code: '140000', name: '山西省' },
-    { code: '370000', name: '山东省' }
-  ],
-  cities: {
-    '110000': [ { code: '110100', name: '北京市' } ],
-    '310000': [ { code: '310100', name: '上海市' } ],
-    '140000': [ { code: '140100', name: '太原市' }, { code: '140200', name: '大同市' } ],
-    '370000': [ { code: '370100', name: '济南市' }, { code: '370200', name: '青岛市' } ]
-  },
-  districts: {
-    '110100': [ { code: '110101', name: '东城区' }, { code: '110102', name: '西城区' }, { code: '110105', name: '朝阳区' } ],
-    '310100': [ { code: '310101', name: '黄浦区' }, { code: '310104', name: '徐汇区' }, { code: '310115', name: '浦东新区' } ],
-    '140100': [ { code: '140105', name: '小店区' }, { code: '140106', name: '迎泽区' } ],
-    '140200': [ { code: '140212', name: '新荣区' } ],
-    '370100': [ { code: '370102', name: '历下区' }, { code: '370104', name: '槐荫区' } ],
-    '370200': [ { code: '370202', name: '市南区' }, { code: '370211', name: '黄岛区' } ]
-  }
-};
+function fetchDiseaseLegend({ active = true } = {}) {
+  const query = buildQuery({ active: active ? 1 : undefined });
+  const url = '/api/diseases' + (query ? `?${query}` : '');
 
-function getAreas(parentCode) {
-  // no parent => provinces
-  if (!parentCode) {
-    return delay(150).then(() => AREAS.provinces.slice());
+  return api.get(url).then((res) => {
+    const list = pickArray(res);
+    return list.map((item = {}) => ({
+      code: item.code || item.diseaseCode || '',
+      name: item.name || item.displayName || item.label || '',
+      color: item.display_color || item.color || item.displayColor || '',
+      order: typeof item.display_order === 'number' ? item.display_order : (typeof item.order === 'number' ? item.order : null),
+      isActive: item.is_active !== undefined ? !!item.is_active : (item.status !== undefined ? item.status === 1 : true)
+    })).filter((item) => item.code && item.name);
+  });
+}
+
+function fetchMonthlyDistribution({ provinceCode, countyCode, periods } = {}) {
+  const query = buildQuery({
+    province_code: provinceCode,
+    county_code: countyCode,
+    periods: Array.isArray(periods) ? periods.join(',') : periods
+  });
+
+  const url = '/api/epidemic/monthly-distribution' + (query ? `?${query}` : '');
+
+  return api.get(url).then((res) => {
+    const payload = pickObject(res);
+    const legend = pickArray(payload.legend); 
+    const groups = Array.isArray(payload.groups) ? payload.groups : [];
+    const region = payload.region || {};
+    const updatedAt = payload.updatedAt || payload.updated_at || null;
+    return { legend, groups, region, updatedAt };
+  });
+}
+
+function fetchEpidemicPie({ provinceCode, districtCode, year, compareYear } = {}) {
+  if (!provinceCode || !districtCode) {
+    return Promise.reject(new Error('缺少地区参数'));
   }
-  // province -> cities
-  if (AREAS.cities[parentCode]) {
-    return delay(150).then(() => AREAS.cities[parentCode].slice());
-  }
-  // city -> districts
-  if (AREAS.districts[parentCode]) {
-    return delay(150).then(() => AREAS.districts[parentCode].slice());
-  }
-  return delay(150).then(() => []);
+
+  const query = buildQuery({
+    province_code: provinceCode,
+    district_code: districtCode,
+    year,
+    compare_year: compareYear
+  });
+
+  const url = '/api/epidemic/map/pie' + (query ? `?${query}` : '');
+
+  return api.get(url).then((res) => {
+    const payload = pickObject(res);
+    const legend = pickArray(payload.legend);
+    const groups = Array.isArray(payload.groups) ? payload.groups : [];
+    const region = payload.region || {};
+    const updatedAt = payload.updatedAt || payload.updated_at || null;
+    return { legend, groups, region, updatedAt };
+  });
 }
 
 const DISEASES = [
@@ -194,7 +260,11 @@ function getTrend({ provinceName = '', cityName = '', districtName = '', disease
 module.exports = {
   fetchBulletins,
   fetchBulletinDetail,
-  getAreas,
+  fetchProvinces,
+  fetchProvinceDistricts,
+  fetchDiseaseLegend,
+  fetchMonthlyDistribution,
+  fetchEpidemicPie,
   getDistribution,
   getTrend,
   DISEASES
