@@ -113,28 +113,32 @@
                             <view class="home-section-header__label"></view>
                             <view class="home-section-header__titles">
                                 <text class="home-section-header__title">防控知识热门</text>
-                                <text class="home-section-header__subtitle" wx:if="{{num}}">{{num}}人正在学习</text>
                             </view>
                         </view>
                     </view>
                 </view>
                 <view class="home-fire-con">
-                    <view bindtap="handleTopicFireInfo" class="home-fire-con-list" data-id="{{item.problem_id}}" wx:for="{{topicHost}}" wx:key="index">
-                        <image class="home-fire-con-list-num" src="/images/home/rank-1.png" wx:if="{{index===0}}"></image>
-                        <image class="home-fire-con-list-num" src="/images/home/rank-2.png" wx:if="{{index===1}}"></image>
-                        <image class="home-fire-con-list-num" src="/images/home/rank-3.png" wx:if="{{index===2}}"></image>
-                        <image class="home-fire-con-list-num" src="/images/home/rank-4.png" wx:if="{{index===3}}"></image>
-                        <view class="home-fire-con-list-title">{{item.problem_content}}</view>
-                        <image class="home-fire-con-list-fire" src="/images/home/rank-fire.png"></image>
-                        <view class="home-fire-con-list-com">{{item.num}} · 关注</view>
-                    </view>
+                    <block wx:if="{{topicHost.length}}">
+                        <view bindtap="handleTopicFireInfo" class="home-fire-con-list" data-id="{{item.id}}" data-code="{{item.diseaseCode}}" wx:for="{{topicHost}}" wx:key="id">
+                            <image class="home-fire-con-list-num" src="/images/home/rank-1.png" wx:if="{{index===0}}"></image>
+                            <image class="home-fire-con-list-num" src="/images/home/rank-2.png" wx:if="{{index===1}}"></image>
+                            <image class="home-fire-con-list-num" src="/images/home/rank-3.png" wx:if="{{index===2}}"></image>
+                            <image class="home-fire-con-list-num" src="/images/home/rank-4.png" wx:if="{{index===3}}"></image>
+                            <view class="home-fire-con-list-title">{{item.title}}</view>
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <view class="home-fire-empty">
+                            <text>暂无热门防控文章</text>
+                        </view>
+                    </block>
                 </view>
             </view>
-            <view class="home-section">
-                <view class="home-section-header home-section-header--inline">
-                    <view class="home-section-header__overlay"></view>
-                    <view class="home-section-header__content">
-                        <view class="home-section-header__left">
+                <view class="home-section">
+                    <view class="home-section-header home-section-header--inline">
+                        <view class="home-section-header__overlay"></view>
+                        <view class="home-section-header__content">
+                            <view class="home-section-header__left">
                             <view class="home-section-header__label"></view>
                             <view class="home-section-header__titles">
                                 <text class="home-section-header__title">疫情监测快报</text>
@@ -146,14 +150,21 @@
                 </view>
                 <view class="home-industry">
                     <view class="home-industry-content">
-                        <view bindtap="handleIndustryInfo" class="home-industry-list" data-id="{{item.consult_id}}" wx:for="{{infoData}}" wx:key="index">
-                            <view class="home-industry-left">
-                                <view class="home-industry-left-desc">{{item.consult_title}}</view>
-                                <view class="home-industry-left-type">{{item.type_name}}</view>
+                        <block wx:if="{{infoData.length}}">
+                            <view bindtap="handleIndustryInfo" class="home-industry-list" data-id="{{item.id}}" wx:for="{{infoData}}" wx:key="id">
+                                <view class="home-industry-left">
+                                    <view class="home-industry-left-title">{{item.title}}</view>
+                                    <view class="home-industry-left-summary" wx:if="{{item.summary}}">{{item.summary}}</view>
+                                </view>
+                                <image src="{{item.thumbnailUrl}}" wx:if="{{item.thumbnailUrl}}"></image>
+                                <image src="/images/common/placeholder-card.png" wx:else></image>
                             </view>
-                            <image src="{{IP+item.image_url}}" wx:if="{{item.image_url}}"></image>
-                            <image src="/images/common/placeholder-card.png" wx:else></image>
-                        </view>
+                        </block>
+                        <block wx:else>
+                            <view class="home-industry-empty">
+                                <text>暂无疫情通报快报</text>
+                            </view>
+                        </block>
                     </view>
                 </view>
             </view>

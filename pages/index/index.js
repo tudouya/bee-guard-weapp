@@ -1,5 +1,6 @@
-var app = getApp();
 const config = require('../../utils/config.js');
+const knowledgeService = require('../../services/knowledge');
+const epidemicService = require('../../services/epidemic');
 
 Page({
     data: {
@@ -32,15 +33,15 @@ Page({
             }
         ]
     },
-    onLoad: function(n) {
+    onLoad: function () {
         this.handleTopicHost();
-        this.handleIndustry(); 
+        this.handleIndustry();
         this.handleWarnNum();
         this.setData({ IP: config.apiBase });
     },
-    onShow: function() {
-        this.handleTopicHost();
-        this.handleIndustry();
+    onShow: function () {
+        this.handleTopicHost({ silent: true });
+        this.handleIndustry({ silent: true });
         this.handleWarnNum();
         this.setData({ IP: config.apiBase });
     },
@@ -80,41 +81,78 @@ Page({
             url: '/pages/epidemic/index'
         });
     },
-    handleTopicHost: function() {
-        // 防控知识热门数据（占位）
-        var topics = [
-            { problem_id: 1, problem_content: "春季蜂群健康检查要点及操作步骤", num: 286 },
-            { problem_id: 2, problem_content: "蜂箱消毒的正确方法和注意事项", num: 195 },
-            { problem_id: 3, problem_content: "如何识别蜜蜂幼虫病早期症状", num: 143 },
-            { problem_id: 4, problem_content: "蜂群越冬前的疫病预防措施", num: 128 }
-        ];
-        var totalNum = topics.reduce(function(sum, item) {
-            return sum + item.num;
-        }, 0);
-        this.setData({
-            topicHost: topics,
-            num: totalNum
+    handleTopicHost: function(options = {}) {
+        const silent = options && options.silent;
+        if (this._loadingFeaturedArticles) return;
+        this._loadingFeaturedArticles = true;
+        knowledgeService.listFeaturedArticles()
+            .then((list) => {
+                const featured = Array.isArray(list) ? list.slice(0, 4) : [];
+                const totalViews = featured.reduce((sum, item) => sum + (item.views || 0), 0);
+                this.setData({
+                    topicHost: featured,
+                    num: totalViews
+                });
+            })
+            .catch((err) => {
+                if (!silent) {
+                    wx.showToast({
+                        title: err && err.message ? err.message : '防控知识加载失败',
+                        icon: 'none'
+                    });
+                }
+                this.setData({
+                    topicHost: [],
+                    num: 0
+                });
+            })
+            .finally(() => {
+                this._loadingFeaturedArticles = false;
+            });
+    },
+    handleTopicFireInfo: function(event) {
+        const { id, code } = event.currentTarget.dataset || {};
+        if (!id) {
+            return;
+        }
+        const query = code ? `?id=${id}&d=${code}` : `?id=${id}`;
+        wx.navigateTo({
+            url: `/packageCommunity/pages/article-detail/index${query}`
         });
     },
-    handleTopicFireInfo: function(n) {
-        wx.showToast({
-            title: '防控知识详情功能开发中',
-            icon: 'none'
-        });
+    handleIndustry: function (options = {}) {
+        const silent = options && options.silent;
+        if (this._loadingBulletins) return;
+        this._loadingBulletins = true;
+        epidemicService.fetchFeaturedBulletins()
+            .then((list) => {
+                const items = Array.isArray(list) ? list.slice(0, 4) : [];
+                const mapped = items.map((item) => ({
+                    id: item.id,
+                    title: item.title || '',
+                    summary: item.summary || '',
+                    thumbnailUrl: item.thumbnailUrl || ''
+                }));
+                this.setData({
+                    infoData: mapped
+                });
+            })
+            .catch((err) => {
+                if (!silent) {
+                    wx.showToast({
+                        title: err && err.message ? err.message : '疫情快报加载失败',
+                        icon: 'none'
+                    });
+                }
+                this.setData({
+                    infoData: []
+                });
+            })
+            .finally(() => {
+                this._loadingBulletins = false;
+            });
     },
-    handleIndustry: function() {
-        // 疫情监测快报数据（占位）
-        var news = [
-            { consult_id: 1, consult_title: "山西省太原市发现SBV疫情，启动应急响应", type_name: "疫情通报", image_url: "" },
-            { consult_id: 2, consult_title: "北京市蜂场AFB疫情得到有效控制", type_name: "防控进展", image_url: "" },
-            { consult_id: 3, consult_title: "全国蜜蜂疫病监测网络覆盖率达85%", type_name: "监测数据", image_url: "" },
-            { consult_id: 4, consult_title: "春季蜂病高发期防控指导意见发布", type_name: "防控指南", image_url: "" }
-        ];
-        this.setData({
-            infoData: news
-        });
-    },
-    handleIndustryInfo: function(n) {
+    handleIndustryInfo: function () {
         wx.switchTab({
             url: '/pages/epidemic/index'
         });

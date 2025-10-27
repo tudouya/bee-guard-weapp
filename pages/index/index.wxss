@@ -210,6 +210,13 @@ page {
     padding: 16rpx 0;
 }
 
+.home-fire-empty {
+    padding: 32rpx 24rpx;
+    text-align: center;
+    color: #8f9498;
+    font-size: 26rpx;
+}
+
 .home-fire-con-list {
     align-items: center;
     display: flex;
@@ -230,17 +237,6 @@ page {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.home-fire-con-list-fire {
-    height: 26rpx;
-    margin: 0 24rpx;
-    width: 20rpx;
-}
-
-.home-fire-con-list-com {
-    color: #8f9498;
-    font-size: 24rpx;
 }
 
 .home-section-header {
@@ -336,9 +332,12 @@ page {
 
 .home-industry-left {
     flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.home-industry-left-desc {
+.home-industry-left-title {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     word-wrap: break-word;
@@ -351,10 +350,15 @@ page {
     word-break: break-all;
 }
 
-.home-industry-left-type {
-    color: #b4b8bb;
+.home-industry-left-summary {
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
     font-size: 24rpx;
-    margin-top: 20rpx;
+    color: #4f5459;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 4rpx;
 }
 
 .home-industry-list>image {
@@ -363,4 +367,11 @@ page {
     margin-left: 24rpx;
     overflow: hidden;
     width: 226rpx;
+}
+
+.home-industry-empty {
+    text-align: center;
+    color: #8f9498;
+    font-size: 26rpx;
+    padding: 32rpx 16rpx;
 }
