@@ -1,58 +1,90 @@
 <view class="epidemic-map">
   <view class="selector-bar">
-    <picker mode="selector"
-            range="{{provinces}}"
-            range-key="name"
-            bindchange="onProvinceChange"
-            disabled="{{regionLoading}}">
-      <view class="selector-bar__item">
-        <text class="selector-bar__label">省：</text>
-        <text>{{selectedProvince ? selectedProvince.name : '请选择'}}</text>
-      </view>
-    </picker>
-    <picker mode="selector"
-            range="{{counties}}"
-            range-key="name"
-            bindchange="onCountyChange"
-            disabled="{{!counties.length}}">
-      <view class="selector-bar__item {{!counties.length ? 'selector-bar__item--disabled' : ''}}">
-        <text class="selector-bar__label">县：</text>
-        <text>{{selectedCounty ? selectedCounty.name : (counties.length ? '请选择' : '暂无可选')}}</text>
-      </view>
-    </picker>
+    <view class="selector-row">
+      <picker mode="selector"
+              range="{{provinces}}"
+              range-key="name"
+              bindchange="onProvinceChange"
+              disabled="{{regionLoading}}">
+        <view class="selector-bar__item">
+          <text class="selector-bar__label">省：</text>
+          <text>{{selectedProvince ? selectedProvince.name : '请选择'}}</text>
+        </view>
+      </picker>
+      <picker mode="selector"
+              range="{{counties}}"
+              range-key="name"
+              bindchange="onCountyChange"
+              disabled="{{!counties.length}}">
+        <view class="selector-bar__item {{!counties.length ? 'selector-bar__item--disabled' : ''}}">
+          <text class="selector-bar__label">县：</text>
+          <text>{{selectedCounty ? selectedCounty.name : (counties.length ? '请选择' : '暂无可选')}}</text>
+        </view>
+      </picker>
+    </view>
+    <view class="selector-row selector-row--date">
+      <picker mode="selector"
+              range="{{yearOptions}}"
+              range-key="label"
+              bindchange="onYearChange"
+              value="{{selectedYearIndex >= 0 ? selectedYearIndex : 0}}"
+              disabled="{{!yearOptions.length}}">
+        <view class="selector-bar__item {{!yearOptions.length ? 'selector-bar__item--disabled' : ''}}">
+          <text class="selector-bar__label">年份：</text>
+          <text>{{selectedYear ? selectedYear.label : (yearOptions.length ? '请选择' : '暂无可选')}}</text>
+        </view>
+      </picker>
+      <picker mode="selector"
+              range="{{monthOptions}}"
+              range-key="label"
+              bindchange="onMonthChange"
+              value="{{selectedMonthIndex >= 0 ? selectedMonthIndex : 0}}"
+              disabled="{{!monthOptions.length}}">
+        <view class="selector-bar__item {{!monthOptions.length ? 'selector-bar__item--disabled' : ''}}">
+          <text class="selector-bar__label">月份：</text>
+          <text>{{selectedMonth ? selectedMonth.label : (monthOptions.length ? '请选择' : '暂无可选')}}</text>
+        </view>
+      </picker>
+    </view>
   </view>
 
-  <view class="legend-bar" wx:if="{{legendItems.length}}">
-    <block wx:for="{{legendItems}}" wx:key="key">
-      <view class="legend-bar__item">
-        <view class="legend-bar__dot" style="background: {{item.color}};"></view>
-        <text class="legend-bar__text">{{item.name}}</text>
-      </view>
-    </block>
-  </view>
-
-  <view class="charts-wrapper" wx:if="{{chartGroups.length}}">
-    <block wx:for="{{chartGroups}}" wx:for-item="group" wx:key="key">
-      <view class="charts-group">
-        <view class="charts-group__title">{{group.title}}</view>
-        <scroll-view class="charts-row-scroll" scroll-x="true" enable-flex="true">
-          <view class="charts-row">
-            <block wx:for="{{group.months}}" wx:for-item="month" wx:key="chartId">
-              <view class="chart-card">
-                <view class="chart-card__month">{{month.monthLabel}}</view>
-                <view class="chart-card__body" wx:if="{{month.hasData}}">
-                  <ec-canvas id="{{month.chartId}}" canvas-id="{{month.chartId}}" class="chart-card__canvas" ec="{{month.ec}}"></ec-canvas>
-                </view>
-                <view class="chart-card__empty" wx:else>暂无数据</view>
-              </view>
-            </block>
-          </view>
-        </scroll-view>
+  <view class="charts-wrapper" wx:if="{{displayCharts.length}}">
+    <block wx:for="{{displayCharts}}" wx:key="chartId">
+      <view class="chart-card chart-card--full">
+        <view class="chart-card__header">
+          <view class="chart-card__title">{{item.title}}</view>
+          <view class="chart-card__subtitle" wx:if="{{item.subtitle}}">{{item.subtitle}}</view>
+        </view>
+        <view class="chart-card__body" wx:if="{{item.hasData}}">
+          <ec-canvas id="{{item.chartId}}" canvas-id="{{item.chartId}}" class="chart-card__canvas" ec="{{item.ec}}"></ec-canvas>
+        </view>
+        <view class="chart-card__empty" wx:else>暂无数据</view>
       </view>
     </block>
   </view>
 
   <view class="charts-empty" wx:else>
     <text>暂无数据</text>
+  </view>
+
+  <view wx:if="{{showDiseaseMapping}}" class="disease-legend-section">
+    <view class="disease-legend-section__header">
+      <text class="disease-legend-section__title">疾病代码对照</text>
+      <text class="disease-legend-section__subtitle">English Code ↔ 中文名称</text>
+    </view>
+    <view wx:if="{{diseaseMappingLoading}}" class="disease-legend-section__state">对照表加载中…</view>
+    <view wx:elif="{{diseaseMappings.length}}" class="disease-legend-list">
+      <view class="disease-legend-list__row disease-legend-list__row--head">
+        <text class="disease-legend-list__col disease-legend-list__col--code">代码</text>
+        <text class="disease-legend-list__col disease-legend-list__col--name">中文名称</text>
+      </view>
+      <block wx:for="{{diseaseMappings}}" wx:key="code">
+        <view class="disease-legend-list__row">
+          <text class="disease-legend-list__col disease-legend-list__col--code">{{item.code}}</text>
+          <text class="disease-legend-list__col disease-legend-list__col--name">{{item.name}}</text>
+        </view>
+      </block>
+    </view>
+    <view wx:else class="disease-legend-section__state">{{diseaseMappingError}}</view>
   </view>
 </view>

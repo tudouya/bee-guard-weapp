@@ -10,11 +10,23 @@
 
 .selector-bar {
   display: flex;
+  flex-direction: column;
   gap: 16rpx;
 }
 
-.selector-bar picker {
+.selector-row {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.selector-row--date {
+  margin-top: 4rpx;
+}
+
+.selector-row picker {
   flex: 1;
+  min-width: 200rpx;
 }
 
 .selector-bar__item {
@@ -36,70 +48,12 @@
   color: #6B7280;
 }
 
-.legend-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12rpx 24rpx;
-  background: #ffffff;
-  padding: 16rpx 24rpx;
-  border-radius: 16rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.04);
-}
-
-.legend-bar__item {
-  display: flex;
-  align-items: center;
-  gap: 10rpx;
-  font-size: 24rpx;
-  color: #4B5563;
-}
-
-.legend-bar__dot {
-  width: 18rpx;
-  height: 18rpx;
-  border-radius: 50%;
-}
-
-.legend-bar__text {
-  white-space: nowrap;
-}
-
 .charts-wrapper {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 28rpx;
 }
-
-.charts-group {
-  background: #ffffff;
-  border-radius: 20rpx;
-  padding: 24rpx 28rpx 32rpx;
-  box-shadow: 0 6rpx 24rpx rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-}
-
-.charts-group__title {
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #111827;
-}
-
-.charts-row-scroll {
-  width: 100%;
-  overflow: auto;
-}
-
-.charts-row {
-  display: flex;
-  flex-direction: row;
-  gap: 24rpx;
-  padding-bottom: 6rpx;
-  min-width: 100%;
-}
-
 
 .chart-card {
   display: flex;
@@ -108,24 +62,36 @@
   border-radius: 16rpx;
   overflow: hidden;
   box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.06);
-  min-width: 200rpx;
 }
 
-.chart-card__month {
-  font-size: 26rpx;
-  font-weight: 500;
+.chart-card--full {
+  width: 100%;
+}
+
+.chart-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 24rpx 28rpx 12rpx;
+}
+
+.chart-card__title {
+  font-size: 30rpx;
+  font-weight: 600;
   color: #1F2937;
-  text-align: center;
-  padding: 12rpx 8rpx;
-  border-bottom: 1rpx solid rgba(17, 24, 39, 0.05);
+}
+
+.chart-card__subtitle {
+  font-size: 24rpx;
+  color: #6B7280;
 }
 
 .chart-card__body {
-  height: 180rpx;
+  height: 360rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12rpx;
+  padding: 12rpx 28rpx 28rpx;
 }
 
 .chart-card__canvas {
@@ -134,13 +100,14 @@
 }
 
 .chart-card__empty {
-  height: 180rpx;
+  height: 360rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #9CA3AF;
   font-size: 24rpx;
-  padding: 12rpx;
+  padding: 12rpx 28rpx 28rpx;
+  text-align: center;
 }
 
 .charts-empty {
@@ -150,4 +117,78 @@
   justify-content: center;
   color: #9CA3AF;
   font-size: 28rpx;
+}
+
+.disease-legend-section {
+  margin-top: 20rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.disease-legend-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.disease-legend-section__title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.disease-legend-section__subtitle {
+  font-size: 24rpx;
+  color: #6B7280;
+}
+
+.disease-legend-section__state {
+  font-size: 24rpx;
+  color: #6B7280;
+  padding: 12rpx 0;
+}
+
+.disease-legend-list {
+  border: 1rpx solid #E5E7EB;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.disease-legend-list__row {
+  display: flex;
+  justify-content: space-between;
+  padding: 18rpx 24rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #E5E7EB;
+}
+
+.disease-legend-list__row:last-child {
+  border-bottom: none;
+}
+
+.disease-legend-list__row--head {
+  background: #F3F4F6;
+  font-weight: 600;
+  color: #374151;
+}
+
+.disease-legend-list__col {
+  font-size: 26rpx;
+  color: #1F2937;
+}
+
+.disease-legend-list__col--code {
+  width: 200rpx;
+  font-weight: 600;
+}
+
+.disease-legend-list__col--name {
+  flex: 1;
+  padding-left: 20rpx;
+  color: #4B5563;
 }

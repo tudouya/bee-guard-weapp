@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "疫情地图",
-  "pageOrientation": "landscape",
   "usingComponents": {
     "ec-canvas": "../../ec-canvas/ec-canvas"
   }
