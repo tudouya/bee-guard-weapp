@@ -70,10 +70,26 @@ function reportArticleExposure(id, payload = {}) {
     .then(({ data }) => data || { counted: false, windowSeconds: 1800 });
 }
 
+function listFeaturedArticles() {
+  return request({ url: `/api/knowledge/articles/featured` })
+    .then(({ data }) => {
+      if (!Array.isArray(data)) return [];
+      return data.map((item) => ({
+        id: item.id,
+        title: item.title || '',
+        brief: item.brief || '',
+        date: item.date || '',
+        views: typeof item.views === 'number' ? item.views : 0,
+        diseaseCode: item.diseaseCode || ''
+      }));
+    });
+}
+
 module.exports = {
   listDiseases,
   getDisease,
   listArticlesByDisease,
   getArticle,
-  reportArticleExposure
+  reportArticleExposure,
+  listFeaturedArticles
 };

@@ -1,6 +1,7 @@
 // Epidemic services: 对接后台通报 API + 保留地图/趋势的临时数据。
 
 const api = require('../utils/api');
+const config = require('../utils/config');
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -68,11 +69,18 @@ function pickObject(source) {
 
 function normalizeBulletin(item = {}) {
   const region = normalizeRegion(item.region);
+  let thumbnailUrl = item.thumbnailUrl || item.thumbnail_url || '';
+  if (thumbnailUrl && !/^https?:\/\//i.test(thumbnailUrl)) {
+    const base = (config && config.apiBase) ? String(config.apiBase).replace(/\/$/, '') : '';
+    const path = thumbnailUrl.startsWith('/') ? thumbnailUrl : `/${thumbnailUrl}`;
+    thumbnailUrl = base ? `${base}${path}` : thumbnailUrl;
+  }
   return {
     id: item.id,
     title: item.title || '',
     summary: item.summary || '',
     content: item.content || '',
+    thumbnailUrl,
     riskLevel: item.riskLevel || item.risk_level || 'low',
     riskLevelText: item.riskLevelText || item.risk_level_text || '',
     region,
@@ -104,6 +112,13 @@ function fetchBulletins({ page = 1, perPage = 5, provinceCode, cityCode, distric
     const list = listSource.map(normalizeBulletin);
     const meta = payload.meta || {};
     return { list, meta };
+  });
+}
+
+function fetchFeaturedBulletins() {
+  return api.get('/api/epidemic/bulletins/featured').then((res) => {
+    const source = Array.isArray(res) ? res : (res && Array.isArray(res.data) ? res.data : []);
+    return source.map(normalizeBulletin);
   });
 }
 
@@ -260,6 +275,7 @@ function getTrend({ provinceName = '', cityName = '', districtName = '', disease
 module.exports = {
   fetchBulletins,
   fetchBulletinDetail,
+  fetchFeaturedBulletins,
   fetchProvinces,
   fetchProvinceDistricts,
   fetchDiseaseLegend,
