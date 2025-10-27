@@ -34,8 +34,8 @@ Page({
       if (!html) html = '<p>本文暂无内容</p>';
       const nodes = injectImageStyle(html);
       this.setData({
-        article: { id: data.id, title: data.title || '无标题', date: data.date || '', views: Number(data.views || 0) },
-        related: (Array.isArray(data.related) ? data.related : []).map(r => ({ id: r.id, title: r.title || '无标题', date: r.date || '', views: Number(r.views || 0) })),
+        article: { id: data.id, title: data.title || '无标题', date: data.date || '' },
+        related: (Array.isArray(data.related) ? data.related : []).map(r => ({ id: r.id, title: r.title || '无标题', date: r.date || '' })),
         diseaseId: data.diseaseCode || '',
         nodes
       });
