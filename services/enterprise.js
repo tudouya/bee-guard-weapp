@@ -1,8 +1,8 @@
 // Enterprise services: fetch list & detail for mini program showcase
-
 const config = require('../utils/config.js');
+const { resolveAsset } = require('../utils/assets.js');
 
-const PLACEHOLDER_LOGO = '/images/common/placeholder-card.png';
+const PLACEHOLDER_LOGO = resolveAsset('/weapp/placeholder-card.png');
 
 function getBaseUrl() {
   const base = (config && config.apiBase) || '';

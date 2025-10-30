@@ -1,7 +1,8 @@
 const community = require('../../../services/community');
 const authUtil = require('../../../utils/auth.js');
+const { resolveAsset } = require('../../../utils/assets.js');
 
-const DEFAULT_AVATAR = '/images/profile-avatar-default.png';
+const DEFAULT_AVATAR = resolveAsset('/weapp/profile-avatar-default.png');
 
 function ensureDeviceId(){
   try {

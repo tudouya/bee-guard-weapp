@@ -5,6 +5,6 @@ App({
   
   globalData: {
     userInfo: null,
-    apiUrl: 'http://bee.tudouya.com'
+    // apiUrl: 'http://bee.tudouya.com'
   }
 })

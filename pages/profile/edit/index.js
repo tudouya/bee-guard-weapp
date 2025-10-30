@@ -1,12 +1,15 @@
 const authUtil = require('../../../utils/auth.js');
 const api = require('../../../utils/api.js');
 const userSvc = require('../../../services/user.js');
+const { resolveAsset } = require('../../../utils/assets.js');
+
+const DEFAULT_AVATAR = resolveAsset('/weapp/profile-avatar-default.png');
 
 Page({
   data: {
     loading: true,
     saving: false,
-    defaultAvatar: '/images/profile-avatar-default.png',
+    defaultAvatar: DEFAULT_AVATAR,
     avatarUrl: '', // 当前展示用（可能为本地临时图或线上地址）
     avatarLocal: '', // 选择的本地临时图
     nickname: '',

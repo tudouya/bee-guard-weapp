@@ -1,4 +1,7 @@
 const enterpriseService = require('../../../services/enterprise.js');
+const { resolveAsset } = require('../../../utils/assets.js');
+
+const PLACEHOLDER_LOGO = resolveAsset('/weapp/placeholder-card.png');
 
 Page({
   data: {
@@ -40,7 +43,7 @@ Page({
       })();
 
       const normalized = Object.assign({}, detail, {
-        logo: detail && detail.logo ? detail.logo : '/images/common/placeholder-card.png',
+        logo: detail && detail.logo ? detail.logo : PLACEHOLDER_LOGO,
         promotionLines
       });
       this.setData({ detail: normalized, loading: false });

@@ -4,7 +4,7 @@
         <view class="home-detail">
             <view class="home-header">
                 <view class="home-search">
-                    <image class="home-search-icon" src="/images/common/search.png"></image>
+                    <image class="home-search-icon" src="{{assets.searchIcon}}"></image>
                     <input disabled bindtap="handleChange" placeholder="搜索热门新闻"></input>
                 </view>
             </view>
@@ -71,7 +71,7 @@
                                         <view class="radar-dot"></view>
                                     </view>
                                     <!-- 本地蜜蜂插画图片（替代 CSS 蜜蜂） -->
-                                    <image class="banner-bee" src="/images/banner_bee.png" mode="widthFix" aria-hidden="true"></image>
+                                    <image class="banner-bee" src="{{assets.bannerBee}}" mode="widthFix" aria-hidden="true"></image>
                                 </view>
                             </view>
                         </swiper-item>
@@ -80,28 +80,28 @@
             </view>
             <view class="home-list">
                 <view bindtap="handleDetection" class="home-list-item">
-                    <image src="/images/home-feature-detection.png"></image>
+                    <image src="{{assets.featureDetection}}"></image>
                     <text>样品检测</text>
                 </view>
                 <view bindtap="handleEpidemic" class="home-list-item">
-                    <image src="/images/home-feature-epidemic.png"></image>
+                    <image src="{{assets.featureEpidemic}}"></image>
                     <text>疫情通报</text>
                 </view>
                 <view bindtap="handleKnowledge" class="home-list-item">
-                    <image src="/images/home-feature-knowledge.png"></image>
+                    <image src="{{assets.featureKnowledge}}"></image>
                     <text>防控知识</text>
                 </view>
                 <!-- 新增三个功能板块：企业展示、产品推荐、答疑解惑（图标复用） -->
                 <view bindtap="handleEnterprise" class="home-list-item">
-                    <image src="/images/home-feature-enterprise.png"></image>
+                    <image src="{{assets.featureEnterprise}}"></image>
                     <text>企业展示</text>
                 </view>
                 <view bindtap="handleProduct" class="home-list-item">
-                    <image src="/images/home-feature-product.png"></image>
+                    <image src="{{assets.featureProduct}}"></image>
                     <text>产品推荐</text>
                 </view>
                 <view bindtap="handleQna" class="home-list-item">
-                    <image src="/images/home-feature-qna.png"></image>
+                    <image src="{{assets.featureQna}}"></image>
                     <text>答疑解惑</text>
                 </view>
             </view>
@@ -120,10 +120,10 @@
                 <view class="home-fire-con">
                     <block wx:if="{{topicHost.length}}">
                         <view bindtap="handleTopicFireInfo" class="home-fire-con-list" data-id="{{item.id}}" data-code="{{item.diseaseCode}}" wx:for="{{topicHost}}" wx:key="id">
-                            <image class="home-fire-con-list-num" src="/images/home/rank-1.png" wx:if="{{index===0}}"></image>
-                            <image class="home-fire-con-list-num" src="/images/home/rank-2.png" wx:if="{{index===1}}"></image>
-                            <image class="home-fire-con-list-num" src="/images/home/rank-3.png" wx:if="{{index===2}}"></image>
-                            <image class="home-fire-con-list-num" src="/images/home/rank-4.png" wx:if="{{index===3}}"></image>
+                            <image class="home-fire-con-list-num" src="{{assets.rankIcons[0]}}" wx:if="{{index===0}}"></image>
+                            <image class="home-fire-con-list-num" src="{{assets.rankIcons[1]}}" wx:if="{{index===1}}"></image>
+                            <image class="home-fire-con-list-num" src="{{assets.rankIcons[2]}}" wx:if="{{index===2}}"></image>
+                            <image class="home-fire-con-list-num" src="{{assets.rankIcons[3]}}" wx:if="{{index===3}}"></image>
                             <view class="home-fire-con-list-title">{{item.title}}</view>
                         </view>
                     </block>
@@ -157,7 +157,7 @@
                                     <view class="home-industry-left-summary" wx:if="{{item.summary}}">{{item.summary}}</view>
                                 </view>
                                 <image src="{{item.thumbnailUrl}}" wx:if="{{item.thumbnailUrl}}"></image>
-                                <image src="/images/common/placeholder-card.png" wx:else></image>
+                                <image src="{{assets.placeholderCard}}" wx:else></image>
                             </view>
                         </block>
                         <block wx:else>

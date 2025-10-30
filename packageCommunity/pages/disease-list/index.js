@@ -5,8 +5,12 @@
 // - 疾病百科与社区帖子均按需拉取真实接口数据，并缓存分页进度
 const knowledge = require('../../../services/knowledge');
 const community = require('../../../services/community');
+const { resolveAsset } = require('../../../utils/assets.js');
 
-const DEFAULT_AVATAR = '/images/profile-avatar-default.png';
+const DEFAULT_AVATAR = resolveAsset('/weapp/profile-avatar-default.png');
+const ASSETS = {
+  searchIcon: resolveAsset('/weapp/search.png')
+};
 const ROLE_LABELS = {
   farmer: '蜂农',
   enterprise_admin: '企业管理员',
@@ -55,6 +59,7 @@ function normalizePost(item = {}, fallbackType = 'question') {
 Page({
   data: {
     active: 'disease',
+    assets: ASSETS,
     // 疾病百科列表（对接接口）
     diseaseList: [],
     dPage: 1,

@@ -1,4 +1,5 @@
 const productService = require('../../../services/product.js');
+const { resolveAsset } = require('../../../utils/assets.js');
 
 Page({
   data: {
@@ -8,7 +9,8 @@ Page({
     hasMore: true,
     loading: false,
     errorMessage: '',
-    scene: ''
+    scene: '',
+    emptyPlaceholder: resolveAsset('/weapp/placeholder-card.png')
   },
 
   onLoad(options) {

@@ -1,6 +1,7 @@
 const productService = require('../../../services/product.js');
+const { resolveAsset } = require('../../../utils/assets.js');
 
-const PLACEHOLDER_IMAGE = '/images/common/placeholder-card.png';
+const PLACEHOLDER_IMAGE = resolveAsset('/weapp/placeholder-card.png');
 
 Page({
   data: {

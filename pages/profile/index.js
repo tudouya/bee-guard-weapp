@@ -1,5 +1,19 @@
 const authUtil = require('../../utils/auth.js');
 const userSvc = require('../../services/user.js');
+const { resolveAsset } = require('../../utils/assets.js');
+
+const DEFAULT_AVATAR = resolveAsset('/weapp/profile-avatar-default.png');
+const ASSETS = {
+  arrow: resolveAsset('/weapp/profile-icon-arrow.png'),
+  settings: resolveAsset('/weapp/profile-icon-settings.png'),
+  detection: resolveAsset('/weapp/profile-icon-detection.png'),
+  detectionRecord: resolveAsset('/weapp/profile-icon-detection-record.png'),
+  reward: resolveAsset('/weapp/profile-icon-reward.png'),
+  topic: resolveAsset('/weapp/profile-icon-topic.png'),
+  mailing: resolveAsset('/weapp/profile-icon-mailing.png'),
+  knowledge: resolveAsset('/weapp/profile-icon-knowledge.png'),
+  chevron: resolveAsset('/weapp/profile-icon-chevron.png')
+};
 
 Page({
   data: {
@@ -9,7 +23,9 @@ Page({
     deviceNum: 0,
     postNum: 0,
     bannerHeight: 300,
-    userRoleLabel: ''
+    userRoleLabel: '',
+    defaultAvatar: DEFAULT_AVATAR,
+    assets: ASSETS
   },
   onLoad() {
     this.initUserInfo();
@@ -29,11 +45,10 @@ Page({
     const phoneMasked = this.maskPhone(phoneRaw);
     const roleRaw = loggedIn ? ((cached && cached.role) || (auth && auth.role) || '') : '';
     const roleLabel = this.mapRole(roleRaw);
-    const avatarDefault = '/images/profile-avatar-default.png';
     const nickDefault = loggedIn ? (phoneMasked || '已登录用户') : '游客';
     const initial = {
       user_nick: (cached && cached.nickname) || nickDefault,
-      user_avatar: this.validHttp((cached && cached.avatar)) ? cached.avatar : avatarDefault,
+      user_avatar: this.validHttp((cached && cached.avatar)) ? cached.avatar : DEFAULT_AVATAR,
       user_phone: loggedIn ? phoneRaw : '',
       user_role: roleRaw
     };
@@ -53,7 +68,7 @@ Page({
       const ph = (p && p.phone) || phoneRaw;
       const masked = this.maskPhone(ph);
       const nick = nn.length ? nn : (masked || '已登录用户');
-      const avatar = this.validHttp(av) ? av : avatarDefault;
+      const avatar = this.validHttp(av) ? av : DEFAULT_AVATAR;
       const role = (p && typeof p.role === 'string') ? p.role : roleRaw;
       const roleLabelNext = this.mapRole(role);
       const next = { user_nick: nick, user_avatar: avatar, user_phone: ph, user_role: role };

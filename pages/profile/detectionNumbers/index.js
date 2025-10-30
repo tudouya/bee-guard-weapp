@@ -1,5 +1,6 @@
 const api = require('../../../utils/api.js');
 const authUtil = require('../../../utils/auth.js');
+const { resolveAsset } = require('../../../utils/assets.js');
 
 const TABS = [
   { label: '可使用', value: 'assigned', statuses: ['assigned', 'available'], count: 0 },
@@ -46,7 +47,8 @@ Page({
     loading: true,
     error: false,
     isEmpty: false,
-    lastSyncText: ''
+    lastSyncText: '',
+    emptyIcon: resolveAsset('/weapp/profile-icon-detection.png')
   },
   hasLoaded: false,
 

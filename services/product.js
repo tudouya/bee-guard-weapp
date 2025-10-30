@@ -1,7 +1,8 @@
 const api = require('../utils/api.js');
 const config = require('../utils/config.js');
+const { resolveAsset } = require('../utils/assets.js');
 
-const PLACEHOLDER_IMAGE = '/images/common/placeholder-card.png';
+const PLACEHOLDER_IMAGE = resolveAsset('/weapp/placeholder-card.png');
 
 function resolveUrl(url) {
   if (!url || typeof url !== 'string') return '';

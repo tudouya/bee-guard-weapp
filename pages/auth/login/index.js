@@ -1,5 +1,6 @@
 const authSvc = require('../../../services/auth.js');
 const authUtil = require('../../../utils/auth.js');
+const { resolveAsset } = require('../../../utils/assets.js');
 
 function extractRole(payload) {
   if (!payload || typeof payload !== 'object') return '';
@@ -21,7 +22,8 @@ function extractRole(payload) {
 Page({
   data: {
     loading: false,
-    agree: false
+    agree: false,
+    logoSrc: resolveAsset('/weapp/profile-avatar-default.png')
   },
   onLoginTap() {
     if (this.data.loading) return;

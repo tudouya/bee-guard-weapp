@@ -1,6 +1,25 @@
 const config = require('../../utils/config.js');
 const knowledgeService = require('../../services/knowledge');
 const epidemicService = require('../../services/epidemic');
+const { resolveAsset } = require('../../utils/assets.js');
+
+const ASSETS = {
+    searchIcon: resolveAsset('/weapp/search.png'),
+    bannerBee: resolveAsset('/weapp/banner_bee.png'),
+    featureDetection: resolveAsset('/weapp/home-feature-detection.png'),
+    featureEpidemic: resolveAsset('/weapp/home-feature-epidemic.png'),
+    featureKnowledge: resolveAsset('/weapp/home-feature-knowledge.png'),
+    featureEnterprise: resolveAsset('/weapp/home-feature-enterprise.png'),
+    featureProduct: resolveAsset('/weapp/home-feature-product.png'),
+    featureQna: resolveAsset('/weapp/home-feature-qna.png'),
+    placeholderCard: resolveAsset('/weapp/placeholder-card.png'),
+    rankIcons: [
+        resolveAsset('/weapp/rank-1.png'),
+        resolveAsset('/weapp/rank-2.png'),
+        resolveAsset('/weapp/rank-3.png'),
+        resolveAsset('/weapp/rank-4.png')
+    ]
+};
 
 Page({
     data: {
@@ -9,6 +28,7 @@ Page({
         infoData: [],
         num: 0,
         recordNum: 0,
+        assets: ASSETS,
         bannerSlides: [
             {
                 id: 'platform',

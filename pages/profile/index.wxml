@@ -5,18 +5,18 @@
         <view class="my-con-header">
             <view bindtap="handleInfo" class="my-con-header-left">
                 <image class="my-con-header-avatar" src="{{userInfo.user_avatar}}" wx:if="{{userInfo.user_avatar}}"></image>
-                <image class="my-con-header-avatar" src="/images/profile-avatar-default.png" wx:else></image>
+                <image class="my-con-header-avatar" src="{{defaultAvatar}}" wx:else></image>
                 <view class="my-con-header-con">
                     <view class="my-con-header-con-top">
                         <view class="my-header-con-nick">{{userInfo.user_nick}}</view>
                         <view class="my-header-role" wx:if="{{userRoleLabel}}">{{userRoleLabel}}</view>
-                        <image src="/images/profile-icon-arrow.png"></image>
+                        <image src="{{assets.arrow}}"></image>
                     </view>
                     <view class="my-header-con-phone" wx:if="{{userInfo.user_phone}}">{{userInfo.user_phone}}</view>
                     <view class="my-header-con-phone" wx:else>--</view>
                 </view>
             </view>
-            <image bindtap="handleInfo" class="my-header-con-top-set" src="/images/profile-icon-settings.png"></image>
+            <image bindtap="handleInfo" class="my-header-con-top-set" src="{{assets.settings}}"></image>
         </view>
         <view class="my-brief" id="data-board">
             <view class="my-brief-con">
@@ -48,45 +48,45 @@
             <view class="my-list">
                 <view bindtap="handleMyDetectionNumbers" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="/images/profile-icon-detection.png"></image>
+                        <image src="{{assets.detection}}"></image>
                         <text>我的检测号</text>
                     </view>
-                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
+                    <image class="my-list-item-right" src="{{assets.chevron}}"></image>
                 </view>
                 <view bindtap="handleMyResults" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="/images/profile-icon-detection-record.png"></image>
+                        <image src="{{assets.detectionRecord}}"></image>
                         <text>我的检测记录</text>
                     </view>
-                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
+                    <image class="my-list-item-right" src="{{assets.chevron}}"></image>
                 </view>
                 <view bindtap="handleRewards" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="/images/profile-icon-reward.png"></image>
+                        <image src="{{assets.reward}}"></image>
                         <text>我的奖励</text>
                     </view>
-                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
+                    <image class="my-list-item-right" src="{{assets.chevron}}"></image>
                 </view>
                 <view bindtap="handleTopicRecord" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="/images/profile-icon-topic.png"></image>
+                        <image src="{{assets.topic}}"></image>
                         <text>我的话题</text>
                     </view>
-                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
+                    <image class="my-list-item-right" src="{{assets.chevron}}"></image>
                 </view>
                 <view bindtap="handleGuide" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="/images/profile-icon-mailing.png"></image>
+                        <image src="{{assets.mailing}}"></image>
                         <text>邮寄指南</text>
                     </view>
-                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
+                    <image class="my-list-item-right" src="{{assets.chevron}}"></image>
                 </view>
                 <view bindtap="handleKnowledge" class="my-list-item">
                     <view class="my-list-item-left">
-                        <image src="/images/profile-icon-knowledge.png"></image>
+                        <image src="{{assets.knowledge}}"></image>
                         <text>知识库</text>
                     </view>
-                    <image class="my-list-item-right" src="/images/profile-icon-chevron.png"></image>
+                    <image class="my-list-item-right" src="{{assets.chevron}}"></image>
                 </view>
             </view>
         </view>

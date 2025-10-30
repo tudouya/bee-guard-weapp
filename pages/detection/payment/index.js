@@ -1,13 +1,16 @@
 const authUtil = require('../../../utils/auth.js');
 const api = require('../../../utils/api.js');
+const { resolveAsset } = require('../../../utils/assets.js');
+
+const DEFAULT_QR_IMAGE = resolveAsset('/weapp/pay_qr.jpg');
 
 Page({
   data: {
     pkg: { id: '', name: '', price: 0 },
     codeText: '',
     orderId: '',
-    // 使用本地图片路径显示二维码（从小程序根目录开始）
-    qrImageUrl: '/images/pay_qr.jpg'
+    // 默认二维码图片（托管于 S3，与本地路径保持一致）
+    qrImageUrl: DEFAULT_QR_IMAGE
   },
   onLoad(options) {
     const pkg = {
@@ -18,8 +21,8 @@ Page({
     const codeText = `${pkg.id || 'PKG'}-${Date.now()}`;
     // 真实对接时，orderId 在创建订单后获得
     const orderId = '';
-    // 保持本地默认二维码图片；若传入了 qrUrl 则优先使用
-    const qrImageUrl = options.qrUrl ? decodeURIComponent(options.qrUrl) : '/images/pay_qr.jpg';
+    // 默认使用远程托管的二维码；若传入了 qrUrl 则优先使用
+    const qrImageUrl = options.qrUrl ? decodeURIComponent(options.qrUrl) : DEFAULT_QR_IMAGE;
     this.setData({ pkg, codeText, orderId, qrImageUrl });
   },
   saveQrcode() {

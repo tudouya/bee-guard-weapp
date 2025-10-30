@@ -2,7 +2,7 @@
   <view class="top">
     <view class="logo-wrap">
       <view class="logo">
-        <image class="logo-img" src="/images/profile-avatar-default.png" mode="aspectFill"></image>
+        <image class="logo-img" src="{{logoSrc}}" mode="aspectFill"></image>
       </view>
     </view>
     <text class="app-name">蜜蜂疫病监控平台</text>

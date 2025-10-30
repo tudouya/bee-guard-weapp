@@ -5,6 +5,9 @@ const config = {
   // Use https in prod; dev tools can bypass domain checks if enabled.
   // Default API base (dev)
   apiBase: 'http://bee.tudouya.com',
+
+  // Static asset host (S3). Remote assets mirror the /weapp directory within the bucket.
+  assetBase: 'https://beeprotect.s3.cn-northwest-1.amazonaws.com.cn',
   
   // apiBase: 'http://52.83.133.207:8677',
 

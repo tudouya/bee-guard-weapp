@@ -13,7 +13,7 @@
   </view>
 
   <view wx:if="{{!loading && products.length === 0 && !errorMessage}}" class="product-empty">
-    <image class="product-empty__icon" src="/images/common/placeholder-card.png" mode="aspectFit"></image>
+    <image class="product-empty__icon" src="{{emptyPlaceholder}}" mode="aspectFit"></image>
     <text class="product-empty__text">暂未找到符合条件的推荐</text>
     <view class="product-empty__hint">试试切换来源或联系平台获取定制方案</view>
   </view>

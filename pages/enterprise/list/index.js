@@ -1,4 +1,7 @@
 const enterpriseService = require('../../../services/enterprise.js');
+const { resolveAsset } = require('../../../utils/assets.js');
+
+const PLACEHOLDER_LOGO = resolveAsset('/weapp/placeholder-card.png');
 
 Page({
   data: {
@@ -7,7 +10,8 @@ Page({
     perPage: 10,
     hasMore: true,
     loading: false,
-    errorMessage: ''
+    errorMessage: '',
+    emptyPlaceholder: PLACEHOLDER_LOGO
   },
 
   onLoad() {
@@ -44,7 +48,7 @@ Page({
                   .slice(0, 3)
               : [];
             return Object.assign({}, item, {
-              logo: item && item.logo ? item.logo : '/images/common/placeholder-card.png',
+              logo: item && item.logo ? item.logo : PLACEHOLDER_LOGO,
               certificationTags
             });
           })
