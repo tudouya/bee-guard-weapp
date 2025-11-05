@@ -30,6 +30,12 @@
     "navigationBarTitleText": "蜜蜂疫病监控平台",
     "navigationBarTextStyle": "black"
   },
+  "requiredPrivateInfos": ["chooseLocation"],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于选择蜂场地址，便于取样与服务对接"
+    }
+  },
   "tabBar": {
     "color": "#323539",
     "backgroundColor": "#fff",

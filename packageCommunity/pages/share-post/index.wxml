@@ -1,8 +1,8 @@
 <view class="container">
   <view class="content">
     <view class="card">
-      <view class="form-item"><view class="label">标题</view><input class="input" placeholder="请输入标题" bindinput="onTitle" value="{{form.title}}"/></view>
-      <view class="form-item"><view class="label">正文</view><textarea class="textarea" placeholder="请输入正文，支持图文/视频占位" bindinput="onDesc" value="{{form.desc}}"></textarea></view>
+      <view class="form-item"><view class="label">标题</view><input class="input" placeholder="请输入标题" bindinput="onTitle" value="{{form.title}}" maxlength="-1"/></view>
+      <view class="form-item"><view class="label">正文</view><textarea class="textarea" placeholder="请输入正文，支持图文/视频占位" bindinput="onDesc" value="{{form.desc}}" maxlength="-1"></textarea></view>
       <view class="form-item">
         <view class="label">图片（占位）</view>
         <view class="uploader">

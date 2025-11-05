@@ -65,12 +65,7 @@ Page({
         this.handleWarnNum();
         this.setData({ IP: config.apiBase });
     },
-    handleChange: function() {
-        wx.showToast({
-            title: '搜索功能开发中',
-            icon: 'none'
-        });
-    },
+    handleChange: function() {},
     handleDetection: function() {
         wx.switchTab({
             url: '/pages/detection/index'

@@ -24,6 +24,6 @@
 
   <view class="actions">
     <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="onSave" loading="{{saving}}" disabled="{{saving}}">保存</button>
-    <button class="u-btn u-btn--md u-btn-block logout-btn" bindtap="onLogout">退出登录</button>
+    <button class="u-btn u-btn--md u-btn--pill u-btn-block logout-btn" bindtap="onLogout">退出登录</button>
   </view>
 </view>

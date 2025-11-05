@@ -41,7 +41,7 @@
     </view>
 
     <view class="detection-empty" wx:elif="{{isEmpty}}">
-      <image class="detection-empty-icon" src="{{emptyIcon}}"></image>
+      <!-- <image class="detection-empty-icon" src="{{emptyIcon}}" mode="aspectFit"></image> -->
       <text class="detection-empty-title">暂无检测号</text>
       <text class="detection-empty-desc">联系管理员或进入检测流程领取新的检测号</text>
       <view class="u-btn u-btn-primary u-btn--sm" bindtap="goAcquireNumber">前往检测页</view>
