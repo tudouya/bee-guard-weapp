@@ -17,5 +17,11 @@
         <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="paidDone">已完成支付</button>
       </view>
     </view>
+
+    <view class="payment-note">
+      <text>进入缴费中心后如为个人缴费，需在单位栏填写“个人”，税号栏填写“000”，个人栏填写个人姓名，联系方式栏填写注册手机号，</text>
+      <text class="payment-note__highlight">并请务必在备注栏填写“蜜蜂病害检测”</text>
+      <text>。缴费后请将缴费成功页面截图并在小程序缴费页面点击“已完成支付”并上传截图。</text>
+    </view>
   </view>
 </view>

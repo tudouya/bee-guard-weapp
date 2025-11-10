@@ -16,14 +16,14 @@ Page({
         id: 'basic',
         name: '基础检测套餐',
         price: 199,
-        desc: '常见蜜蜂疾病检测，包含AFB、EFB、黑蜂病等基础项目',
+        desc: '常见的10种蜜蜂病原检测，包括囊状幼虫病毒病（SBV）、黑蜂王台病毒病（BQCV）、慢性麻痹病毒病（CBPV）、急性麻痹病毒病（ABPV）、残翅病毒病（DWV）、以色列急性麻痹病毒病（IAPV）、美洲幼虫腐臭病（AFB）、欧洲幼虫腐臭病（EFB）、微孢子虫病（Nosma）、白垩病（CB）。包括常见引起爬蜂及幼虫病的病原。',
         selected: false
       },
       {
         id: 'advanced', 
         name: '深度检测套餐',
-        price: 399,
-        desc: '全面疾病检测+环境因子分析+防控建议报告',
+        price: 599,
+        desc: '基础检测套餐+正式纸质检测报告+专家针对性防控建议',
         selected: false
       }
     ],
@@ -58,7 +58,22 @@ Page({
 
   onShow: function() {
     const logged = authUtil.isLoggedIn && authUtil.isLoggedIn();
-    this.setData({ loggedIn: !!logged });
+    const detectionForm = this.data.detectionForm || {};
+    let phoneNumber = detectionForm.phoneNumber || '';
+
+    if (logged) {
+      if (!phoneNumber && authUtil.getAuth) {
+        const authInfo = authUtil.getAuth() || {};
+        phoneNumber = authInfo.phone || '';
+      }
+    } else {
+      phoneNumber = '';
+    }
+
+    this.setData({
+      loggedIn: !!logged,
+      'detectionForm.phoneNumber': phoneNumber
+    });
 
     // 检查是否有待填入的检测号（从检测号页面跳转过来）
     const pages = getCurrentPages();

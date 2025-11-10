@@ -24,3 +24,20 @@
 .qr-img { width: 200px; height: 200px; border-radius: 8rpx; background: #fff; }
 
 .btns { display: flex; flex-direction: column; gap: 12rpx; }
+
+.payment-note {
+  margin-top: 24rpx;
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #444;
+  line-height: 1.6;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.06);
+}
+
+.payment-note__highlight {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #d93026;
+}
