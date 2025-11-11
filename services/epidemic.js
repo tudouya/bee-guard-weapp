@@ -136,10 +136,30 @@ function fetchProvinces() {
   });
 }
 
+function fetchProvinceCities(provinceCode) {
+  if (!provinceCode) return Promise.resolve([]);
+  const encoded = encodeURIComponent(provinceCode);
+  const url = `/api/regions/${encoded}/cities`;
+  return api.get(url).then((res) => {
+    const list = pickArray(res);
+    return list.map(normalizeRegionOption).filter((item) => item.code && item.name);
+  });
+}
+
 function fetchProvinceDistricts(provinceCode) {
   if (!provinceCode) return Promise.resolve([]);
   const encoded = encodeURIComponent(provinceCode);
   const url = `/api/regions/provinces/${encoded}/districts`;
+  return api.get(url).then((res) => {
+    const list = pickArray(res);
+    return list.map(normalizeRegionOption).filter((item) => item.code && item.name);
+  });
+}
+
+function fetchCityDistricts(cityCode) {
+  if (!cityCode) return Promise.resolve([]);
+  const encoded = encodeURIComponent(cityCode);
+  const url = `/api/regions/${encoded}/districts`;
   return api.get(url).then((res) => {
     const list = pickArray(res);
     return list.map(normalizeRegionOption).filter((item) => item.code && item.name);
@@ -192,7 +212,7 @@ function fetchMonthlyDistribution({ provinceCode, countyCode, periods } = {}) {
   });
 }
 
-function fetchEpidemicPie({ provinceCode, districtCode, year, compareYear } = {}) {
+function fetchEpidemicPie({ provinceCode, districtCode, year, compareYear, month } = {}) {
   if (!provinceCode || !districtCode) {
     return Promise.reject(new Error('缺少地区参数'));
   }
@@ -201,7 +221,8 @@ function fetchEpidemicPie({ provinceCode, districtCode, year, compareYear } = {}
     province_code: provinceCode,
     district_code: districtCode,
     year,
-    compare_year: compareYear
+    compare_year: compareYear,
+    month
   });
 
   const url = '/api/epidemic/map/pie' + (query ? `?${query}` : '');
@@ -212,7 +233,8 @@ function fetchEpidemicPie({ provinceCode, districtCode, year, compareYear } = {}
     const groups = Array.isArray(payload.groups) ? payload.groups : [];
     const region = payload.region || {};
     const updatedAt = payload.updatedAt || payload.updated_at || null;
-    return { legend, groups, region, updatedAt };
+    const availableMonths = Array.isArray(payload.availableMonths) ? payload.availableMonths : (Array.isArray(payload.available_months) ? payload.available_months : []);
+    return { legend, groups, region, updatedAt, availableMonths };
   });
 }
 
@@ -277,7 +299,9 @@ module.exports = {
   fetchBulletinDetail,
   fetchFeaturedBulletins,
   fetchProvinces,
+  fetchProvinceCities,
   fetchProvinceDistricts,
+  fetchCityDistricts,
   fetchDiseaseLegend,
   fetchMonthlyDistribution,
   fetchEpidemicPie,

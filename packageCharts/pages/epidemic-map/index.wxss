@@ -26,7 +26,15 @@
 
 .selector-row picker {
   flex: 1;
-  min-width: 200rpx;
+  min-width: 180rpx;
+}
+
+.selector-row--region {
+  gap: 12rpx;
+}
+
+.selector-row--region + .selector-row--region {
+  margin-top: -8rpx;
 }
 
 .selector-bar__item {

@@ -13,6 +13,7 @@ const LEGEND_PRESET = [
 
 const DEFAULT_YEAR = 2025;
 const YEAR_RANGE = 5;
+const CURRENT_MONTH = new Date().getMonth() + 1;
 
 function buildYearOptions(centerYear = DEFAULT_YEAR, span = YEAR_RANGE) {
   const list = [];
@@ -32,6 +33,31 @@ const PREDEFINED_YEAR_OPTIONS = buildYearOptions();
 const DEFAULT_YEAR_OPTION_INDEX_RAW = PREDEFINED_YEAR_OPTIONS.findIndex((item) => item.year === DEFAULT_YEAR);
 const DEFAULT_YEAR_OPTION_INDEX = DEFAULT_YEAR_OPTION_INDEX_RAW !== -1 ? DEFAULT_YEAR_OPTION_INDEX_RAW : 0;
 const DEFAULT_YEAR_OPTION = PREDEFINED_YEAR_OPTIONS[DEFAULT_YEAR_OPTION_INDEX] || null;
+
+function buildMonthOptions(availableMonths = []) {
+  return MONTH_LABELS.map((label, idx) => {
+    const monthValue = idx + 1;
+    return {
+      key: `month-${monthValue}`,
+      label,
+      monthValue,
+      rawMonthValue: monthValue,
+      hasData: availableMonths.includes(monthValue)
+    };
+  });
+}
+
+const INITIAL_MONTH_STATE = (() => {
+  const options = buildMonthOptions();
+  const defaultIndex = Math.min(Math.max(CURRENT_MONTH - 1, 0), options.length - 1);
+  return {
+    options,
+    defaultIndex,
+    selected: options[defaultIndex] || null,
+    defaultValue: options[defaultIndex]?.monthValue || 1,
+  };
+})();
+const DEFAULT_MONTH_VALUE = INITIAL_MONTH_STATE.defaultValue;
 
 function resolveMonthLabel(monthValue, explicitLabel) {
   if (explicitLabel) return explicitLabel;
@@ -125,19 +151,23 @@ function normalizeSlices(rawSlices = [], colorMap = {}) {
 Page({
   data: {
     provinces: [],
+    cities: [],
     counties: [],
     selectedProvinceIndex: 0,
+    selectedCityIndex: 0,
     selectedCountyIndex: 0,
     selectedProvince: null,
+    selectedCity: null,
     selectedCounty: null,
     regionLoading: false,
+    cityLoading: false,
     countyLoading: false,
     yearOptions: PREDEFINED_YEAR_OPTIONS,
     selectedYearIndex: DEFAULT_YEAR_OPTION_INDEX,
     selectedYear: DEFAULT_YEAR_OPTION,
-    monthOptions: [],
-    selectedMonthIndex: -1,
-    selectedMonth: null,
+    monthOptions: INITIAL_MONTH_STATE.options,
+    selectedMonthIndex: INITIAL_MONTH_STATE.defaultIndex,
+    selectedMonth: INITIAL_MONTH_STATE.selected,
     displayCharts: [],
     legendItems: [],
     loadingCharts: false,
@@ -151,6 +181,7 @@ Page({
     this.chartInstances = {};
     this.chartOptions = {};
     this.allPieGroups = [];
+    this.availableMonths = [];
     this.loadInitialRegions();
     this.loadDiseaseMappings();
   },
@@ -173,14 +204,16 @@ Page({
         selectedProvinceIndex: firstProvince ? 0 : -1,
         selectedProvince: firstProvince
       });
-      return this.loadCounties(firstProvince && firstProvince.code);
+      return this.loadCities(firstProvince && firstProvince.code);
     }).catch((err) => {
       wx.showToast({ title: '省份加载失败', icon: 'none' });
       console.error('load provinces failed', err);
       this.setData({
         provinces: [],
+        cities: [],
         counties: [],
         selectedProvince: null,
+        selectedCity: null,
         selectedCounty: null
       });
       this.updateChartGroups({ preserveMonthSelection: false });
@@ -189,18 +222,73 @@ Page({
     });
   },
 
-  loadCounties(provinceCode) {
+  loadCities(provinceCode) {
     if (!provinceCode) {
-      this.setData({ counties: [], selectedCountyIndex: -1, selectedCounty: null });
+      this.setData({
+        cities: [],
+        counties: [],
+        selectedCity: null,
+        selectedCityIndex: -1,
+        selectedCounty: null,
+        selectedCountyIndex: -1,
+        cityLoading: false,
+        countyLoading: false
+      });
       this.updateChartGroups({ preserveMonthSelection: false });
       return Promise.resolve([]);
     }
 
-    this.pendingCountyToken = provinceCode;
+    this.pendingCityToken = provinceCode;
+    this.setData({ cityLoading: true });
+
+    return epiSvc.fetchProvinceCities(provinceCode).then((cities = []) => {
+      if (this.pendingCityToken !== provinceCode) {
+        return cities;
+      }
+
+      const firstCity = cities[0] || null;
+      this.setData({
+        cities,
+        selectedCityIndex: firstCity ? 0 : -1,
+        selectedCity: firstCity
+      });
+
+      return this.loadCounties(firstCity && firstCity.code);
+    }).catch((err) => {
+      console.error('load cities failed', err);
+      if (this.pendingCityToken === provinceCode) {
+        this.setData({
+          cities: [],
+          counties: [],
+          selectedCity: null,
+          selectedCityIndex: -1,
+          selectedCounty: null,
+          selectedCountyIndex: -1,
+          countyLoading: false
+        });
+        this.updateChartGroups({ preserveMonthSelection: false });
+      }
+      wx.showToast({ title: '城市加载失败', icon: 'none' });
+      return [];
+    }).finally(() => {
+      if (this.pendingCityToken === provinceCode) {
+        this.setData({ cityLoading: false });
+      }
+    });
+  },
+
+  loadCounties(cityCode) {
+    if (!cityCode) {
+      this.setData({ counties: [], selectedCountyIndex: -1, selectedCounty: null, countyLoading: false });
+      this.updateChartGroups({ preserveMonthSelection: false });
+      return Promise.resolve([]);
+    }
+
+    this.pendingCountyToken = cityCode;
     this.setData({ countyLoading: true });
 
-    return epiSvc.fetchProvinceDistricts(provinceCode).then((districts = []) => {
-      if (this.pendingCountyToken !== provinceCode) {
+    return epiSvc.fetchCityDistricts(cityCode).then((districts = []) => {
+      if (this.pendingCountyToken !== cityCode) {
         return districts;
       }
       const firstCounty = districts[0] || null;
@@ -213,14 +301,14 @@ Page({
       return districts;
     }).catch((err) => {
       console.error('load counties failed', err);
-      if (this.pendingCountyToken === provinceCode) {
+      if (this.pendingCountyToken === cityCode) {
         this.setData({ counties: [], selectedCountyIndex: -1, selectedCounty: null });
         this.updateChartGroups({ preserveMonthSelection: false });
       }
       wx.showToast({ title: '区县加载失败', icon: 'none' });
       return [];
     }).finally(() => {
-      if (this.pendingCountyToken === provinceCode) {
+      if (this.pendingCountyToken === cityCode) {
         this.setData({ countyLoading: false });
       }
     });
@@ -232,9 +320,29 @@ Page({
     if (!province) return;
     this.setData({
       selectedProvinceIndex: index,
-      selectedProvince: province
+      selectedProvince: province,
+      cities: [],
+      selectedCity: null,
+      selectedCityIndex: -1,
+      counties: [],
+      selectedCounty: null,
+      selectedCountyIndex: -1
     });
-    this.loadCounties(province.code);
+    this.loadCities(province.code);
+  },
+
+  onCityChange(event) {
+    const index = Number(event.detail.value || 0);
+    const city = this.data.cities[index];
+    if (!city) return;
+    this.setData({
+      selectedCityIndex: index,
+      selectedCity: city,
+      counties: [],
+      selectedCounty: null,
+      selectedCountyIndex: -1
+    });
+    this.loadCounties(city.code);
   },
 
   onCountyChange(event) {
@@ -254,109 +362,58 @@ Page({
     const fallbackOption = option || this.data.yearOptions[fallbackIndex] || DEFAULT_YEAR_OPTION;
     this.setData({
       selectedYearIndex: fallbackIndex,
-      selectedYear: fallbackOption,
-      selectedMonthIndex: -1,
-      selectedMonth: null,
-      monthOptions: []
+      selectedYear: fallbackOption
     }, () => {
-      this.clearChartDisplay();
-      this.updateChartGroups({ preserveMonthSelection: false });
+      this.updateChartGroups({ preserveMonthSelection: true });
     });
   },
 
   onMonthChange(event) {
     const index = Number(event.detail.value || 0);
     const option = this.data.monthOptions[index] || null;
+    if (!option) {
+      return;
+    }
     this.setData({
-      selectedMonthIndex: option ? index : -1,
+      selectedMonthIndex: index,
       selectedMonth: option
+    }, () => {
+      this.updateChartGroups({ preserveMonthSelection: true });
     });
-    this.applySelectedPeriod();
   },
 
-  refreshMonthOptionsForYear(selectedYearOption, options = {}) {
-    const { preserveSelection = false } = options;
-    const fallbackSelectedYear = selectedYearOption || this.data.selectedYear;
+  resolveSelectedMonthValue() {
+    const { selectedMonth } = this.data;
+    if (selectedMonth && selectedMonth.monthValue !== undefined) {
+      const numeric = Number(selectedMonth.monthValue);
+      if (!Number.isNaN(numeric)) {
+        return numeric;
+      }
+    }
+    if (selectedMonth && selectedMonth.rawMonthValue !== undefined) {
+      const numeric = Number(selectedMonth.rawMonthValue);
+      if (!Number.isNaN(numeric)) {
+        return numeric;
+      }
+    }
+    return null;
+  },
 
-    const normalizeMonthValue = (value) => {
-      const numeric = Number(value);
-      return Number.isFinite(numeric) ? numeric : String(value);
+  buildMonthStateFromAvailability(availableMonths = [], fallbackValue = null) {
+    const normalized = Array.isArray(availableMonths)
+      ? availableMonths.map((value) => Number(value)).filter((value) => Number.isFinite(value))
+      : [];
+    const options = buildMonthOptions(normalized);
+    const preferredValue = fallbackValue ?? this.resolveSelectedMonthValue() ?? DEFAULT_MONTH_VALUE;
+    let nextIndex = options.findIndex((option) => option.monthValue === preferredValue);
+    if (nextIndex === -1 && options.length) {
+      nextIndex = 0;
+    }
+    return {
+      monthOptions: options,
+      selectedMonthIndex: nextIndex,
+      selectedMonth: nextIndex !== -1 ? options[nextIndex] : null,
     };
-
-    const buildMonthLabel = (value, fallbackLabel) => {
-      const numeric = Number(value);
-      if (Number.isFinite(numeric)) {
-        return `${numeric}月`;
-      }
-      return fallbackLabel || resolveMonthLabel(value, fallbackLabel);
-    };
-
-    const compareMonth = (a, b) => normalizeMonthValue(a) === normalizeMonthValue(b);
-
-    const yearNumber = fallbackSelectedYear && Number.isFinite(fallbackSelectedYear.year)
-      ? fallbackSelectedYear.year
-      : (fallbackSelectedYear ? Number(fallbackSelectedYear.year) : null);
-    const optionGroupKey = fallbackSelectedYear ? fallbackSelectedYear.groupKey : null;
-
-    let targetGroup = Number.isFinite(yearNumber)
-      ? this.findGroupByYear(yearNumber)
-      : null;
-
-    if (!targetGroup && optionGroupKey) {
-      targetGroup = (this.allPieGroups || []).find((group) => group.key === optionGroupKey) || null;
-    }
-
-    if (!targetGroup && Array.isArray(this.allPieGroups) && this.allPieGroups.length) {
-      targetGroup = this.allPieGroups.find((group) => group.isCurrent) || this.allPieGroups[0];
-    }
-
-    let monthOptions = [];
-    let nextSelectedMonth = null;
-    let nextSelectedMonthIndex = -1;
-
-    const previousSelectedMonth = preserveSelection ? this.data.selectedMonth : null;
-
-    if (targetGroup && Array.isArray(targetGroup.months)) {
-      const displayYear = Number.isFinite(targetGroup.yearNumber) ? targetGroup.yearNumber : (Number.isFinite(yearNumber) ? yearNumber : null);
-
-      monthOptions = targetGroup.months.map((month, monthIdx) => {
-        const rawValue = month.monthValue || month.month || (monthIdx + 1);
-        const normalizedValue = normalizeMonthValue(rawValue);
-        return {
-          key: `${Number.isFinite(displayYear) ? displayYear : 'year'}-${normalizedValue}`,
-          year: Number.isFinite(displayYear) ? displayYear : null,
-          monthValue: normalizedValue,
-          rawMonthValue: rawValue,
-          label: buildMonthLabel(rawValue, month.monthLabel),
-          hasData: month.hasData
-        };
-      });
-
-      if (preserveSelection && previousSelectedMonth) {
-        const matchIndex = monthOptions.findIndex((option) => {
-          const sameYear = Number.isFinite(option.year) && Number.isFinite(previousSelectedMonth.year)
-            ? option.year === previousSelectedMonth.year
-            : true;
-          return sameYear && compareMonth(option.monthValue, previousSelectedMonth.monthValue ?? previousSelectedMonth.rawMonthValue);
-        });
-        if (matchIndex !== -1) {
-          nextSelectedMonthIndex = matchIndex;
-          nextSelectedMonth = monthOptions[matchIndex];
-        }
-      }
-    }
-
-    this.setData({
-      monthOptions,
-      selectedMonth: nextSelectedMonth,
-      selectedMonthIndex: nextSelectedMonthIndex
-    }, () => {
-      if (nextSelectedMonth) {
-        this.applySelectedPeriod();
-      } else {
-        this.clearChartDisplay();
-      }
-    });
   },
 
   applySelectedPeriod() {
@@ -482,17 +539,14 @@ Page({
   },
 
   updateChartGroups({ preserveMonthSelection = true } = {}) {
-    const { selectedProvince, selectedCounty } = this.data;
+    const { selectedProvince, selectedCity, selectedCounty } = this.data;
 
-    if (!selectedProvince || !selectedProvince.code || !selectedCounty || !selectedCounty.code) {
+    if (!selectedProvince || !selectedProvince.code || !selectedCity || !selectedCity.code || !selectedCounty || !selectedCounty.code) {
       this.pendingPieToken = null;
       this.allPieGroups = [];
       this.clearChartDisplay();
       this.setData({
         legendItems: [],
-        monthOptions: [],
-        selectedMonth: null,
-        selectedMonthIndex: -1,
         loadingCharts: false,
         showDiseaseMapping: false
       });
@@ -502,9 +556,13 @@ Page({
     const { selectedYear } = this.ensureYearSelection();
     const activeYear = selectedYear && Number.isFinite(selectedYear.year) ? selectedYear.year : DEFAULT_YEAR;
     const compareYear = activeYear - 1;
-    const previousSelectedMonth = preserveMonthSelection ? this.data.selectedMonth : null;
-    const previousSelectedMonthIndex = preserveMonthSelection ? this.data.selectedMonthIndex : -1;
-    const requestToken = `${selectedProvince.code}|${selectedCounty.code}|${activeYear}|${compareYear}`;
+    const selectedMonthValue = preserveMonthSelection ? this.resolveSelectedMonthValue() : null;
+    const fallbackMonthValue = DEFAULT_MONTH_VALUE;
+    const targetMonthValue = Number.isFinite(selectedMonthValue) && selectedMonthValue >= 1 && selectedMonthValue <= 12
+      ? selectedMonthValue
+      : fallbackMonthValue;
+
+    const requestToken = `${selectedProvince.code}|${selectedCity.code}|${selectedCounty.code}|${activeYear}|${compareYear}|${targetMonthValue}`;
     this.pendingPieToken = requestToken;
 
     this.setData({ loadingCharts: true });
@@ -513,7 +571,8 @@ Page({
       provinceCode: selectedProvince.code,
       districtCode: selectedCounty.code,
       year: activeYear,
-      compareYear
+      compareYear,
+      month: targetMonthValue
     }).then((payload) => {
       if (this.pendingPieToken !== requestToken) {
         return;
@@ -538,9 +597,9 @@ Page({
         }
         const monthsSource = Array.isArray(group.months) ? group.months : [];
         const normalizedMonths = monthsSource.map((month, monthIdx) => {
-          const monthValueRaw = month.monthValue || month.month || month.monthNumber || (monthIdx + 1);
+          const monthValueRaw = month.monthValue || month.month || month.monthNumber || targetMonthValue;
           const numericValue = Number(monthValueRaw);
-          const monthValue = (!Number.isNaN(numericValue) && numericValue > 0) ? numericValue : (monthIdx + 1);
+          const monthValue = (!Number.isNaN(numericValue) && numericValue > 0) ? numericValue : targetMonthValue;
           const chartId = `chart-${groupKey}-${resolvedGroupYear || 'year'}-${monthValue}-${monthIdx}`;
           const slices = normalizeSlices(month.slices, colorMap);
           const hasData = month.hasData !== undefined ? !!month.hasData : slices.length > 0;
@@ -551,7 +610,7 @@ Page({
             slices: hasData ? slices : [],
             ec: hasData ? { lazyLoad: true } : null,
             year: resolvedGroupYear,
-            monthLabel: month.monthLabel
+            monthLabel: month.monthLabel || resolveMonthLabel(monthValue)
           };
         });
 
@@ -600,6 +659,9 @@ Page({
       }
 
       this.allPieGroups = groupsWithEc;
+      this.availableMonths = Array.isArray(payload.availableMonths)
+        ? payload.availableMonths.map((value) => Number(value)).filter((value) => Number.isFinite(value))
+        : [];
 
       const updatedYearOptions = (this.data.yearOptions || PREDEFINED_YEAR_OPTIONS).map((option) => {
         const matchGroup = groupsWithEc.find((group) => Number.isFinite(group.yearNumber) && group.yearNumber === option.year);
@@ -612,22 +674,17 @@ Page({
       const selectedYearIndex = updatedYearOptions.findIndex((option) => option.year === activeYear);
       const updatedSelectedYear = selectedYearIndex !== -1 ? updatedYearOptions[selectedYearIndex] : selectedYear;
 
-      const canPreserveMonthSelection = preserveMonthSelection
-        && previousSelectedMonth
-        && Number.isFinite(previousSelectedMonth.year)
-        && previousSelectedMonth.year === activeYear;
+      const monthState = this.buildMonthStateFromAvailability(this.availableMonths, targetMonthValue);
 
       this.setData({
         legendItems,
         yearOptions: updatedYearOptions,
         selectedYear: updatedSelectedYear,
         selectedYearIndex: selectedYearIndex !== -1 ? selectedYearIndex : this.data.selectedYearIndex,
-        monthOptions: [],
-        selectedMonth: canPreserveMonthSelection ? previousSelectedMonth : null,
-        selectedMonthIndex: canPreserveMonthSelection ? previousSelectedMonthIndex : -1,
+        ...monthState,
         showDiseaseMapping: false
       }, () => {
-        this.refreshMonthOptionsForYear(updatedSelectedYear, { preserveSelection: canPreserveMonthSelection });
+        this.applySelectedPeriod();
       });
     }).catch((err) => {
       console.error('load pie data failed', err);
@@ -637,9 +694,6 @@ Page({
         this.clearChartDisplay();
         this.setData({
           legendItems: [],
-          monthOptions: [],
-          selectedMonth: null,
-          selectedMonthIndex: -1,
           showDiseaseMapping: false
         });
       }

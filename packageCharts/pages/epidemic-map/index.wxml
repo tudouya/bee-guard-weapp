@@ -1,6 +1,6 @@
 <view class="epidemic-map">
   <view class="selector-bar">
-    <view class="selector-row">
+    <view class="selector-row selector-row--region">
       <picker mode="selector"
               range="{{provinces}}"
               range-key="name"
@@ -12,13 +12,23 @@
         </view>
       </picker>
       <picker mode="selector"
+              range="{{cities}}"
+              range-key="name"
+              bindchange="onCityChange"
+              disabled="{{cityLoading || !cities.length}}">
+        <view class="selector-bar__item {{(!cities.length || cityLoading) ? 'selector-bar__item--disabled' : ''}}">
+          <text class="selector-bar__label">市：</text>
+          <text>{{selectedCity ? selectedCity.name : (cities.length ? '请选择' : '无')}}</text>
+        </view>
+      </picker>
+      <picker mode="selector"
               range="{{counties}}"
               range-key="name"
               bindchange="onCountyChange"
-              disabled="{{!counties.length}}">
-        <view class="selector-bar__item {{!counties.length ? 'selector-bar__item--disabled' : ''}}">
+              disabled="{{countyLoading || !counties.length}}">
+        <view class="selector-bar__item {{(!counties.length || countyLoading) ? 'selector-bar__item--disabled' : ''}}">
           <text class="selector-bar__label">县：</text>
-          <text>{{selectedCounty ? selectedCounty.name : (counties.length ? '请选择' : '暂无可选')}}</text>
+          <text>{{selectedCounty ? selectedCounty.name : (counties.length ? '请选择' : '无')}}</text>
         </view>
       </picker>
     </view>
@@ -31,7 +41,7 @@
               disabled="{{!yearOptions.length}}">
         <view class="selector-bar__item {{!yearOptions.length ? 'selector-bar__item--disabled' : ''}}">
           <text class="selector-bar__label">年份：</text>
-          <text>{{selectedYear ? selectedYear.label : (yearOptions.length ? '请选择' : '暂无可选')}}</text>
+          <text>{{selectedYear ? selectedYear.label : (yearOptions.length ? '请选择' : '无')}}</text>
         </view>
       </picker>
       <picker mode="selector"
@@ -42,7 +52,7 @@
               disabled="{{!monthOptions.length}}">
         <view class="selector-bar__item {{!monthOptions.length ? 'selector-bar__item--disabled' : ''}}">
           <text class="selector-bar__label">月份：</text>
-          <text>{{selectedMonth ? selectedMonth.label : (monthOptions.length ? '请选择' : '暂无可选')}}</text>
+          <text>{{selectedMonth ? selectedMonth.label : (monthOptions.length ? '请选择' : '无')}}</text>
         </view>
       </picker>
     </view>
