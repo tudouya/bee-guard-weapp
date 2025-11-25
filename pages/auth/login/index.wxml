@@ -6,7 +6,7 @@
       </view>
     </view>
     <text class="app-name">蜜蜂疫病监控平台</text>
-    <text class="subtitle">使用微信手机号一键登录，查看您的检测记录</text>
+    <text class="subtitle">使用手机号一键登录，查看您的检测记录</text>
   </view>
 
   <view class="actions">
@@ -16,21 +16,180 @@
       bindgetphonenumber="onGetPhoneNumber"
       bindtap="onLoginTap"
       loading="{{loading}}"
-      disabled="{{loading}}"
-    >微信一键登录</button>
+      disabled="{{loading || !agree}}"
+    >手机号快捷登录</button>
 
     <view class="hint">请先勾选下方《用户协议》和《隐私政策》，再点击登录</view>
   </view>
 
   <view class="footer">
     <checkbox-group bindchange="onAgreeChange">
-      <label class="agree-row">
+      <view class="agree-row">
         <checkbox value="agree" checked="{{agree}}"/>
-        <text class="agree-text">登录即表示同意</text>
+        <text class="agree-text">我已阅读并同意</text>
         <text class="link" bindtap="openUserAgreement">《用户协议》</text>
         <text class="agree-text">和</text>
         <text class="link" bindtap="openPrivacy">《隐私政策》</text>
-      </label>
+      </view>
     </checkbox-group>
+  </view>
+</view>
+
+<view class="privacy-mask" wx:if="{{showAgreement}}">
+  <view class="privacy-overlay" bindtap="closeAgreement" catchtouchmove="noop"></view>
+  <view class="privacy-modal" catchtap="noop">
+    <view class="privacy-header">
+      <text class="privacy-header-title">用户协议</text>
+      <text class="privacy-close" bindtap="closeAgreement">×</text>
+    </view>
+    <scroll-view scroll-y class="privacy-scroll">
+      <view class="privacy-section">
+        <view class="privacy-title">一、蜜蜂疫病监控平台小程序用户协议（User Agreement）</view>
+        <view class="privacy-paragraph">重要提示：</view>
+        <view class="privacy-paragraph">在使用本小程序前，请您仔细阅读并充分理解本《用户协议》。当您点击“同意”或实际使用本小程序时，即视为您已阅读、理解并接受本协议全部内容。</view>
+        <view class="privacy-paragraph">本小程序由蜜蜂疫病监测与防治项目组与相关合作单位（包括但不限于合作蜂药企业、蜂业合作社、科研机构等）共同建设和运营。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">1. 服务内容</view>
+        <view class="privacy-bullet">1. 检测券结果查询：用户通过输入检测券编号查询其蜂产品或蜂群样品的检测结果。</view>
+        <view class="privacy-bullet">2. 企业用户服务：企业通过企业端登录查看其客户的检测结果、病害统计数据、历史记录及相关分析报告。</view>
+        <view class="privacy-bullet">3. 蜂群健康监测展示：根据合作单位或检测机构的数据，展示蜜蜂病害检出情况、监测预警、相关提示等。</view>
+        <view class="privacy-bullet">4. 系统管理功能：系统管理员可进行账号管理、检测结果上传、数据审核、企业管理等操作。</view>
+        <view class="privacy-bullet">5. 其他经平台批准的服务：包括技术推广、示范项目支持、蜂业科普信息发布等。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">2. 用户账户</view>
+        <view class="privacy-bullet">1. 普通用户可通过检测券直接查询检测结果，无需注册。</view>
+        <view class="privacy-bullet">2. 企业用户需经平台审核后开通企业账号。</view>
+        <view class="privacy-bullet">3. 系统管理员账号由项目组统一创建并分配。</view>
+        <view class="privacy-bullet">4. 用户应妥善保管账号和密码，因用户自身原因造成的账户被盗或信息泄露，平台不承担责任。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">3. 使用规则</view>
+        <view class="privacy-bullet">1. 用户不得利用本平台进行任何违法活动，包括伪造检测券、上传虚假数据、恶意攻击系统等行为。</view>
+        <view class="privacy-bullet">2. 企业须保证其上传数据的真实性、准确性，并对其数据内容承担全部责任。</view>
+        <view class="privacy-bullet">3. 平台可因系统维护、政策要求、数据审核等情况对部分功能进行暂停或调整。</view>
+        <view class="privacy-bullet">4. 用户应确保提供的信息真实、合法，无侵犯他人合法权益的情况。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">4. 知识产权</view>
+        <view class="privacy-bullet">1. 小程序的全部内容（包括检测方法、数据模型、界面设计、图示、文本、代码等）均为平台或其合作单位所有。</view>
+        <view class="privacy-bullet">2. 未经授权，用户不得复制、修改、下载、展示或用于商业用途。</view>
+        <view class="privacy-bullet">3. 检测结果属于对应检测主体所有，未经允许企业不得擅自对外传播用户隐私信息。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">5. 数据使用与免责声明</view>
+        <view class="privacy-bullet">1. 平台展示的检测结果来源于相关检测机构，平台对数据的真实性和准确性进行审核，但不对检测机构产生的数据错误承担法律责任。</view>
+        <view class="privacy-bullet">2. 平台提供的病害监测、预警和建议仅供参考，实际生产管理需结合当地养蜂条件与专业人员指导。</view>
+        <view class="privacy-bullet">3. 因网络、系统故障或不可抗力造成数据延迟或丢失，平台不承担责任。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">6. 终止服务</view>
+        <view class="privacy-paragraph">如用户违反本协议，平台有权暂停或终止其使用权限。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">7. 协议更新</view>
+        <view class="privacy-paragraph">平台有权根据法律法规或运营需求对本协议内容进行更新，更新后的协议将以小程序公告等方式提示。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">8. 联系方式</view>
+        <view class="privacy-paragraph">如您对本协议有任何问题，可通过以下方式联系：蜜蜂疫病监测与防治项目组 · 技术支持部</view>
+        <view class="privacy-paragraph">邮箱：beeprotect@yeah.net</view>
+      </view>
+    </scroll-view>
+    <button class="u-btn u-btn-primary u-btn--md u-btn-block privacy-confirm" bindtap="confirmAgreement">已阅读并同意</button>
+  </view>
+</view>
+
+<view class="privacy-mask" wx:if="{{showPrivacy}}">
+  <view class="privacy-overlay" bindtap="closePrivacy" catchtouchmove="noop"></view>
+  <view class="privacy-modal" catchtap="noop">
+    <view class="privacy-header">
+      <text class="privacy-header-title">隐私政策</text>
+      <text class="privacy-close" bindtap="closePrivacy">×</text>
+    </view>
+    <scroll-view scroll-y class="privacy-scroll">
+      <view class="privacy-section">
+        <view class="privacy-title">小程序隐私政策（Privacy Policy）</view>
+        <view class="privacy-paragraph">本隐私政策旨在说明我们如何收集、使用、存储、共享和保护您的信息。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">1. 我们收集的信息</view>
+        <view class="privacy-paragraph">我们仅收集实现功能所必要的最少信息，包括：</view>
+        <view class="privacy-item">（1）您主动提供的信息</view>
+        <view class="privacy-bullet">· 检测券编号（用于查询检测结果）</view>
+        <view class="privacy-bullet">· 用户登录信息（昵称、手机号码）</view>
+        <view class="privacy-bullet">· 企业上传的数据（检测记录、客户信息、样品编号等）</view>
+        <view class="privacy-item">（2）系统自动收集的信息</view>
+        <view class="privacy-bullet">· 小程序使用日志（点击、浏览、操作记录）</view>
+        <view class="privacy-bullet">· 设备信息（如手机型号、操作系统版本，用于提升兼容性）</view>
+        <view class="privacy-bullet">· IP 地址（用于安全审计）</view>
+        <view class="privacy-item">（3）不收集的敏感信息</view>
+        <view class="privacy-paragraph">我们不会收集与平台业务无关的敏感信息，包括：</view>
+        <view class="privacy-bullet">· 个人身份证号、银行卡信息</view>
+        <view class="privacy-bullet">· 精确地理位置</view>
+        <view class="privacy-bullet">· 生物识别数据</view>
+        <view class="privacy-bullet">· 与用户无关的隐私数据</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">2. 信息使用方式</view>
+        <view class="privacy-bullet">1. 为您提供检测结果查询服务；</view>
+        <view class="privacy-bullet">2. 为企业提供统计报表和业务管理数据；</view>
+        <view class="privacy-bullet">3. 优化产品性能、提升用户体验；</view>
+        <view class="privacy-bullet">4. 针对病害风险进行提醒与预警；</view>
+        <view class="privacy-bullet">5. 履行法律法规要求（如农业农村部相关项目审计）。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">3. 信息共享与公开</view>
+        <view class="privacy-paragraph">我们不会向任何第三方出售用户信息。在以下情况中，我们可能共享您的信息：</view>
+        <view class="privacy-bullet">1. 经您明确授权；</view>
+        <view class="privacy-bullet">2. 与承担检测任务的机构共享检测相关数据；</view>
+        <view class="privacy-bullet">3. 与项目合作单位共享统计分析结果（不包含可识别个人的隐私信息）；</view>
+        <view class="privacy-bullet">4. 根据法律法规向监管机构提供数据。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">4. 数据存储与安全</view>
+        <view class="privacy-bullet">1. 数据存储于平台合作的安全服务器中，具备访问权限控制和数据加密措施。</view>
+        <view class="privacy-bullet">2. 检测数据和企业数据保存期限不少于国家农业项目要求（通常为 5 年）。</view>
+        <view class="privacy-bullet">3. 若发生数据泄露等重大事件，我们将及时通知用户与监管机构。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">5. 用户的权利</view>
+        <view class="privacy-bullet">1. 查询、获取与自身相关的检测数据；</view>
+        <view class="privacy-bullet">2. 要求更正错误数据；</view>
+        <view class="privacy-bullet">3. 要求删除不再需要的数据（法律法规另有规定除外）；</view>
+        <view class="privacy-bullet">4. 注销企业账号（需企业确认）。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">6. 未成年人隐私保护</view>
+        <view class="privacy-paragraph">本小程序主要面向企业与成人用户，不针对未成年人。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">7. 隐私政策更新</view>
+        <view class="privacy-paragraph">如本政策有更新，我们将在小程序内公告，请您及时查看。</view>
+      </view>
+
+      <view class="privacy-section">
+        <view class="privacy-subtitle">8. 联系我们</view>
+        <view class="privacy-paragraph">如您对本政策有任何疑问，可联系我们：蜜蜂疫病监测与防治项目组 · 技术支持部</view>
+        <view class="privacy-paragraph">邮箱：beeprotect@yeah.net</view>
+      </view>
+    </scroll-view>
+    <button class="u-btn u-btn-primary u-btn--md u-btn-block privacy-confirm" bindtap="confirmPrivacy">已了解并同意</button>
   </view>
 </view>

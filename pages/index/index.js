@@ -40,14 +40,14 @@ Page({
             {
                 id: 'research',
                 title: '中国农业科学院蜜蜂研究所',
-                subtitle: '科研赋能 · 权威背书',
+                subtitle: '科研赋能，技术支撑',
                 badge: '科研协同',
                 gradient: 'gradient-research'
             },
             {
                 id: 'project',
                 title: '农业农村部动物疫病监测与防治项目',
-                subtitle: '国家级防控体系保障',
+                subtitle: '项目支持，政策指导',
                 badge: '国家项目',
                 gradient: 'gradient-project'
             }

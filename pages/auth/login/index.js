@@ -23,7 +23,9 @@ Page({
   data: {
     loading: false,
     agree: false,
-    logoSrc: resolveAsset('/weapp/profile-avatar-default.png')
+    logoSrc: resolveAsset('/weapp/profile-avatar-default.png'),
+    showPrivacy: false,
+    showAgreement: false
   },
   onLoginTap() {
     if (this.data.loading) return;
@@ -111,9 +113,22 @@ Page({
     }
   },
   openUserAgreement() {
-    wx.showToast({ title: '用户协议（占位）', icon: 'none' });
+    this.setData({ showAgreement: true });
   },
   openPrivacy() {
-    wx.showToast({ title: '隐私政策（占位）', icon: 'none' });
-  }
+    this.setData({ showPrivacy: true });
+  },
+  closePrivacy() {
+    this.setData({ showPrivacy: false });
+  },
+  confirmPrivacy() {
+    this.setData({ showPrivacy: false });
+  },
+  closeAgreement() {
+    this.setData({ showAgreement: false });
+  },
+  confirmAgreement() {
+    this.setData({ showAgreement: false });
+  },
+  noop() {}
 });
