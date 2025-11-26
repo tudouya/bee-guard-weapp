@@ -40,7 +40,8 @@ Page({
             {
                 id: 'research',
                 title: '中国农业科学院蜜蜂研究所',
-                subtitle: '科研赋能，技术支撑',
+                subtitleExtra: '资源昆虫保护创新团队',
+                subtitle: '科研赋能 技术支撑',
                 badge: '科研协同',
                 gradient: 'gradient-research'
             },

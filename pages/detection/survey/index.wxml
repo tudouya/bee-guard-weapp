@@ -7,14 +7,6 @@
       </view>
 
       <view class="form">
-        <!-- 预填按钮 -->
-        <view class="preset-bar">
-          <button class="u-btn u-btn--sm" data-key="noAbnormal" bindtap="applyPreset">预填：无异常</button>
-          <button class="u-btn u-btn--sm" data-key="prodHoney" bindtap="applyPreset">预填：生产期-蜂蜜</button>
-          <button class="u-btn u-btn--sm" data-key="prodPollen" bindtap="applyPreset">预填：生产期-花粉</button>
-          <button class="u-btn u-btn--sm" data-key="abnormalDemo" bindtap="applyPreset">预填：异常案例</button>
-          <button class="u-btn u-btn--sm" data-key="reset" bindtap="applyPreset">重置</button>
-        </view>
         <view class="section-title">基础信息</view>
 
         <!-- 1 填表时间（可编辑，默认当前） -->
@@ -266,8 +258,10 @@
           </checkbox-group>
         </view>
 
-
-        <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submitSurvey">提交问卷</button>
+        <view class="form-actions">
+          <button class="u-btn u-btn--md u-btn-block" bindtap="resetForm">重置</button>
+          <button class="u-btn u-btn-primary u-btn--md u-btn--pill u-btn-block" bindtap="submitSurvey">提交问卷</button>
+        </view>
       </view>
     </view>
   </view>

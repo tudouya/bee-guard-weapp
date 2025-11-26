@@ -100,9 +100,9 @@ Page({
     });
   },
   updateSubmitState() {
-    const { method, tradeNo, amount } = this.data.form;
+    const { method, amount } = this.data.form;
     const hasAnyImage = (this.data.imageIds && this.data.imageIds.length > 0) || (this.data.images && this.data.images.length > 0);
-    const ok = !!method && tradeNo && tradeNo.length >= 6 && Number(amount) > 0 && hasAnyImage;
+    const ok = !!method && Number(amount) > 0 && hasAnyImage;
     this.setData({ canSubmit: ok });
   },
   submitProof() {
@@ -120,10 +120,6 @@ Page({
     const { method, tradeNo, amount } = this.data.form;
     if (!method) {
       wx.showModal({ title: '提示', content: '请选择支付方式', showCancel: false });
-      return;
-    }
-    if (!tradeNo || tradeNo.length < 6) {
-      wx.showModal({ title: '提示', content: '请输入 ≥6 位交易流水号', showCancel: false });
       return;
     }
     if (!amount || Number(amount) <= 0) {
@@ -151,9 +147,10 @@ Page({
     this.setData({ submitting: true });
     wx.showLoading({ title: '提交中...' });
     try {
+      const tradeNoVal = (tradeNo || '').trim();
       const payload = {
         method: method,
-        trade_no: tradeNo,
+        trade_no: tradeNoVal || undefined,
         amount: Number(amount),
         images: this.data.imageIds,
         remark: this.data.form.remark || ''

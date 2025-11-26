@@ -76,12 +76,12 @@ Page({
   },
   contact() {
     wx.showActionSheet({
-      itemList: ['拨打客服 400-xxx-xxxx', '复制客服微信 ID'],
+      itemList: ['拨打客服（工作日上午9:00-下午5:00）：13021226630', '客服微信号：13021226630'],
       success: (res) => {
         if (res.tapIndex === 0) {
-          wx.makePhoneCall({ phoneNumber: '4000000000' });
+          wx.makePhoneCall({ phoneNumber: '13021226630' });
         } else if (res.tapIndex === 1) {
-          wx.setClipboardData({ data: 'bee-guard-kefu' });
+          wx.setClipboardData({ data: '13021226630' });
         }
       }
     });

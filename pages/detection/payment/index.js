@@ -3,6 +3,7 @@ const api = require('../../../utils/api.js');
 const { resolveAsset } = require('../../../utils/assets.js');
 
 const DEFAULT_QR_IMAGE = resolveAsset('/weapp/pay_qr.jpg');
+const LOCAL_QR_IMAGE = '/images/backup/pay_qr.jpg';
 
 Page({
   data: {
@@ -26,7 +27,7 @@ Page({
     this.setData({ pkg, codeText, orderId, qrImageUrl });
   },
   saveQrcode() {
-    const url = this.data.qrImageUrl;
+    const url = this.data.qrImageUrl || LOCAL_QR_IMAGE;
     if (!url) {
       wx.showToast({ title: '暂无二维码', icon: 'none' });
       return;
@@ -34,12 +35,69 @@ Page({
     wx.getImageInfo({
       src: url,
       success: (res) => {
-        wx.saveImageToPhotosAlbum({
-          filePath: res.path,
-          success: () => wx.showToast({ title: '已保存到相册', icon: 'success' }),
-          fail: () => wx.showToast({ title: '保存失败，请长按图片保存', icon: 'none' })
-        });
+        this.saveToAlbum(res.path);
       },
+      fail: () => this.retryDownloadAndSave(url)
+    });
+  },
+  saveToAlbum(filePath) {
+    wx.saveImageToPhotosAlbum({
+      filePath,
+      success: () => wx.showToast({ title: '已保存到相册', icon: 'success' }),
+      fail: (err) => {
+        const msg = (err && err.errMsg) || '';
+        if (msg.includes('auth deny') || msg.includes('auth denied') || msg.includes('authorize')) {
+          wx.showModal({
+            title: '提示',
+            content: '需要授权保存到相册，请在设置中开启权限后重试',
+            confirmText: '去设置',
+            success: (res) => {
+              if (res.confirm) {
+                wx.openSetting({
+                  success: (setting) => {
+                    if (setting.authSetting && setting.authSetting['scope.writePhotosAlbum']) {
+                      wx.showToast({ title: '已授权，正在保存...', icon: 'none' });
+                      this.saveToAlbum(filePath);
+                    }
+                  }
+                });
+              }
+            }
+          });
+          return;
+        }
+        wx.showToast({ title: '保存失败，请长按图片保存', icon: 'none' });
+      }
+    });
+  },
+  retryDownloadAndSave(src) {
+    const allowFallback = !this.data.qrImageUrl || this.data.qrImageUrl === DEFAULT_QR_IMAGE || this.data.qrImageUrl === LOCAL_QR_IMAGE;
+    const fallback = allowFallback ? LOCAL_QR_IMAGE : '';
+    // 远程下载失败时尝试 downloadFile，若仍失败则退回到内置本地图
+    if (/^https?:\/\//i.test(src)) {
+      wx.downloadFile({
+        url: src,
+        success: (res) => {
+          if (res && res.tempFilePath) {
+            this.saveToAlbum(res.tempFilePath);
+            return;
+          }
+          this.tryLocalFallback(fallback);
+        },
+        fail: () => this.tryLocalFallback(fallback)
+      });
+      return;
+    }
+    this.tryLocalFallback(fallback);
+  },
+  tryLocalFallback(localPath) {
+    if (!localPath) {
+      wx.showToast({ title: '下载失败，请长按图片保存', icon: 'none' });
+      return;
+    }
+    wx.getImageInfo({
+      src: localPath,
+      success: (res) => this.saveToAlbum(res.path),
       fail: () => wx.showToast({ title: '下载失败，请长按图片保存', icon: 'none' })
     });
   },

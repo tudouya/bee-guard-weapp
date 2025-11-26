@@ -22,7 +22,7 @@
 
           <!-- 交易流水号 -->
           <view class="form-item">
-            <view class="form-label">交易流水号</view>
+            <view class="form-label">交易流水号（可选）</view>
             <view class="input-wrap">
               <input placeholder="请输入交易流水号" bindinput="onTradeNoInput" value="{{form.tradeNo}}"/>
             </view>

@@ -8,9 +8,6 @@
 }
 .content { padding: 8rpx 16rpx 0; }
 
-.preset-bar { display: flex; flex-wrap: wrap; gap: 12rpx; margin: 8rpx 0 16rpx; }
-.preset-bar .u-btn { padding: 0 20rpx; }
-
 .survey-card {
   background: #fff;
   border-radius: 16rpx;
@@ -51,6 +48,8 @@
   transform: scale(0.9); 
   margin-right: 10rpx; 
 }
+
+.form-actions { display: flex; flex-direction: column; gap: 12rpx; margin-top: 8rpx; }
 
 /* 清理未使用：.divider 与 .textarea */
 

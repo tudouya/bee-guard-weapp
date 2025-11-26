@@ -15,70 +15,74 @@ function nowTimeStr() {
   return `${hh}:${mm}`;
 }
 
+function createEmptyForm() {
+  return {
+    // 1 填表时间（日期 + 时间，默认当前，可编辑）
+    fillDate: nowDateStr(),
+    fillTime: nowTimeStr(),
+    // 2 场主姓名
+    ownerName: '',
+    // 3 地址（自动选择）
+    locationName: '',
+    locationPoint: null,
+    // 4 手机号
+    phone: '',
+    // 5 蜂群数量
+    beeCount: '',
+    // 6 饲养方式
+    raiseMethod: '',
+    // 7 蜂种
+    beeSpecies: '',
+    // 8 收入来源排序（1-4）
+    incomeRanks: {
+      honey: '',
+      royalJelly: '',
+      pollination: '',
+      sellBee: ''
+    },
+    // 9 是否生产期
+    isProductionNow: '', // '是' | '否'
+    // 10 当前主要产品
+    productType: '', // 蜂蜜/花粉/蜂王浆/其他
+    // 11 蜂蜜种类
+    honeyType: '',
+    // 12 花粉种类
+    pollenType: '',
+    // 13 下一个生产期开始时间（月或无）
+    nextMonth: '',
+    // 14 是否需要转地
+    needMove: '', // '是' | '否'
+    // 15 转地目的地（省市县）
+    moveDestination: {
+      province: '', city: '', district: ''
+    },
+    // 16 下个生产期主要蜜粉源
+    nextFloral: '',
+    // 17 是否有蜂群异常
+    hasAbnormal: '', // '是' | '否'
+    // 18 发病虫龄（多选）
+    sickAges: [],
+    // 19 发病蜂群数
+    sickCount: '',
+    // 20 主要症状（多选） + 其他说明
+    symptoms: [],
+    symptomOther: '',
+    // 21 近一月用过的药物（多项填空）
+    meds: [''],
+    // 22 发生规律（单选）
+    occurRule: '',
+    // 23 可能原因（单选）
+    possibleReason: '',
+    // 24 往年集中发病时间段（多选月份）
+    pastMonths: []
+  };
+}
+
 Page({
   data: {
     detectionId: '',
     detectionCodeId: null,
-    form: {
-      // 1 填表时间（日期 + 时间，默认当前，可编辑）
-      fillDate: '',
-      fillTime: '',
-      // 2 场主姓名
-      ownerName: '',
-      // 3 地址（自动选择）
-      locationName: '',
-      locationPoint: null,
-      // 4 手机号
-      phone: '',
-      // 5 蜂群数量
-      beeCount: '',
-      // 6 饲养方式
-      raiseMethod: '',
-      // 7 蜂种
-      beeSpecies: '',
-      // 8 收入来源排序（1-4）
-      incomeRanks: {
-        honey: '',
-        royalJelly: '',
-        pollination: '',
-        sellBee: ''
-      },
-      // 9 是否生产期
-      isProductionNow: '', // '是' | '否'
-      // 10 当前主要产品
-      productType: '', // 蜂蜜/花粉/蜂王浆/其他
-      // 11 蜂蜜种类
-      honeyType: '',
-      // 12 花粉种类
-      pollenType: '',
-      // 13 下一个生产期开始时间（月或无）
-      nextMonth: '',
-      // 14 是否需要转地
-      needMove: '', // '是' | '否'
-      // 15 转地目的地（省市县）
-      moveDestination: {
-        province: '', city: '', district: ''
-      },
-      // 16 下个生产期主要蜜粉源
-      nextFloral: '',
-      // 17 是否有蜂群异常
-      hasAbnormal: '', // '是' | '否'
-      // 18 发病虫龄（多选）
-      sickAges: [],
-      // 19 发病蜂群数
-      sickCount: '',
-      // 20 主要症状（多选） + 其他说明
-      symptoms: [],
-      symptomOther: '',
-      // 21 近一月用过的药物（多项填空）
-      meds: [''],
-      // 22 发生规律（单选）
-      occurRule: '',
-      // 23 可能原因（单选）
-      possibleReason: '',
-      // 24 往年集中发病时间段（多选月份）
-      pastMonths: []
-    },
+    form: createEmptyForm(),
     // 供原生控件派发后辅助显隐（如“其他症状”）
     hasSymptomOther: false,
     // 复选预选映射，便于在 WXML 中标记 checked
@@ -113,21 +117,16 @@ Page({
   },
 
   onLoad(options) {
+    const updates = {};
     if (options && options.detectId) {
-      this.setData({ detectionId: options.detectId });
+      updates.detectionId = options.detectId;
     }
     if (options && (options.codeId !== undefined)) {
       const cid = String(options.codeId).trim();
-      this.setData({ detectionCodeId: cid ? Number(cid) : null });
+      updates.detectionCodeId = cid ? Number(cid) : null;
     }
-    // 初始化日期与时间（默认当前，可编辑）
-    this.setData({
-      'form.fillDate': nowDateStr(),
-      'form.fillTime': nowTimeStr()
-    });
-    // 初始化地区多级数据
-    const [p, c, d] = region.getRegionTriple(0, 0);
-    this.setData({ regionMultiArray: [p, c, d] });
+    if (Object.keys(updates).length) this.setData(updates);
+    this.resetForm();
   },
 
   // 基础输入
@@ -180,154 +179,20 @@ Page({
     });
   },
 
-  // 预填：根据不同场景快速生成逻辑分支
-  applyPreset(e) {
-    const preset = (e && e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.key) || '';
-    const set = (obj) => this.setData(obj);
-    const mkMap = (arr=[]) => {
-      const m = {}; (arr||[]).forEach(v => m[v] = true); return m;
-    };
-    if (preset === 'reset') {
-      set({
-        'form.ownerName': '',
-        'form.locationName': '',
-        'form.phone': '',
-        'form.beeCount': '',
-        'form.isProductionNow': '',
-        'form.productType': '',
-        'form.honeyType': '',
-        'form.pollenType': '',
-        'form.nextMonth': '',
-        'form.needMove': '',
-        'form.moveDestination': { province: '', city: '', district: '' },
-        'form.nextFloral': '',
-        'form.hasAbnormal': '',
-        'form.sickAges': [],
-        'form.sickCount': '',
-        'form.symptoms': [],
-        'form.symptomOther': '',
-        'form.meds': [''],
-        'form.occurRule': '',
-        'form.possibleReason': '',
-        'form.pastMonths': [],
-        hasSymptomOther: false,
-        'selectedMaps.sickAges': {},
-        'selectedMaps.symptoms': {},
-        'selectedMaps.pastMonths': {}
-      });
-      return;
-    }
-
-    // 基础示例值（覆盖姓名/地址/手机号/蜂群数）
-    let patch = {
-      'form.ownerName': '张三',
-      'form.locationName': '北京市朝阳区某地',
-      'form.phone': '13800138000',
-      'form.beeCount': '50',
-      'form.raiseMethod': '定地',
-      'form.beeSpecies': '中华蜜蜂'
-    };
-
-    if (preset === 'noAbnormal') {
-      patch = Object.assign(patch, {
-        'form.isProductionNow': '否',
-        'form.productType': '',
-        'form.honeyType': '',
-        'form.pollenType': '',
-        'form.nextMonth': '5月',
-        'form.needMove': '否',
-        'form.nextFloral': '油菜花',
-        'form.hasAbnormal': '否',
-        'form.sickAges': [],
-        'form.sickCount': '',
-        'form.symptoms': [],
-        'form.symptomOther': '',
-        'form.meds': [''],
-        'form.occurRule': '',
-        'form.possibleReason': '',
-        'form.pastMonths': ['3','4','5'],
-        hasSymptomOther: false,
-        'selectedMaps.sickAges': mkMap([]),
-        'selectedMaps.symptoms': mkMap([]),
-        'selectedMaps.pastMonths': mkMap(['3','4','5'])
-      });
-    } else if (preset === 'prodHoney') {
-      patch = Object.assign(patch, {
-        'form.isProductionNow': '是',
-        'form.productType': '蜂蜜',
-        'form.honeyType': '槐花蜜',
-        'form.pollenType': '',
-        'form.nextMonth': '5月',
-        'form.needMove': '否',
-        'form.nextFloral': '槐花',
-        'form.hasAbnormal': '否',
-        'form.sickAges': [],
-        'form.sickCount': '',
-        'form.symptoms': [],
-        'form.symptomOther': '',
-        'form.meds': [''],
-        'form.occurRule': '',
-        'form.possibleReason': '',
-        'form.pastMonths': ['4','5','6'],
-        hasSymptomOther: false,
-        'selectedMaps.sickAges': mkMap([]),
-        'selectedMaps.symptoms': mkMap([]),
-        'selectedMaps.pastMonths': mkMap(['4','5','6'])
-      });
-    } else if (preset === 'prodPollen') {
-      patch = Object.assign(patch, {
-        'form.isProductionNow': '是',
-        'form.productType': '花粉',
-        'form.honeyType': '',
-        'form.pollenType': '松花粉',
-        'form.nextMonth': '3月',
-        'form.needMove': '否',
-        'form.nextFloral': '油菜花',
-        'form.hasAbnormal': '否',
-        'form.sickAges': [],
-        'form.sickCount': '',
-        'form.symptoms': [],
-        'form.symptomOther': '',
-        'form.meds': [''],
-        'form.occurRule': '',
-        'form.possibleReason': '',
-        'form.pastMonths': ['3','4'],
-        hasSymptomOther: false,
-        'selectedMaps.sickAges': mkMap([]),
-        'selectedMaps.symptoms': mkMap([]),
-        'selectedMaps.pastMonths': mkMap(['3','4'])
-      });
-    } else if (preset === 'abnormalDemo') {
-      const sickAges = ['成蜂'];
-      const symptoms = ['成蜂爬蜂','其他'];
-      const past = ['7','8'];
-      patch = Object.assign(patch, {
-        'form.isProductionNow': '否',
-        'form.productType': '',
-        'form.honeyType': '',
-        'form.pollenType': '',
-        'form.nextMonth': '8月',
-        'form.needMove': '是',
-        'form.moveDestination': { province: '河南省', city: '郑州市', district: '中原区' },
-        'form.nextFloral': '',
-        'form.hasAbnormal': '是',
-        'form.sickAges': sickAges,
-        'form.sickCount': '3',
-        'form.symptoms': symptoms,
-        'form.symptomOther': '个别爬蜂，伴随颤抖',
-        'form.meds': ['无'],
-        'form.occurRule': '之前有发生但时间不固定',
-        'form.possibleReason': '当地气候或环境造成',
-        'form.pastMonths': past,
-        hasSymptomOther: true,
-        'selectedMaps.sickAges': mkMap(sickAges),
-        'selectedMaps.symptoms': mkMap(symptoms),
-        'selectedMaps.pastMonths': mkMap(past)
-      });
-    } else {
-      return;
-    }
-    set(patch);
+  // 重置表单
+  resetForm() {
+    const [p, c, d] = region.getRegionTriple(0, 0);
+    this.setData({
+      form: createEmptyForm(),
+      hasSymptomOther: false,
+      selectedMaps: {
+        sickAges: {},
+        symptoms: {},
+        pastMonths: {}
+      },
+      regionMultiArray: [p, c, d],
+      regionMultiIndex: [0, 0, 0]
+    });
   },
 
   // 排序题：为每个收入项选择 1-4

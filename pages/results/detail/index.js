@@ -69,6 +69,19 @@ Page({
       rna: ['IAPV','BQCV','SBV','ABPV','CBPV','DWV'],
       dna_bacteria_fungi: ['AFB','EFB','NCER','NAPI','CB']
     };
+    const PATHOGEN_LABELS = {
+      IAPV: '以色列急性麻痹病毒',
+      BQCV: '黑蜂王台病毒',
+      SBV: '囊状幼虫病毒',
+      ABPV: '急性麻痹病毒',
+      CBPV: '慢性麻痹病毒',
+      DWV: '残翅病毒',
+      AFB: '美洲幼虫腐臭病',
+      EFB: '欧洲幼虫腐臭病',
+      NCER: '微孢子虫（中华蜜蜂型）',
+      NAPI: '微孢子虫（西方蜜蜂型）',
+      CB: '白垩病'
+    };
     const PEST_ORDER = ['large_mite','small_mite','wax_moth','small_hive_beetle','shield_mite','scoliidae_wasp','parasitic_bee_fly'];
     const PEST_LABELS = {
       large_mite: '大蜂螨',
@@ -98,15 +111,15 @@ Page({
       const positive = r.positive === true || (r.level === 'weak' || r.level === 'medium' || r.level === 'strong');
       const badge = positive ? (r.level || 'weak') : 'null';
       const badgeText = positive ? (lt || '阳性') : '阴性';
-      const displayName = r.name && r.code && r.name !== r.code
-        ? `${r.name} (${r.code})`
-        : (r.name || r.code || code);
+      const codeVal = r.code || code;
+      const nameVal = r.name || PATHOGEN_LABELS[codeVal] || codeVal;
+      const displayName = codeVal ? `${nameVal} (${codeVal})` : nameVal;
       if (positive) {
         positivePathogenCount += 1;
       }
       return {
         code: r.code || code,
-        name: r.name || code,
+        name: nameVal,
         displayName,
         badge,
         badgeText

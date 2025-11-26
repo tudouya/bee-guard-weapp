@@ -12,9 +12,10 @@
                 <swiper class="home-banner-swiper" indicator-dots="true" autoplay="true" circular="true" interval="5000" duration="800" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#ffffff">
                     <block wx:for="{{bannerSlides}}" wx:key="id">
                         <swiper-item>
-                            <view class="banner-card {{item.gradient}}">
+                                <view class="banner-card {{item.gradient}}">
                                 <view class="banner-texts">
                                     <text class="banner-title">{{item.title}}</text>
+                                    <text class="banner-sub" wx:if="{{item.subtitleExtra}}">{{item.subtitleExtra}}</text>
                                     <text class="banner-sub">{{item.subtitle}}</text>
                                 </view>
                                 <view class="banner-badge">{{item.badge}}</view>
