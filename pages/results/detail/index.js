@@ -62,36 +62,27 @@ Page({
   },
   buildTables(detail) {
     const results = Array.isArray(detail.results) ? detail.results : [];
-    const pests = Array.isArray(detail.pests) ? detail.pests : [];
-    const byCode = {};
-    results.forEach(r => { if (r && r.code) byCode[r.code] = r; });
+    const grouped = { rna: {}, dna_bacteria_fungi: {}, pest: {} };
+    results.forEach(r => {
+      if (!r || !r.code) return;
+      const cat = r.category || '';
+      if (cat === 'rna' || cat === 'dna_bacteria_fungi' || cat === 'pest') {
+        grouped[cat][r.code] = r;
+      }
+    });
     const PATHOGEN_ORDER = {
       rna: ['IAPV','BQCV','SBV','ABPV','CBPV','DWV'],
       dna_bacteria_fungi: ['AFB','EFB','NCER','NAPI','CB']
     };
-    const PATHOGEN_LABELS = {
-      IAPV: '以色列急性麻痹病毒',
-      BQCV: '黑蜂王台病毒',
-      SBV: '囊状幼虫病毒',
-      ABPV: '急性麻痹病毒',
-      CBPV: '慢性麻痹病毒',
-      DWV: '残翅病毒',
-      AFB: '美洲幼虫腐臭病',
-      EFB: '欧洲幼虫腐臭病',
-      NCER: '微孢子虫（中华蜜蜂型）',
-      NAPI: '微孢子虫（西方蜜蜂型）',
-      CB: '白垩病'
-    };
-    const PEST_ORDER = ['large_mite','small_mite','wax_moth','small_hive_beetle','shield_mite','scoliidae_wasp','parasitic_bee_fly'];
-    const PEST_LABELS = {
-      large_mite: '大蜂螨',
-      small_mite: '小蜂螨',
-      wax_moth: '巢虫',
-      small_hive_beetle: '蜂箱小甲虫',
-      shield_mite: '蜂盾螨',
-      scoliidae_wasp: '斯氏蜜蜂茧蜂',
-      parasitic_bee_fly: '异蚤蜂'
-    };
+    const PEST_ORDER = [
+      'pest_large_mite',
+      'pest_small_mite',
+      'pest_wax_moth',
+      'pest_small_hive_beetle',
+      'pest_shield_mite',
+      'pest_scoliidae_wasp',
+      'pest_parasitic_bee_fly'
+    ];
     const GROUP_TITLE = {
       rna: '病毒',
       dna_bacteria_fungi: '细菌、真菌',
@@ -100,7 +91,7 @@ Page({
     let positivePathogenCount = 0;
     let positivePestCount = 0;
     function pathogenCellFor(code) {
-      const r = byCode[code] || { code, name: code, level: null, levelText: '', positive: false };
+      const r = grouped.rna[code] || grouped.dna_bacteria_fungi[code] || { code, name: code, level: null, levelText: '', positive: false };
       let lt = r.levelText;
       if (!lt) {
         if (r.level === 'weak') lt = '弱';
@@ -112,7 +103,7 @@ Page({
       const badge = positive ? (r.level || 'weak') : 'null';
       const badgeText = positive ? (lt || '阳性') : '阴性';
       const codeVal = r.code || code;
-      const nameVal = r.name || PATHOGEN_LABELS[codeVal] || codeVal;
+      const nameVal = r.name || codeVal;
       const displayName = codeVal ? `${nameVal} (${codeVal})` : nameVal;
       if (positive) {
         positivePathogenCount += 1;
@@ -126,46 +117,46 @@ Page({
       };
     }
     function pestCellFor(code, entry) {
-      const present = entry && entry.present === true;
+      const present = (entry && entry.positive === true) || (entry && entry.level === 'present');
       const level = present ? 'present' : 'absent';
       const lt = present ? '有' : '无';
-      const cname = (entry && entry.name) || PEST_LABELS[code] || code;
+      const cname = (entry && entry.name) || code;
+      const displayName = cname;
       if (present) {
         positivePestCount += 1;
       }
       return {
-        code: entry && entry.code ? entry.code : code,
+        code: (entry && entry.code) || code,
         name: cname,
-        displayName: cname,
+        displayName,
         badge: level,
         badgeText: lt
       };
     }
+    const appendExtraCodes = (order, map) => {
+      const extras = Object.keys(map).filter(c => order.indexOf(c) === -1);
+      return order.concat(extras);
+    };
+    const rnaCodes = appendExtraCodes(PATHOGEN_ORDER.rna, grouped.rna);
+    const dnaCodes = appendExtraCodes(PATHOGEN_ORDER.dna_bacteria_fungi, grouped.dna_bacteria_fungi);
+    const pestCodes = appendExtraCodes(PEST_ORDER, grouped.pest);
     const tables = [
       {
         key: 'rna',
         title: GROUP_TITLE.rna,
-        items: PATHOGEN_ORDER.rna.map(code => pathogenCellFor(code))
+        items: rnaCodes.map(code => pathogenCellFor(code)).filter(Boolean)
       },
       {
         key: 'dna_bacteria_fungi',
         title: GROUP_TITLE.dna_bacteria_fungi,
-        items: PATHOGEN_ORDER.dna_bacteria_fungi.map(code => pathogenCellFor(code))
+        items: dnaCodes.map(code => pathogenCellFor(code)).filter(Boolean)
+      },
+      {
+        key: 'pests',
+        title: GROUP_TITLE.pests,
+        items: pestCodes.map(code => pestCellFor(code, grouped.pest[code])).filter(Boolean)
       }
     ];
-    const pestsByCode = {};
-    pests.forEach(p => { if (p && p.code) pestsByCode[p.code] = p; });
-    const pestCodes = PEST_ORDER.slice();
-    pests.forEach(p => {
-      if (p && p.code && pestCodes.indexOf(p.code) === -1) {
-        pestCodes.push(p.code);
-      }
-    });
-    tables.push({
-      key: 'pests',
-      title: GROUP_TITLE.pests,
-      items: pestCodes.map(code => pestCellFor(code, pestsByCode[code]))
-    });
     const meta = {
       sampleNo: detail.sampleNo || '',
       contactName: detail.contactName || '',
